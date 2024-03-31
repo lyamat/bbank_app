@@ -1,1 +1,1 @@
-# bbank_app
+# API Belarusbank.by Mobile App
