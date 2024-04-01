@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BBank</string>
+    <string name="get_local_news">Get local news</string>
+    <string name="get_news_from_belarusbank_by_api">Get news from belarusbank.by api</string>
+    <string name="count">Count</string>
+    <string name="news_fragment">NEWS FRAGMENT</string>
 </resources>
