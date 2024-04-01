@@ -1,7 +1,7 @@
 package com.example.bbank.domain.repositories
 
-import com.example.bbank.domain.models.News
+import com.example.bbank.data.remote.dto.NewsResponseDto
 
 interface RemoteRepository {
-    suspend fun getNews(): List<News>
+    suspend fun getRemoteNews(): List<NewsResponseDto>
 }

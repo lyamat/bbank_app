@@ -34,6 +34,11 @@ class NewsFragment : Fragment() {
                 tvResultOutput.text  = news[0].nameRu
             }
         }
-    }
 
+        newsViewModel.localNewsSize.observe(viewLifecycleOwner) { localNewsSize ->
+            binding.apply {
+                tvTemp.text  = localNewsSize.toString()
+            }
+        }
+    }
 }

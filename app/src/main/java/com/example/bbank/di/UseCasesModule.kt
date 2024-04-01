@@ -1,7 +1,9 @@
 package com.example.bbank.di
 
+import com.example.bbank.domain.repositories.LocalRepository
 import com.example.bbank.domain.repositories.RemoteRepository
-import com.example.bbank.domain.use_cases.GetNewsUseCase
+import com.example.bbank.domain.use_cases.GetLocalNewsUseCase
+import com.example.bbank.domain.use_cases.GetRemoteNewsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,6 +15,11 @@ import javax.inject.Singleton
 class UseCasesModule {
     @Singleton
     @Provides
-    fun provideGetPostInfoUseCase(remoteRepository: RemoteRepository) =
-        GetNewsUseCase(remoteRepository = remoteRepository)
+    fun provideGetRemoteNewsUseCase(remoteRepository: RemoteRepository) =
+        GetRemoteNewsUseCase(remoteRepository = remoteRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetLocalNewByIdUseCase(localRepository: LocalRepository) =
+        GetLocalNewsUseCase(localRepository = localRepository)
 }
