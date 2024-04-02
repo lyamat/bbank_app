@@ -9,5 +9,18 @@
         android:id="@+id/newsFragment"
         android:name="com.example.bbank.presentation.news.NewsFragment"
         android:label="NewsFragment"
-        tools:layout="@layout/fragment_news"/>
+        tools:layout="@layout/fragment_news">
+        <action
+            android:id="@+id/action_newsFragment_to_exchangesFragment"
+            app:destination="@id/exchangesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exchangesFragment"
+        android:name="com.example.bbank.presentation.exchanges.ExchangesFragment"
+        android:label="ExchangesFragment"
+        tools:layout="@layout/fragment_exchanges">
+        <action
+            android:id="@+id/action_exchangesFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+    </fragment>
 </navigation>

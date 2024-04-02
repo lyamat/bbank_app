@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class NewsLocalImpl @Inject constructor(
     private val newsDao: NewsDao
-): NewsLocal {
+) : NewsLocal {
     override suspend fun getLocalPosts(): List<NewsEntity>? =
         newsDao.getAll()
 
@@ -20,6 +20,4 @@ class NewsLocalImpl @Inject constructor(
     override suspend fun deleteAll() {
         newsDao.deleteAll()
     }
-
-
 }

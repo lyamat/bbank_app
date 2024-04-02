@@ -1,6 +1,8 @@
 package com.example.bbank.di.module
 
 import com.example.bbank.data.remote.BelarusBankApi
+import com.example.bbank.data.repositories.remote.ExchangesRemote
+import com.example.bbank.data.repositories.remote.ExchangesRemoteImpl
 import com.example.bbank.data.repositories.remote.NewsRemote
 import com.example.bbank.data.repositories.remote.NewsRemoteImpl
 import dagger.Module
@@ -17,4 +19,10 @@ class RemoteRepositoryModule {
     fun provideNewsRemote(
         belarusBankApi: BelarusBankApi
     ): NewsRemote = NewsRemoteImpl(belarusBankApi)
+
+    @Singleton
+    @Provides
+    fun provideExchangesRemote(
+        belarusBankApi: BelarusBankApi
+    ): ExchangesRemote = ExchangesRemoteImpl(belarusBankApi)
 }

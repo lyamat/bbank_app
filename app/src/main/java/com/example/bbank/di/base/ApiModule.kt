@@ -9,9 +9,10 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent ::class)
+@InstallIn(SingletonComponent::class)
 @Module
 object ApiModule {
     private const val BASE_URL = "https://belarusbank.by/api/"
@@ -35,6 +36,9 @@ object ApiModule {
     ): OkHttpClient =
         OkHttpClient
             .Builder()
+            .connectTimeout(90, TimeUnit.SECONDS)
+            .readTimeout(90, TimeUnit.SECONDS)
+            .writeTimeout(90, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor) // TODO: for only test mode
             .build()
 

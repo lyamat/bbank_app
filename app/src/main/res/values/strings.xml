@@ -4,4 +4,8 @@
     <string name="get_news_from_belarusbank_by_api">Get news from belarusbank.by api</string>
     <string name="count">Count</string>
     <string name="news_fragment">NEWS FRAGMENT</string>
+    <string name="get_exchanges_from_belarusbank_by_api">Get exchanges from belarusbank.by api</string>
+    <string name="exchanges_fragment">EXCHANGES FRAGMENT</string>
+    <string name="exchanges">Exchanges</string>
+    <string name="news">News</string>
 </resources>

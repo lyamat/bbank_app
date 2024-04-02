@@ -1,55 +1,60 @@
 package com.example.bbank.presentation.news
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bbank.domain.models.News
 import com.example.bbank.domain.use_cases.GetLocalNewsUseCase
 import com.example.bbank.domain.use_cases.GetRemoteNewsUseCase
-import com.example.bbank.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NewsViewModel @Inject constructor (
+class NewsViewModel @Inject constructor(
     private val getRemoteNewsUseCase: GetRemoteNewsUseCase,
-    private val getLocalNewsUseCase: GetLocalNewsUseCase
-): ViewModel() {
+    private val getLocalNewsUseCase: GetLocalNewsUseCase,
+) : ViewModel() {
 
-    private val _news = MutableLiveData<UiState<List<News>>>()
-    val news: LiveData<UiState<List<News>>> = _news
+    private val _newsFlow: MutableStateFlow<NewsEvent> =
+        MutableStateFlow(value = NewsEvent.Unspecified)
 
-//    private val _localNewsSize = MutableLiveData<Int>()
-//    val localNewsSize: LiveData<Int> = _localNewsSize
+    internal fun newsFlow(): Flow<NewsEvent> = _newsFlow
 
-    init {
+    internal fun uploadRemoteNews() {
         viewModelScope.launch {
-//            fetchRemoteNews()
-//            fetchLocalNews()
-        }
-    }
-
-    suspend fun fetchRemoteNews() {
-        viewModelScope.launch {
-            _news.value = UiState.Loading
             try {
-                _news.value = getRemoteNewsUseCase.getNews()
+                eventHolder(NewsEvent.Loading)
+                val news = getRemoteNewsUseCase.getNews()
+                eventHolder(NewsEvent.Success(news))
             } catch (e: Exception) {
-                _news.value = UiState.Error(e.message.toString())
+                eventHolder(NewsEvent.Error(e.message.toString()))
             }
         }
     }
 
-    fun loadLocalNews() {
+    internal fun uploadLocalNews() {
         viewModelScope.launch {
-            _news.value = UiState.Loading
             try {
-                _news.value = getLocalNewsUseCase.getLocalNews()
+                eventHolder(NewsEvent.Loading)
+                val news = getLocalNewsUseCase.getLocalNews()
+                eventHolder(NewsEvent.Success(news))
             } catch (e: Exception) {
-                _news.value = UiState.Error("Error fetching local news: ${e.message}")
+                eventHolder(NewsEvent.Error(e.message.toString()))
             }
         }
+    }
+
+    private fun eventHolder(event: NewsEvent) = viewModelScope.launch {
+        _newsFlow.emit(event)
+    }
+
+    internal sealed class NewsEvent {
+        data object Unspecified : NewsEvent()
+        data class Success(val news: List<News>) : NewsEvent()
+        data class Error(val message: String) : NewsEvent()
+        data object Loading : NewsEvent()
     }
 }
+

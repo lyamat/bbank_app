@@ -1,15 +1,17 @@
-package com.example.bbank.presentation.news
+package com.example.bbank.presentation.exchanges
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.bbank.R
-import com.example.bbank.databinding.FragmentNewsBinding
-import com.example.bbank.domain.models.News
+import com.example.bbank.databinding.FragmentExchangesBinding
+import com.example.bbank.domain.models.Exchanges
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -17,51 +19,42 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NewsFragment : Fragment() {
-    private lateinit var binding: FragmentNewsBinding
-    private val newsViewModel: NewsViewModel by viewModels()
+class ExchangesFragment : Fragment() {
+    private lateinit var binding: FragmentExchangesBinding
+    private val exchangesViewModel: ExchangesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentNewsBinding.inflate(inflater, container, false)
+        binding = FragmentExchangesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onStartNewsFragment()
-        observeNewsEvent()
+        onStartExchangesFragment()
+        observeExchangesEvent()
     }
 
-
-    private fun onStartNewsFragment() {
+    private fun onStartExchangesFragment() {
         binding.apply {
-            btnGetRemoteNews.setOnClickListener {
+            btnGetExchanges.setOnClickListener {
                 lifecycleScope.launch {
-                    newsViewModel.uploadRemoteNews()
-                }
-            }
-
-            btnGetLocalNews.setOnClickListener {
-                lifecycleScope.launch {
-                    newsViewModel.uploadLocalNews()
+                    exchangesViewModel.uploadRemoteExchanges()
                 }
             }
         }
     }
 
     private fun hideLoading() {
-        binding.progressBar.visibility = View.INVISIBLE
-        binding.btnGetLocalNews.visibility = View.VISIBLE
-        binding.btnGetRemoteNews.visibility = View.VISIBLE
+        binding.pbExchanges.visibility = View.INVISIBLE
+        binding.btnGetExchanges.visibility = View.VISIBLE
     }
 
     private fun showLoading() {
-        binding.progressBar.visibility = View.VISIBLE
-        binding.btnGetLocalNews.visibility = View.INVISIBLE
-        binding.btnGetRemoteNews.visibility = View.INVISIBLE
+        binding.pbExchanges.visibility = View.VISIBLE
+        binding.btnGetExchanges.visibility = View.INVISIBLE
     }
 
     private fun handleError(error: String) {
@@ -70,25 +63,25 @@ class NewsFragment : Fragment() {
             .show()
     }
 
-    private fun handleSuccess(news: List<News>) {
+    private fun handleSuccess(exchanges: List<Exchanges>) {
         binding.apply {
-            tvResultOutput.text = news[(0..news.size).random()].nameRu
+            tvResultOutput.text = exchanges[(0..exchanges.size).random()].street
         }
     }
 
-    private fun observeNewsEvent() { // TODO: observer
+    private fun observeExchangesEvent() { // TODO: observer
         CoroutineScope(Dispatchers.Main).launch {
-            newsViewModel.newsFlow().collect {
+            exchangesViewModel.exchangesFlow().collect {
                 when (it) {
-                    is NewsViewModel.NewsEvent.Success -> {
-                        handleSuccess(it.news)
+                    is ExchangesViewModel.ExchangesEvent.Success -> {
+                        handleSuccess(it.exchanges)
                         hideLoading()
                     }
-                    is NewsViewModel.NewsEvent.Error -> {
+                    is ExchangesViewModel.ExchangesEvent.Error -> {
                         handleError(it.message)
                         hideLoading()
                     }
-                    is NewsViewModel.NewsEvent.Loading -> {
+                    is ExchangesViewModel.ExchangesEvent.Loading -> {
                         showLoading()
                     }
                     else -> Unit

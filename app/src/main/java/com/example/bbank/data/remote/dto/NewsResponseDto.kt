@@ -6,31 +6,33 @@ import com.google.gson.annotations.SerializedName
 
 data class NewsResponseDto(
     @SerializedName("name_ru")
-    val nameRu: String,
+    val nameRu: String?,
     @SerializedName("html_ru")
-    val htmlRu: String,
+    val htmlRu: String?,
     @SerializedName("img")
-    val img: String,
+    val img: String?,
     @SerializedName("start_date")
-    val startDate: String,
+    val startDate: String?,
     @SerializedName("link")
-    val link: String
-)
+    val link: String?
+) {
+    companion object {
+        fun empty() : NewsResponseDto =
+            NewsResponseDto(
+                nameRu = "",
+                htmlRu = "",
+                img = "",
+                startDate = "",
+                link = ""
+            )
+    }
+}
 
 fun NewsResponseDto.toNews() =
     News(
-        nameRu = nameRu,
-        htmlRu = htmlRu,
-        img = img,
-        startDate = startDate,
-        link = link,
-    )
-
-fun NewsResponseDto.toNewsEntity() =
-    NewsEntity(
-        nameRu = nameRu,
-        htmlRu = htmlRu,
-        img = img,
-        startDate = startDate,
-        link = link,
+        nameRu = nameRu ?: "",
+        htmlRu = htmlRu ?: "",
+        img = img ?: "",
+        startDate = startDate ?: "",
+        link = link ?: "",
     )
