@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface NewsDao {
+internal interface NewsDao {
     @Query("SELECT * FROM news")
     suspend fun getAll(): List<NewsEntity>?
 

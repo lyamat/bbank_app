@@ -1,10 +1,9 @@
 package com.example.bbank.data.remote.dto
 
-import com.example.bbank.data.local.NewsEntity
 import com.example.bbank.domain.models.News
 import com.google.gson.annotations.SerializedName
 
-data class NewsResponseDto(
+internal data class NewsResponseDto(
     @SerializedName("name_ru")
     val nameRu: String?,
     @SerializedName("html_ru")
@@ -28,7 +27,7 @@ data class NewsResponseDto(
     }
 }
 
-fun NewsResponseDto.toNews() =
+internal fun NewsResponseDto.toNews() =
     News(
         nameRu = nameRu ?: "",
         htmlRu = htmlRu ?: "",

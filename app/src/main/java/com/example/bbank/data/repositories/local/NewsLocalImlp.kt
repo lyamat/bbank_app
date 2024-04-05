@@ -4,7 +4,7 @@ import com.example.bbank.data.local.NewsDao
 import com.example.bbank.data.local.NewsEntity
 import javax.inject.Inject
 
-class NewsLocalImpl @Inject constructor(
+internal class NewsLocalImpl @Inject constructor(
     private val newsDao: NewsDao
 ) : NewsLocal {
     override suspend fun getLocalPosts(): List<NewsEntity>? =

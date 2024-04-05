@@ -14,37 +14,37 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object ApiModule {
+internal object ApiModule {
     private const val BASE_URL = "https://belarusbank.by/api/"
 
     @Singleton
     @Provides
-    fun provideHttpClientLoginInterceptor() =
+    internal fun provideHttpClientLoginInterceptor() =
         HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
 
     @Singleton
     @Provides
-    fun provideGsonConverterFactory(): GsonConverterFactory =
+    internal fun provideGsonConverterFactory(): GsonConverterFactory =
         GsonConverterFactory.create()
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(
+    internal fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient =
         OkHttpClient
             .Builder()
-            .connectTimeout(90, TimeUnit.SECONDS)
-            .readTimeout(90, TimeUnit.SECONDS)
-            .writeTimeout(90, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor) // TODO: for only test mode
             .build()
 
     @Singleton
     @Provides
-    fun provideRetrofit(
+    internal fun provideRetrofit(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit =
@@ -57,7 +57,7 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideApi(
+    internal fun provideApi(
         retrofit: Retrofit
     ): BelarusBankApi =
         retrofit.create(BelarusBankApi::class.java)

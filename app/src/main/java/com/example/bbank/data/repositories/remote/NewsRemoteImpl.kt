@@ -5,7 +5,7 @@ import com.example.bbank.data.remote.dto.NewsResponseDto
 import retrofit2.Response
 import javax.inject.Inject
 
-class NewsRemoteImpl @Inject constructor(
+internal class NewsRemoteImpl @Inject constructor(
     private val belarusBankApi: BelarusBankApi
 ) : NewsRemote {
     override suspend fun getLast200News(): Response<List<NewsResponseDto>>? =

@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentExchangesBinding
 import com.example.bbank.domain.models.Exchanges
@@ -18,13 +15,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
-class ExchangesFragment : Fragment() {
+internal class ExchangesFragment : Fragment() {
     private lateinit var binding: FragmentExchangesBinding
     private val exchangesViewModel: ExchangesViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentExchangesBinding.inflate(inflater, container, false)
@@ -40,20 +39,29 @@ class ExchangesFragment : Fragment() {
     private fun onStartExchangesFragment() {
         binding.apply {
             btnGetExchanges.setOnClickListener {
-                lifecycleScope.launch {
-                    exchangesViewModel.uploadRemoteExchanges()
-                }
+//                showDialog()
+//                openDialog()
+                exchangesViewModel.uploadRemoteExchanges()
             }
         }
     }
 
+    private fun openDialog() {
+//        NewsDetailDialog.display(getParentFragmentManager())
+    }
+
+//    private fun showDialog() {
+//        val dialogFragment = FullScreenDialogExample()
+//        dialogFragment.show(childFragmentManager, "signature")
+//    }
+
     private fun hideLoading() {
-        binding.pbExchanges.visibility = View.INVISIBLE
+        binding.progressIndicatorExchanges.visibility = View.GONE
         binding.btnGetExchanges.visibility = View.VISIBLE
     }
 
     private fun showLoading() {
-        binding.pbExchanges.visibility = View.VISIBLE
+        binding.progressIndicatorExchanges.visibility = View.VISIBLE
         binding.btnGetExchanges.visibility = View.INVISIBLE
     }
 
@@ -69,7 +77,7 @@ class ExchangesFragment : Fragment() {
         }
     }
 
-    private fun observeExchangesEvent() { // TODO: observer
+    private fun observeExchangesEvent() {
         CoroutineScope(Dispatchers.Main).launch {
             exchangesViewModel.exchangesFlow().collect {
                 when (it) {

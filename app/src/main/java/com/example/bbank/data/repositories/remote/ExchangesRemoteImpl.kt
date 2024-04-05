@@ -5,7 +5,7 @@ import com.example.bbank.data.remote.dto.ExchangesResponseDto
 import retrofit2.Response
 import javax.inject.Inject
 
-class ExchangesRemoteImpl @Inject constructor(
+internal class ExchangesRemoteImpl @Inject constructor(
     private val belarusBankApi: BelarusBankApi
 ) : ExchangesRemote {
     override suspend fun getRemoteExchangeByCity(city: String): Response<List<ExchangesResponseDto>>? =

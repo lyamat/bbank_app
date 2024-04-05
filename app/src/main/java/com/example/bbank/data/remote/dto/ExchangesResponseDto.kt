@@ -4,7 +4,7 @@ import com.example.bbank.domain.models.Exchanges
 import com.example.bbank.domain.models.News
 import com.google.gson.annotations.SerializedName
 
-data class ExchangesResponseDto(
+internal data class ExchangesResponseDto(
     @SerializedName("USD_in")
     val usdIn: String?,
     @SerializedName("USD_out")
@@ -29,7 +29,7 @@ data class ExchangesResponseDto(
     val homeNumber: String?
 )
 {
-    companion object {
+    internal companion object {
         fun empty(): ExchangesResponseDto =
             ExchangesResponseDto(
                 usdIn = "",
@@ -47,7 +47,7 @@ data class ExchangesResponseDto(
     }
 }
 
-fun ExchangesResponseDto.toExchanges() =
+internal fun ExchangesResponseDto.toExchanges() =
     Exchanges(
         usdIn = usdIn ?: "",
         usdOut = usdOut ?: "",

@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetLocalNewsUseCase @Inject constructor(
+internal class GetLocalUseCase @Inject constructor(
     private val localRepository: LocalRepository
 ) {
     suspend fun getLocalNews(): List<News> =

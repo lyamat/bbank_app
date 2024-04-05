@@ -11,11 +11,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+internal object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDataBase(context: Application): NewsDatabase =
+    internal fun provideDataBase(context: Application): NewsDatabase =
         Room.databaseBuilder(
             context,
             NewsDatabase::class.java,
@@ -26,7 +26,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDao(db: NewsDatabase) = db.newsDao()
+    internal fun provideDao(db: NewsDatabase) = db.newsDao()
 
 //    @Provides
 //    fun provideEntity() = NewsEntity()

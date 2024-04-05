@@ -10,13 +10,13 @@ import javax.inject.Singleton
 
 
 @Singleton
-class RemoteRepositoryImpl @Inject constructor(
+internal class RemoteRepositoryImpl @Inject constructor(
     private val newsRemote: NewsRemote,
     private val exchangesRemote: ExchangesRemote
 ) : RemoteRepository {
     override suspend fun getRemoteNews(): List<NewsResponseDto> =
         newsRemote.getLast200News()?.body() ?: listOf(NewsResponseDto.empty())
-
     override suspend fun getRemoteExchangesByCity(city: String): List<ExchangesResponseDto> =
         exchangesRemote.getRemoteExchangeByCity(city)?.body() ?: listOf(ExchangesResponseDto.empty())
+    // TODO: some logic for getRemoteExchangesByCity!!!
 }

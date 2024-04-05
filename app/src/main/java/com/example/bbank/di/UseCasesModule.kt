@@ -2,9 +2,8 @@ package com.example.bbank.di
 
 import com.example.bbank.domain.repositories.LocalRepository
 import com.example.bbank.domain.repositories.RemoteRepository
-import com.example.bbank.domain.use_cases.GetLocalNewsUseCase
-import com.example.bbank.domain.use_cases.GetRemoteExchangesByCityUseCase
-import com.example.bbank.domain.use_cases.GetRemoteNewsUseCase
+import com.example.bbank.domain.use_cases.GetLocalUseCase
+import com.example.bbank.domain.use_cases.GetRemoteUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,19 +12,15 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class UseCasesModule {
-    @Singleton
-    @Provides
-    fun provideGetRemoteNewsUseCase(remoteRepository: RemoteRepository) =
-        GetRemoteNewsUseCase(remoteRepository = remoteRepository)
+internal class UseCasesModule {
 
     @Singleton
     @Provides
-    fun provideGetLocalNewByIdUseCase(localRepository: LocalRepository) =
-        GetLocalNewsUseCase(localRepository = localRepository)
+    internal fun provideGetLocalUseCase(localRepository: LocalRepository) =
+        GetLocalUseCase(localRepository = localRepository)
 
     @Singleton
     @Provides
-    fun provideGetRemoteExchangesUseCase(remoteRepository: RemoteRepository) =
-        GetRemoteExchangesByCityUseCase(remoteRepository = remoteRepository)
+    internal fun provideGetRemoteUseCase(remoteRepository: RemoteRepository) =
+        GetRemoteUseCase(remoteRepository = remoteRepository)
 }

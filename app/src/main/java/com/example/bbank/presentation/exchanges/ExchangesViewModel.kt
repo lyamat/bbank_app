@@ -3,7 +3,7 @@ package com.example.bbank.presentation.exchanges
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bbank.domain.models.Exchanges
-import com.example.bbank.domain.use_cases.GetRemoteExchangesByCityUseCase
+import com.example.bbank.domain.use_cases.GetRemoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,9 +11,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ExchangesViewModel @Inject constructor(
-    private val getRemoteExchangesByCityUseCase: GetRemoteExchangesByCityUseCase
+internal class ExchangesViewModel @Inject constructor(
+    private val getRemoteExchangesByCityUseCase: GetRemoteUseCase
 ) : ViewModel() {
+
+//    init {
+//        eventHolder(ExchangesEvent.Unspecified)
+//    }
 
     private val _exchangesFlow: MutableStateFlow<ExchangesEvent> =
         MutableStateFlow(value = ExchangesEvent.Unspecified)
@@ -28,6 +32,7 @@ class ExchangesViewModel @Inject constructor(
                 eventHolder(ExchangesEvent.Success(exchanges))
             } catch (e: Exception) {
                 eventHolder(ExchangesEvent.Error(e.message.toString()))
+//                Log.i("ExchangesViewModel", e.message.toString())
             }
         }
     }

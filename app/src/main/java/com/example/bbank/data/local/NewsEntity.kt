@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.bbank.domain.models.News
 
 @Entity(tableName = "news")
-data class NewsEntity(
+internal data class NewsEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     @ColumnInfo(name = "nameRu")
@@ -32,7 +32,7 @@ data class NewsEntity(
     }
 }
 
-fun NewsEntity.toNews() =
+internal fun NewsEntity.toNews() =
     News(
         nameRu = nameRu ?: "",
         htmlRu = htmlRu ?: "",

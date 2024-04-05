@@ -1,6 +1,6 @@
 package com.example.bbank.domain.models
 
-data class Exchanges(
+internal data class Exchanges(
     val usdIn: String,
     val usdOut: String,
     val eurIn: String,

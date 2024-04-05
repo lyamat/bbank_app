@@ -8,4 +8,8 @@
     <string name="exchanges_fragment">EXCHANGES FRAGMENT</string>
     <string name="exchanges">Exchanges</string>
     <string name="news">News</string>
+    <string name="news_thumbnail">News thumbnail</string>
+    <string name="title">Title</string>
+    <string name="link">Link</string>
+    <string name="date">Date</string>
 </resources>

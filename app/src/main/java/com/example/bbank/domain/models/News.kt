@@ -1,6 +1,6 @@
 package com.example.bbank.domain.models
 
-data class News(
+internal data class News(
     val nameRu: String,
     val htmlRu: String,
     val img: String,

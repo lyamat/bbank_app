@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LocalRepositoryImpl @Inject constructor(
+internal class LocalRepositoryImpl @Inject constructor(
     private val newsLocal: NewsLocal
 ) : LocalRepository {
     override suspend fun getLocalNews(): List<NewsEntity> =
