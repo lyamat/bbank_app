@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.utils
+package com.example.bbank.presentation.news
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -36,7 +36,7 @@
 
 
         <ImageView
-            android:id="@id/ivNewsDetailImage"
+            android:id="@id/ivChosenNewsImage"
             android:layout_width="250dp"
             android:layout_height="165dp"
 
@@ -52,7 +52,7 @@
             android:padding="8dp"
             android:text="Link"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivNewsDetailImage"
+            app:layout_constraintTop_toBottomOf="@+id/ivChosenNewsImage"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
@@ -67,7 +67,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvNewsDetailLink"/>
 
         <TextView
-            android:id="@+id/tvNewsDetailText"
+            android:id="@+id/tvNewsText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"

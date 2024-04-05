@@ -47,7 +47,7 @@ internal class NewsAdapter(
         view.tvNewsTitle.text = chosenNews.nameRu
     }
 
-    fun updateData(newNews: List<News>) {
+    internal fun updateNewsAdapterData(newNews: List<News>) {
         news = newNews
         notifyDataSetChanged()
     }
@@ -57,8 +57,6 @@ internal class NewsAdapter(
             .load(imageUrl)
             .into(imageView)
     }
-
-
 }
 
 

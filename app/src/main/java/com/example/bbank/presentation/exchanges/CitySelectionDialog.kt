@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.utils
+package com.example.bbank.presentation.exchanges
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import com.example.bbank.R
 import com.example.bbank.databinding.CitySelectionDialogBinding
 import com.example.bbank.domain.models.Cities
 import com.example.bbank.presentation.adapters.CityAdapter
-import com.example.bbank.presentation.exchanges.ExchangesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

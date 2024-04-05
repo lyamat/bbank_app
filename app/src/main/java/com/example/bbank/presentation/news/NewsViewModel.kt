@@ -7,7 +7,7 @@ import com.example.bbank.domain.use_cases.GetLocalUseCase
 import com.example.bbank.domain.use_cases.GetRemoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,13 +17,7 @@ internal class NewsViewModel @Inject constructor(
     private val getLocalUseCase: GetLocalUseCase,
 ) : ViewModel() {
 
-    private val _newsFlow: MutableStateFlow<NewsEvent> =
-        MutableStateFlow(value = NewsEvent.Unspecified)
-
-    init {
-        eventHolder(NewsEvent.Unspecified)
-    }
-
+    private val _newsFlow = MutableSharedFlow<NewsEvent>()
     internal fun newsFlow(): Flow<NewsEvent> = _newsFlow
 
     internal fun uploadRemoteNews() {

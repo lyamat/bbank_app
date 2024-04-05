@@ -11,7 +11,6 @@ import com.example.bbank.R
 import com.example.bbank.databinding.FragmentNewsBinding
 import com.example.bbank.domain.models.News
 import com.example.bbank.presentation.adapters.NewsAdapter
-import com.example.bbank.presentation.utils.NewsDetailDialog
 import com.example.bbank.presentation.utils.VerticalItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -96,7 +95,7 @@ internal class NewsFragment : Fragment() {
 
     private fun handleSuccess(news: List<News>) {
         val shuffledNews = news.shuffled().take(5)
-        (binding.rvNews.adapter as NewsAdapter).updateData(shuffledNews)
+        (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(shuffledNews)
     }
 
     private fun handleError(error: String) {

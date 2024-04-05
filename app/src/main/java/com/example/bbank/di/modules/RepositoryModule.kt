@@ -1,5 +1,6 @@
 package com.example.bbank.di.modules
 
+import android.content.Context
 import com.example.bbank.data.local.NewsDao
 import com.example.bbank.data.remote.BelarusBankApi
 import com.example.bbank.data.repositories.LocalRepositoryImpl
@@ -15,6 +16,7 @@ import com.example.bbank.domain.repositories.RemoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -24,9 +26,10 @@ internal class RepositoryModule {
     @Singleton
     @Provides
     internal fun provideRemoteRepository(
+        @ApplicationContext context: Context, // TODO: remove this after test exchanges
         newsRemote: NewsRemote,
         exchangesRemote: ExchangesRemote,
-    ): RemoteRepository = RemoteRepositoryImpl(newsRemote, exchangesRemote)
+    ): RemoteRepository = RemoteRepositoryImpl(newsRemote, exchangesRemote, context)
 
     @Singleton
     @Provides
