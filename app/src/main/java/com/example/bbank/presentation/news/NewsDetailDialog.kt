@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
@@ -13,7 +12,6 @@ import com.example.bbank.databinding.NewsDetailDialogBinding
 import com.example.bbank.domain.models.News
 
 internal class NewsDetailDialog : DialogFragment() {
-    private var toolbar: Toolbar? = null
     private lateinit var chosenNews: News
 
     private lateinit var binding: NewsDetailDialogBinding
@@ -53,12 +51,11 @@ internal class NewsDetailDialog : DialogFragment() {
                 true
             }
 
-            Glide.with(view).load(chosenNews.img).into(ivNewsDetailImage)
+            Glide.with(view).load(chosenNews.img).into(ivChosenNewsImage)
             tvNewsDetailDate.text = chosenNews.startDate
             tvNewsDetailLink.text = chosenNews.link
-            tvNewsDetailText.text = chosenNews.htmlRu
+            tvNewsText.text = chosenNews.htmlRu
         }
-
     }
 
     internal companion object {
