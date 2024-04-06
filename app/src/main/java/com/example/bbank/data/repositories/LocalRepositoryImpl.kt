@@ -15,4 +15,8 @@ internal class LocalRepositoryImpl @Inject constructor(
 
     override suspend fun getNewById(id: Long): NewsEntity =
         newsLocal.getById(id = id) ?: NewsEntity.empty()
+
+    override suspend fun savePost(newsEntity: NewsEntity) {
+        newsLocal.insertPost(newsEntity)
+    }
 }

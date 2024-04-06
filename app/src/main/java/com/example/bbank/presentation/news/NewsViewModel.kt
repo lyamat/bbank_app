@@ -26,6 +26,7 @@ internal class NewsViewModel @Inject constructor(
             try {
                 eventHolder(NewsEvent.Loading)
                 val news = getRemoteNewsUseCase.getNews()
+                getLocalUseCase.saveLocalNews(news)
                 eventHolder(NewsEvent.Success(news))
                 // progress bar delay for about 4 sec
                 // stop progress bar
