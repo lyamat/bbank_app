@@ -56,22 +56,31 @@ internal class CitySelectionDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupCitySelectionDialog()
+        setupCitiesRecyclerView()
+    }
+
+    private fun setupCitySelectionDialog() {
         binding.apply {
             tbCitySelection.setNavigationOnClickListener { dismiss() }
-            tbCitySelection.setTitle("City selection")
+            tbCitySelection.setTitle(getString(R.string.city_selection_dialog))
             tbCitySelection.setOnMenuItemClickListener {
                 dismiss()
                 true
             }
-            val adapter =
-                CityAdapter(
-                    cities,
-                    exchangesViewModel,
-                    sharedPreferences,
-                    this@CitySelectionDialog
-                )
-            rvCities.layoutManager = LinearLayoutManager(context)
-            rvCities.adapter = adapter
+
+        }
+    }
+
+    private fun setupCitiesRecyclerView() {
+        binding.rvCities.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = CityAdapter(
+                cities,
+                exchangesViewModel,
+                sharedPreferences,
+                this@CitySelectionDialog
+            )
         }
     }
 
@@ -79,12 +88,12 @@ internal class CitySelectionDialog : DialogFragment() {
         private const val TAG = "city_selection_dialog"
         fun display(fragmentManager: FragmentManager?, context: Context): CitySelectionDialog {
             val citySelectionDialog = CitySelectionDialog()
-            citySelectionDialog.cities = readCitiesFromJson(context)
+            citySelectionDialog.cities = getCities(context)
             citySelectionDialog.show(fragmentManager!!, TAG)
             return citySelectionDialog
         }
 
-        private fun readCitiesFromJson(context: Context): List<Cities> {
+        private fun getCities(context: Context): List<Cities> {
             val jsonString = context.resources.openRawResource(R.raw.cities_array).bufferedReader()
                 .use { it.readText() }
             val gson = Gson()

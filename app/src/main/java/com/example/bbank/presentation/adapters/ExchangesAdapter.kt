@@ -2,7 +2,10 @@ package com.example.bbank.presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
 import com.example.bbank.databinding.ExchangeRvItemBinding
@@ -17,31 +20,34 @@ internal class ExchangesAdapter(
     private val onClick: (Exchanges) -> Unit
 ) : RecyclerView.Adapter<ExchangesAdapter.ExchangesViewHolder>() {
 
-    private val dayOfWeek: Int
-    private val correctedDayOfWeek: Int
-    private val currentTime: Int
+    private var dayOfWeek: Int = 0
+    private var currentTime: Int = 0
 
     init {
+        setCurrentTimeProperties()
+    }
+
+    private fun setCurrentTimeProperties() {
         val calendar = Calendar.getInstance()
-        dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        correctedDayOfWeek = if (dayOfWeek == Calendar.SUNDAY) 7 else dayOfWeek
+
+        dayOfWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
+            Calendar.SUNDAY -> 7
+            else -> calendar.get(Calendar.DAY_OF_WEEK) - 1
+        }
+
         val (currentTimeH, currentTimeM) = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
             calendar.time
         ).split(":").map { it.toIntOrNull() ?: 0 }
         currentTime = currentTimeH * 60 + currentTimeM
     }
 
-    inner class ExchangesViewHolder(var binding: ExchangeRvItemBinding) :
+    inner class ExchangesViewHolder(binding: ExchangeRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        init {
-            binding.root.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val chosenExchange = exchanges[position]
-                    onClick(chosenExchange)
-                }
-            }
-        }
+        val tvExchangeAddress: TextView = binding.tvExchangeAddress
+        val tvBuyRate: TextView = binding.tvBuyRate
+        val tvSaleRate: TextView = binding.tvSaleRate
+        val departmentAccessibility: View = binding.departmentAccessibility
+        val exchangesCardView: CardView = binding.root
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExchangesViewHolder {
@@ -54,27 +60,40 @@ internal class ExchangesAdapter(
     }
 
     override fun onBindViewHolder(holder: ExchangesViewHolder, position: Int) {
-        val chosenExchange = exchanges[position]
-        val view = holder.binding
+        val exchange = exchanges[position]
 
-        val fullAddress = "${chosenExchange.nameType} " +
+        setExchangesCardViewClick(holder.exchangesCardView, position)
+
+        holder.departmentAccessibility.setBackgroundResource(getColorForDepartment(exchange))
+        holder.tvExchangeAddress.text = getFullAddress(exchange)
+        holder.tvBuyRate.text = exchange.usdOut
+        holder.tvSaleRate.text = exchange.usdIn
+    }
+
+    private fun getFullAddress(chosenExchange: Exchanges): CharSequence {
+        return "${chosenExchange.nameType} " +
                 "${chosenExchange.name}, " +
                 "${chosenExchange.streetType}, " +
                 "${chosenExchange.street}, " +
-                chosenExchange.homeNumber
+                "${chosenExchange.homeNumber}, " +
+                chosenExchange.filialsText
+    }
 
-        val isOpen = isExchangeOpen(chosenExchange.infoWorktime)
-        view.viewIsOpen.setBackgroundResource(if (isOpen) R.color.lime_green else R.color.crimson)
+    private fun setExchangesCardViewClick(exchangesCardView: CardView, position: Int) {
+        exchangesCardView.setOnClickListener {
+            onClick(exchanges[position])
+        }
+    }
 
-        view.tvExchangeAddress.text = fullAddress
-        view.tvBuyRate.text = chosenExchange.usdOut
-        view.tvSaleRate.text = chosenExchange.usdIn
+    private fun getColorForDepartment(exchange: Exchanges): Int {
+        val isOpen = isExchangeOpen(exchange.infoWorktime)
+        return if (isOpen) R.color.lime_green else R.color.crimson
     }
 
     private fun isExchangeOpen(infoWorktime: String): Boolean {
         val worktimeParts = infoWorktime.split("|")
         val todayWorktime =
-            worktimeParts[correctedDayOfWeek - 1].replaceFirst("[А-Яа-я]+".toRegex(), "").trim()
+            worktimeParts[dayOfWeek - 1].replaceFirst("[А-Яа-я]+".toRegex(), "").trim()
 
         return when {
             todayWorktime.isEmpty() -> false
@@ -112,7 +131,7 @@ internal class ExchangesAdapter(
         }
     }
 
-    internal fun updateExchangesAdapterData(newExchanges: List<Exchanges>) {
+    internal fun updateExchanges(newExchanges: List<Exchanges>) {
         exchanges = newExchanges
         notifyDataSetChanged()
     }

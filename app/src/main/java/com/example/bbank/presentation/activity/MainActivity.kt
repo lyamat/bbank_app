@@ -21,5 +21,7 @@ internal class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.shoppingHostFragment)
         binding.bottomNavigation.setupWithNavController(navController)
+
+        setSupportActionBar(binding.topAppBar)
     }
 }

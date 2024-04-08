@@ -4,6 +4,9 @@ package com.example.bbank.presentation.adapters
 import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.databinding.CityRvItemBinding
 import com.example.bbank.domain.models.Cities
@@ -18,26 +21,12 @@ internal class CityAdapter @Inject constructor(
     private val dialog: CitySelectionDialog
 ) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
-    inner class CityViewHolder(private val binding: CityRvItemBinding) :
+    inner class CityViewHolder(binding: CityRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.cvCityItem.setOnClickListener {
-                val selectedCity = binding.tvCity.text.toString()
-                sharedPreferences.edit().putString("currentCity", selectedCity).apply()
-                // TODO: choose (remote vs local)
-//                exchangesViewModel.getRemoteExchangesByCity(cities[adapterPosition].cityName)
-                exchangesViewModel.getLocalExchangesByCity(cities[adapterPosition].cityName)
-
-                dialog.dismiss()
-            }
-        }
-
-        fun bind(city: Cities) {
-            binding.tvCity.text = city.cityName
-            binding.rbChosenCity.isChecked =
-                city.cityName == sharedPreferences.getString("currentCity", "")
-        }
+        val tvCity: TextView = binding.tvCity
+        val rbChosenCity: RadioButton = binding.rbChosenCity
+        val cityCardView: CardView = binding.cityCardView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
@@ -46,7 +35,25 @@ internal class CityAdapter @Inject constructor(
     }
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
-        holder.bind(cities[position])
+        val city = cities[position]
+
+        setOnCityClick(holder.cityCardView, position)
+        holder.tvCity.text = city.cityName
+        holder.rbChosenCity.isChecked = isChosenCityEqualsCurrentCity(city.cityName)
+    }
+
+    private fun isChosenCityEqualsCurrentCity(cityName: String): Boolean {
+        return cityName == sharedPreferences.getString("currentCity", "")
+    }
+
+    private fun setOnCityClick(cityCardView: CardView, position: Int) {
+        cityCardView.setOnClickListener {
+            val selectedCity = cities[position].cityName
+            sharedPreferences.edit().putString("currentCity", selectedCity).apply()
+            // TODO: remove vm from here!!!
+            exchangesViewModel.getLocalExchangesByCity(cities[position].cityName)
+            dialog.dismiss()
+        }
     }
 
     override fun getItemCount() = cities.size

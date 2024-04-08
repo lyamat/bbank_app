@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bbank.databinding.NewsRvItemBinding
@@ -15,9 +17,17 @@ internal class NewsAdapter(
     private val onClick: (News) -> Unit
 ) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    inner class NewsViewHolder(var view: NewsRvItemBinding) : RecyclerView.ViewHolder(view.root) {
+    inner class NewsViewHolder(binding: NewsRvItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        val tvNewsDate: TextView = binding.tvNewsDate
+        val tvNewsLink: TextView = binding.tvNewsLink
+        val tvNewsTitle: TextView = binding.tvNewsTitle
+        val ivThumbnail: ImageView = binding.ivThumbnail
+        val newsCardView: CardView = binding.newsCardView
+
         init {
-            view.root.setOnClickListener {
+            binding.root.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val chosenNews = news[position]
@@ -39,22 +49,28 @@ internal class NewsAdapter(
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val chosenNews = news[position]
 
-        val view = holder.view
+        loadImageIntoView(holder.ivThumbnail, chosenNews.img)
+        holder.tvNewsDate.text = chosenNews.startDate
+        holder.tvNewsLink.text = chosenNews.link
+        holder.tvNewsTitle.text = chosenNews.nameRu
 
-        loadImageIntoView(holder.view.ivThumbnail, chosenNews.img)
-        view.tvNewsDate.text = chosenNews.startDate
-        view.tvNewsLink.text = chosenNews.link
-        view.tvNewsTitle.text = chosenNews.nameRu
-    }
-
-    internal fun updateNewsAdapterData(newNews: List<News>) {
-        news = newNews
-        notifyDataSetChanged()
+        newsSetOnClickListener(holder.newsCardView, position)
     }
 
     private fun loadImageIntoView(imageView: ImageView, imageUrl: String) {
         Glide.with(imageView.context)
             .load(imageUrl)
             .into(imageView)
+    }
+
+    private fun newsSetOnClickListener(newsCardView: CardView, position: Int) {
+        newsCardView.setOnClickListener {
+            onClick(news[position])
+        }
+    }
+
+    internal fun updateNewsAdapterData(newNews: List<News>) {
+        news = newNews
+        notifyDataSetChanged()
     }
 }

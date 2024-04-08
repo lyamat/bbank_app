@@ -66,6 +66,10 @@ internal class ExchangesFragment : Fragment() {
                 openCitySelectionDetailDialog()
             }
         }
+
+//        (activity as MainActivity).supportActionBar?.apply {
+//            title = "Exchanges"
+//        }
     }
 
     private fun setupRecyclerViews() {
@@ -122,8 +126,8 @@ internal class ExchangesFragment : Fragment() {
         binding.apply {
             chipCity.text = currentCity
             tvExchangesCity.text = "Отделения в $currentCity\n$currentTime"
-            (rvExchanges.adapter as ExchangesAdapter).updateExchangesAdapterData(
-                exchanges.shuffled().take(20) // TODO: add pagination
+            (rvExchanges.adapter as ExchangesAdapter).updateExchanges(
+                exchanges/*.shuffled().take(20)*/ // TODO: add pagination?
             )
         }
     }
