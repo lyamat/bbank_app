@@ -58,16 +58,3 @@ internal class NewsAdapter(
             .into(imageView)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

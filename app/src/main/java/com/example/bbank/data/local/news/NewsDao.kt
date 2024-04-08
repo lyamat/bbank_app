@@ -1,4 +1,4 @@
-package com.example.bbank.data.local
+package com.example.bbank.data.local.news
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -7,14 +7,14 @@ import androidx.room.Query
 @Dao
 internal interface NewsDao {
     @Query("SELECT * FROM news")
-    suspend fun getAll(): List<NewsEntity>?
+    suspend fun getAllLocalNews(): List<NewsEntity>?
 
     @Query("SELECT * FROM news WHERE id = :id")
-    suspend fun getById(id: Long): NewsEntity?
+    suspend fun getLocalNewsById(id: Long): NewsEntity?
 
     @Insert
-    suspend fun insert(newsEntity: NewsEntity)
+    suspend fun insertLocalNews(newsEntity: NewsEntity)
 
     @Query("DELETE FROM news")
-    suspend fun deleteAll()
+    suspend fun deleteAllLocalNews()
 }

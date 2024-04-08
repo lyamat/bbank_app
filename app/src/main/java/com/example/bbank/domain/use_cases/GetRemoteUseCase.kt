@@ -12,13 +12,13 @@ import javax.inject.Singleton
 internal class GetRemoteUseCase @Inject constructor(
     private val remoteRepository: RemoteRepository
 ) {
-    suspend fun getExchanges(city: String): List<Exchanges> =
-        remoteRepository.getRemoteExchangesByCity(city).map { exchangesDto ->
-            exchangesDto.toExchanges()
+    suspend fun getExchangesByCity(city: String): List<Exchanges> =
+        remoteRepository.getRemoteExchangesByCity(city).map {
+            it.toExchanges()
         }
 
     suspend fun getNews(): List<News> =
-        remoteRepository.getRemoteNews().map { newsDto ->
-            newsDto.toNews()
+        remoteRepository.getRemoteNews().map {
+            it.toNews()
         }
 }

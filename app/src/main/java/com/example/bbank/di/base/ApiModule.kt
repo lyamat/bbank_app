@@ -36,9 +36,9 @@ internal object ApiModule {
     ): OkHttpClient =
         OkHttpClient
             .Builder()
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
-            .writeTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(90, TimeUnit.SECONDS)
+            .readTimeout(90, TimeUnit.SECONDS)
+            .writeTimeout(90, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor) // TODO: for only test mode
             .build()
 

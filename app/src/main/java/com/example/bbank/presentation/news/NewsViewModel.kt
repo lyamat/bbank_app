@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class NewsViewModel @Inject constructor(
-    private val getRemoteNewsUseCase: GetRemoteUseCase,
+    private val getRemoteUseCase: GetRemoteUseCase,
     private val getLocalUseCase: GetLocalUseCase,
 ) : ViewModel() {
 
@@ -25,8 +25,8 @@ internal class NewsViewModel @Inject constructor(
             // TODO: start progress bar
             try {
                 eventHolder(NewsEvent.Loading)
-                val news = getRemoteNewsUseCase.getNews()
-                getLocalUseCase.saveLocalNews(news)
+                val news = getRemoteUseCase.getNews()
+                getLocalUseCase.saveToLocalNews(news)
                 eventHolder(NewsEvent.Success(news))
                 // progress bar delay for about 4 sec
                 // stop progress bar

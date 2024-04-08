@@ -82,13 +82,16 @@ internal class NewsFragment : Fragment() {
                 handleSuccess(newsEvent.news)
                 hideLoading()
             }
+
             is NewsViewModel.NewsEvent.Error -> {
                 handleError(newsEvent.message)
                 hideLoading()
             }
+
             is NewsViewModel.NewsEvent.Loading -> {
                 showLoading()
             }
+
             else -> Unit
         }
     }

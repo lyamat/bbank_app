@@ -1,5 +1,6 @@
 package com.example.bbank.presentation.exchanges
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +11,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentExchangesBinding
 import com.example.bbank.domain.models.Exchanges
-import com.example.bbank.presentation.adapters.CriteriaAdapter
-import com.example.bbank.presentation.utils.CriteriaItem
+import com.example.bbank.presentation.adapters.ExchangesAdapter
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 internal class ExchangesFragment : Fragment() {
     private lateinit var binding: FragmentExchangesBinding
     private val exchangesViewModel by activityViewModels<ExchangesViewModel>()
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,30 +45,46 @@ internal class ExchangesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         onStartExchangesFragment()
         observeExchangesEvent()
-        setupCriteriaRecyclerView()
+        setupRecyclerViews()
     }
 
     private fun onStartExchangesFragment() {
         binding.apply {
-            btnGetExchanges.setOnClickListener {
-                exchangesViewModel.uploadRemoteExchanges()
+//            btnGetRemoteExchanges.setOnClickListener {
+//                exchangesViewModel.getRemoteExchangesByCity("") // TODO: in future make with city?
+////                exchangesViewModel.getRemoteExchangesByCity(sharedPreferences.getString("currentCity", "") ?: "")
+//            }
+            btnGetLocalExchanges.setOnClickListener {
+                exchangesViewModel.getLocalExchangesByCity(
+                    sharedPreferences.getString("currentCity", "") ?: ""
+                )
+            }
+        }
+        binding.chipCity.apply {
+            text = sharedPreferences.getString("currentCity", "")
+            setOnClickListener {
+                openCitySelectionDetailDialog()
             }
         }
     }
 
-    private fun setupCriteriaRecyclerView() {
-        binding.rvCriteria.apply {
+    private fun setupRecyclerViews() {
+        binding.rvExchanges.apply {
             layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = CriteriaAdapter(
-                items = listOf(CriteriaItem.CityItem(""), CriteriaItem.OnWorkItem(false)),
-                onCityClick = { openCitySelectionDetailDialog() }
+                LinearLayoutManager(requireContext())
+            adapter = ExchangesAdapter(
+                context = requireContext(),
+                exchanges = emptyList(),
+                onClick = { } // TODO: add DepartmentDetailFragment
             )
+            val divider =
+                MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+            addItemDecoration(divider)
         }
     }
 
     private fun openCitySelectionDetailDialog() {
-        CitySelectionDialog.display(getParentFragmentManager())
+        CitySelectionDialog.display(getParentFragmentManager(), requireContext())
     }
 
     private fun observeExchangesEvent() {
@@ -73,13 +97,9 @@ internal class ExchangesFragment : Fragment() {
 
     private fun processExchangeEvent(exchangesEvent: ExchangesViewModel.ExchangesEvent) {
         when (exchangesEvent) {
-            is ExchangesViewModel.ExchangesEvent.Success -> {
+            is ExchangesViewModel.ExchangesEvent.ExchangesSuccess -> {
                 handleSuccess(exchangesEvent.exchanges)
                 hideLoading()
-            }
-
-            is ExchangesViewModel.ExchangesEvent.CityUpdate -> {
-                handleCityUpdate(exchangesEvent.city)
             }
 
             is ExchangesViewModel.ExchangesEvent.Loading -> {
@@ -95,17 +115,16 @@ internal class ExchangesFragment : Fragment() {
         }
     }
 
-    private fun handleCityUpdate(city: String) {
-        (binding.rvCriteria.adapter as CriteriaAdapter).updateCriteriaAdapterData(
-            CriteriaItem.CityItem(
-                city
-            )
-        )
-    }
-
     private fun handleSuccess(exchanges: List<Exchanges>) {
+        val currentCity = sharedPreferences.getString("currentCity", "")
+        val currentTime = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
+
         binding.apply {
-            tvResultOutput.text = exchanges[(0..exchanges.size).random()].street
+            chipCity.text = currentCity
+            tvExchangesCity.text = "Отделения в $currentCity\n$currentTime"
+            (rvExchanges.adapter as ExchangesAdapter).updateExchangesAdapterData(
+                exchanges.shuffled().take(20) // TODO: add pagination
+            )
         }
     }
 
@@ -117,11 +136,13 @@ internal class ExchangesFragment : Fragment() {
 
     private fun hideLoading() {
         binding.progressIndicatorExchanges.visibility = View.GONE
-        binding.btnGetExchanges.visibility = View.VISIBLE
+        binding.btnGetRemoteExchanges.visibility = View.VISIBLE
+        binding.btnGetLocalExchanges.visibility = View.VISIBLE
     }
 
     private fun showLoading() {
         binding.progressIndicatorExchanges.visibility = View.VISIBLE
-        binding.btnGetExchanges.visibility = View.INVISIBLE
+        binding.btnGetRemoteExchanges.visibility = View.INVISIBLE
+        binding.btnGetLocalExchanges.visibility = View.INVISIBLE
     }
 }

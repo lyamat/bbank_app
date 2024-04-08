@@ -1,10 +1,12 @@
 package com.example.bbank.di.modules
 
-import android.content.Context
-import com.example.bbank.data.local.NewsDao
+import com.example.bbank.data.local.exchanges.ExchangesDao
+import com.example.bbank.data.local.news.NewsDao
 import com.example.bbank.data.remote.BelarusBankApi
 import com.example.bbank.data.repositories.LocalRepositoryImpl
 import com.example.bbank.data.repositories.RemoteRepositoryImpl
+import com.example.bbank.data.repositories.local.ExchangesLocal
+import com.example.bbank.data.repositories.local.ExchangesLocalImpl
 import com.example.bbank.data.repositories.local.NewsLocal
 import com.example.bbank.data.repositories.local.NewsLocalImpl
 import com.example.bbank.data.repositories.remote.ExchangesRemote
@@ -16,7 +18,6 @@ import com.example.bbank.domain.repositories.RemoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -26,16 +27,16 @@ internal class RepositoryModule {
     @Singleton
     @Provides
     internal fun provideRemoteRepository(
-        @ApplicationContext context: Context, // TODO: remove this after test exchanges
         newsRemote: NewsRemote,
         exchangesRemote: ExchangesRemote,
-    ): RemoteRepository = RemoteRepositoryImpl(newsRemote, exchangesRemote, context)
+    ): RemoteRepository = RemoteRepositoryImpl(newsRemote, exchangesRemote)
 
     @Singleton
     @Provides
     internal fun provideLocalRepository(
-        newsLocal: NewsLocal
-    ): LocalRepository = LocalRepositoryImpl(newsLocal)
+        newsLocal: NewsLocal,
+        exchangesLocal: ExchangesLocal
+    ): LocalRepository = LocalRepositoryImpl(newsLocal, exchangesLocal)
 
     @Singleton
     @Provides
@@ -51,7 +52,13 @@ internal class RepositoryModule {
 
     @Singleton
     @Provides
-    internal fun providePostsLocal(newsDao: NewsDao):
-            NewsLocal = NewsLocalImpl(newsDao)
+    internal fun provideNewsLocal(
+        newsDao: NewsDao
+    ): NewsLocal = NewsLocalImpl(newsDao)
 
+    @Singleton
+    @Provides
+    internal fun provideExchangesLocal(
+        exchangesDao: ExchangesDao
+    ): ExchangesLocal = ExchangesLocalImpl(exchangesDao)
 }

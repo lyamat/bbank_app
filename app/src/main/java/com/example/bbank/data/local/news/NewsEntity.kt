@@ -1,4 +1,4 @@
-package com.example.bbank.data.local
+package com.example.bbank.data.local.news
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

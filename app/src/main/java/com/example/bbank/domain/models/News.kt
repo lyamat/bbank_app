@@ -1,6 +1,6 @@
 package com.example.bbank.domain.models
 
-import com.example.bbank.data.local.NewsEntity
+import com.example.bbank.data.local.news.NewsEntity
 
 
 internal data class News(

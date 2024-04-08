@@ -1,5 +1,7 @@
 package com.example.bbank.presentation.exchanges
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +14,19 @@ import com.example.bbank.R
 import com.example.bbank.databinding.CitySelectionDialogBinding
 import com.example.bbank.domain.models.Cities
 import com.example.bbank.presentation.adapters.CityAdapter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class CitySelectionDialog : DialogFragment() {
     private lateinit var cities: List<Cities>
     private lateinit var binding: CitySelectionDialogBinding
-
     private val exchangesViewModel by activityViewModels<ExchangesViewModel>()
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,12 +58,18 @@ internal class CitySelectionDialog : DialogFragment() {
 
         binding.apply {
             tbCitySelection.setNavigationOnClickListener { dismiss() }
-            tbCitySelection.setTitle("City selection") // title from news object
+            tbCitySelection.setTitle("City selection")
             tbCitySelection.setOnMenuItemClickListener {
                 dismiss()
                 true
             }
-            val adapter = CityAdapter(cities, exchangesViewModel) // Pass viewModel here
+            val adapter =
+                CityAdapter(
+                    cities,
+                    exchangesViewModel,
+                    sharedPreferences,
+                    this@CitySelectionDialog
+                )
             rvCities.layoutManager = LinearLayoutManager(context)
             rvCities.adapter = adapter
         }
@@ -64,15 +77,20 @@ internal class CitySelectionDialog : DialogFragment() {
 
     internal companion object {
         private const val TAG = "city_selection_dialog"
-        fun display(fragmentManager: FragmentManager?): CitySelectionDialog {
+        fun display(fragmentManager: FragmentManager?, context: Context): CitySelectionDialog {
             val citySelectionDialog = CitySelectionDialog()
-            citySelectionDialog.cities = mutableListOf( // TODO: remake dynamically
-                Cities("Minsk"),
-                Cities("Brest"),
-                Cities("Gomel")
-            )
+            citySelectionDialog.cities = readCitiesFromJson(context)
             citySelectionDialog.show(fragmentManager!!, TAG)
             return citySelectionDialog
+        }
+
+        private fun readCitiesFromJson(context: Context): List<Cities> {
+            val jsonString = context.resources.openRawResource(R.raw.cities_array).bufferedReader()
+                .use { it.readText() }
+            val gson = Gson()
+            val listType = object : TypeToken<List<String>>() {}.type
+            val cityNames: List<String> = gson.fromJson(jsonString, listType)
+            return cityNames.map { Cities(it) }
         }
     }
 }

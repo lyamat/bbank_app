@@ -2,7 +2,7 @@ package com.example.bbank.di.base
 
 import android.app.Application
 import androidx.room.Room
-import com.example.bbank.data.local.NewsDatabase
+import com.example.bbank.data.local.LocalDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,19 +15,26 @@ internal object DatabaseModule {
 
     @Singleton
     @Provides
-    internal fun provideDataBase(context: Application): NewsDatabase =
+    internal fun provideDataBase(
+        context: Application
+    ): LocalDatabase =
         Room.databaseBuilder(
             context,
-            NewsDatabase::class.java,
-            "news_db"
+            LocalDatabase::class.java,
+            "bbank_db"
         )
             .fallbackToDestructiveMigration()
             .build()
 
     @Singleton
     @Provides
-    internal fun provideDao(db: NewsDatabase) = db.newsDao()
+    internal fun provideNewsDao(
+        db: LocalDatabase
+    ) = db.newsDao()
 
-//    @Provides
-//    fun provideEntity() = NewsEntity()
+    @Singleton
+    @Provides
+    internal fun provideExchangesDao(
+        db: LocalDatabase
+    ) = db.exchangesDao()
 }

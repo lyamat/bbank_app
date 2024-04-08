@@ -16,7 +16,7 @@ internal data class NewsResponseDto(
     val link: String?
 ) {
     companion object {
-        fun empty() : NewsResponseDto =
+        fun empty(): NewsResponseDto =
             NewsResponseDto(
                 nameRu = "",
                 htmlRu = "",
