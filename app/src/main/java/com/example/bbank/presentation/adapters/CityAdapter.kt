@@ -10,15 +10,12 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.databinding.CityRvItemBinding
 import com.example.bbank.domain.models.Cities
-import com.example.bbank.presentation.exchanges.CitySelectionDialog
-import com.example.bbank.presentation.exchanges.ExchangesViewModel
 import javax.inject.Inject
 
 internal class CityAdapter @Inject constructor(
     private val cities: List<Cities>,
-    private val exchangesViewModel: ExchangesViewModel,
     private val sharedPreferences: SharedPreferences,
-    private val dialog: CitySelectionDialog
+    private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
     inner class CityViewHolder(binding: CityRvItemBinding) :
@@ -48,11 +45,7 @@ internal class CityAdapter @Inject constructor(
 
     private fun setOnCityClick(cityCardView: CardView, position: Int) {
         cityCardView.setOnClickListener {
-            val selectedCity = cities[position].cityName
-            sharedPreferences.edit().putString("currentCity", selectedCity).apply()
-            // TODO: remove vm from here!!!
-            exchangesViewModel.getLocalExchangesByCity(cities[position].cityName)
-            dialog.dismiss()
+            onClick(cities[position].cityName)
         }
     }
 

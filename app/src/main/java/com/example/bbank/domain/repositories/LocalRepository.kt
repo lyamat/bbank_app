@@ -14,4 +14,6 @@ internal interface LocalRepository {
     suspend fun getLocalExchangesByCity(cityName: String): List<ExchangesEntity>
     suspend fun saveToLocalExchanges(exchangesEntity: ExchangesEntity)
     suspend fun deleteAllLocalExchanges(): Unit
+
+    suspend fun getCurrentCity(): String
 }

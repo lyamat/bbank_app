@@ -4,6 +4,7 @@ import com.example.bbank.data.local.exchanges.ExchangesEntity
 import com.example.bbank.data.local.news.NewsEntity
 import com.example.bbank.data.repositories.local.ExchangesLocal
 import com.example.bbank.data.repositories.local.NewsLocal
+import com.example.bbank.data.repositories.local.SharedPreferencesLocal
 import com.example.bbank.domain.repositories.LocalRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -11,7 +12,8 @@ import javax.inject.Singleton
 @Singleton
 internal class LocalRepositoryImpl @Inject constructor(
     private val newsLocal: NewsLocal,
-    private val exchangesLocal: ExchangesLocal
+    private val exchangesLocal: ExchangesLocal,
+    private val sharedPreferencesLocal: SharedPreferencesLocal
 ) : LocalRepository {
     override suspend fun getLocalNews(): List<NewsEntity> =
         newsLocal.getLocalNews() ?: listOf(NewsEntity.empty())
@@ -44,4 +46,8 @@ internal class LocalRepositoryImpl @Inject constructor(
 
     override suspend fun deleteAllLocalExchanges() =
         exchangesLocal.deleteAllLocalExchanges()
+
+    override suspend fun getCurrentCity(): String =
+        sharedPreferencesLocal.getCurrentCity()
+
 }

@@ -1,6 +1,5 @@
 package com.example.bbank.presentation.exchanges
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,6 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -29,8 +27,8 @@ internal class ExchangesFragment : Fragment() {
     private lateinit var binding: FragmentExchangesBinding
     private val exchangesViewModel by activityViewModels<ExchangesViewModel>()
 
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
+//    @Inject
+//    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,24 +47,22 @@ internal class ExchangesFragment : Fragment() {
     }
 
     private fun onStartExchangesFragment() {
+        exchangesViewModel.getCurrentCity()
+
         binding.apply {
-//            btnGetRemoteExchanges.setOnClickListener {
-//                exchangesViewModel.getRemoteExchangesByCity("") // TODO: in future make with city?
-////                exchangesViewModel.getRemoteExchangesByCity(sharedPreferences.getString("currentCity", "") ?: "")
-//            }
-            btnGetLocalExchanges.setOnClickListener {
-                exchangesViewModel.getLocalExchangesByCity(
-                    sharedPreferences.getString("currentCity", "") ?: ""
-                )
+            btnGetRemoteExchanges.setOnClickListener {
+                exchangesViewModel.getRemoteExchangesByCity("") // TODO: in future make with city?
+//                exchangesViewModel.getRemoteExchangesByCity(sharedPreferences.getString("currentCity", "") ?: "")
             }
-        }
-        binding.chipCity.apply {
-            text = sharedPreferences.getString("currentCity", "")
-            setOnClickListener {
+            btnGetLocalExchanges.setOnClickListener {
+                exchangesViewModel.getLocalExchangesByCity()
+            }
+
+            chipCity.setOnClickListener {
                 openCitySelectionDetailDialog()
             }
-        }
 
+        }
 //        (activity as MainActivity).supportActionBar?.apply {
 //            title = "Exchanges"
 //        }
@@ -115,13 +111,22 @@ internal class ExchangesFragment : Fragment() {
                 hideLoading()
             }
 
+            is ExchangesViewModel.ExchangesEvent.CitySuccess -> {
+                handleCitySuccess(exchangesEvent.cityName)
+                hideLoading()
+            }
+
             else -> Unit
         }
     }
 
+    private fun handleCitySuccess(cityName: String) {
+        binding.chipCity.text = cityName
+    }
+
     private fun handleSuccess(exchanges: List<Exchanges>) {
-        val currentCity = sharedPreferences.getString("currentCity", "")
         val currentTime = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
+        val currentCity = exchanges[0].name
 
         binding.apply {
             chipCity.text = currentCity

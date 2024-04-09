@@ -8,6 +8,7 @@ import com.example.bbank.domain.use_cases.GetRemoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,6 +26,7 @@ internal class ExchangesViewModel @Inject constructor(
             try {
                 eventHolder(ExchangesEvent.Loading)
                 val exchanges = getRemoteUseCase.getExchangesByCity(city)
+                getLocalUseCase.deleteAllLocalExchanges()
                 getLocalUseCase.saveToLocalExchanges(exchanges)
                 eventHolder(ExchangesEvent.ExchangesSuccess(exchanges))
             } catch (e: Exception) {
@@ -33,12 +35,25 @@ internal class ExchangesViewModel @Inject constructor(
         }
     }
 
-    internal fun getLocalExchangesByCity(cityName: String) {
+    internal fun getLocalExchangesByCity() {
         viewModelScope.launch {
             try {
                 eventHolder(ExchangesEvent.Loading)
+                val cityName = getLocalUseCase.getCurrentCity()
                 val exchanges = getLocalUseCase.getLocalExchangesByCity(cityName)
                 eventHolder(ExchangesEvent.ExchangesSuccess(exchanges))
+            } catch (e: Exception) {
+                eventHolder(ExchangesEvent.Error(e.message.toString()))
+            }
+        }
+    }
+
+    internal fun getCurrentCity() {
+        viewModelScope.launch {
+            try {
+                eventHolder(ExchangesEvent.Loading)
+                val cityName = getLocalUseCase.getCurrentCity()
+                eventHolder(ExchangesEvent.CitySuccess(cityName))
             } catch (e: Exception) {
                 eventHolder(ExchangesEvent.Error(e.message.toString()))
             }
@@ -56,6 +71,7 @@ internal class ExchangesViewModel @Inject constructor(
         data object Unspecified : ExchangesEvent()
         data class ExchangesSuccess(val exchanges: List<Exchanges>) : ExchangesEvent()
         data class Error(val message: String) : ExchangesEvent()
+        data class CitySuccess(val cityName: String) : ExchangesEvent()
         data object Loading : ExchangesEvent()
     }
 }

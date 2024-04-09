@@ -68,7 +68,6 @@ internal class CitySelectionDialog : DialogFragment() {
                 dismiss()
                 true
             }
-
         }
     }
 
@@ -76,12 +75,17 @@ internal class CitySelectionDialog : DialogFragment() {
         binding.rvCities.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = CityAdapter(
-                cities,
-                exchangesViewModel,
-                sharedPreferences,
-                this@CitySelectionDialog
+                cities = cities,
+                sharedPreferences = sharedPreferences, // TODO: remove
+                onClick = { cityName -> processCityClick(cityName) }
             )
         }
+    }
+
+    private fun processCityClick(cityName: String) {
+        sharedPreferences.edit().putString("currentCity", cityName).apply()
+        exchangesViewModel.getLocalExchangesByCity()
+        dialog?.dismiss()
     }
 
     internal companion object {

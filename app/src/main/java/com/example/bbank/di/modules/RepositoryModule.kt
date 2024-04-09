@@ -1,5 +1,6 @@
 package com.example.bbank.di.modules
 
+import android.content.SharedPreferences
 import com.example.bbank.data.local.exchanges.ExchangesDao
 import com.example.bbank.data.local.news.NewsDao
 import com.example.bbank.data.remote.BelarusBankApi
@@ -9,6 +10,8 @@ import com.example.bbank.data.repositories.local.ExchangesLocal
 import com.example.bbank.data.repositories.local.ExchangesLocalImpl
 import com.example.bbank.data.repositories.local.NewsLocal
 import com.example.bbank.data.repositories.local.NewsLocalImpl
+import com.example.bbank.data.repositories.local.SharedPreferencesLocal
+import com.example.bbank.data.repositories.local.SharedPreferencesLocalImpl
 import com.example.bbank.data.repositories.remote.ExchangesRemote
 import com.example.bbank.data.repositories.remote.ExchangesRemoteImpl
 import com.example.bbank.data.repositories.remote.NewsRemote
@@ -35,8 +38,9 @@ internal class RepositoryModule {
     @Provides
     internal fun provideLocalRepository(
         newsLocal: NewsLocal,
-        exchangesLocal: ExchangesLocal
-    ): LocalRepository = LocalRepositoryImpl(newsLocal, exchangesLocal)
+        exchangesLocal: ExchangesLocal,
+        sharedPreferencesLocal: SharedPreferencesLocal
+    ): LocalRepository = LocalRepositoryImpl(newsLocal, exchangesLocal, sharedPreferencesLocal)
 
     @Singleton
     @Provides
@@ -61,4 +65,10 @@ internal class RepositoryModule {
     internal fun provideExchangesLocal(
         exchangesDao: ExchangesDao
     ): ExchangesLocal = ExchangesLocalImpl(exchangesDao)
+
+    @Singleton
+    @Provides
+    internal fun provideSharedPreferencesLocal(
+        sharedPreferences: SharedPreferences
+    ): SharedPreferencesLocal = SharedPreferencesLocalImpl(sharedPreferences)
 }

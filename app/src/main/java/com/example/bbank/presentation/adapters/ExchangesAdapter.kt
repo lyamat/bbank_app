@@ -1,6 +1,7 @@
 package com.example.bbank.presentation.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,9 +81,15 @@ internal class ExchangesAdapter(
     }
 
     private fun setExchangesCardViewClick(exchangesCardView: CardView, position: Int) {
-        exchangesCardView.setOnClickListener {
-            onClick(exchanges[position])
+        try {
+            exchangesCardView.setOnClickListener {
+                onClick(exchanges[position])
+            }
         }
+        catch (e: Exception) {
+            Log.e("Exchanges adapter", e.message.toString() )
+        }
+
     }
 
     private fun getColorForDepartment(exchange: Exchanges): Int {
@@ -114,15 +121,19 @@ internal class ExchangesAdapter(
                 if (currentTime >= startTime && currentTime < endTime) {
                     //If break is exists
                     if (parts.size > 4) {
-                        val breakStartH = parts[4].toInt()
-                        val breakStartM = parts[5].toInt()
-                        val breakStart = breakStartH * 60 + breakStartM
+                        if (parts[4] != "00") { // get shit response from api (Пн 10 00 18 00  00  00)
+                            val breakStartH = parts[4].toInt()
+                            val breakStartM = parts[5].toInt()
+                            val breakStart = breakStartH * 60 + breakStartM
 
-                        val breakEndH = parts[6].toInt()
-                        val breakEndM = parts[7].toInt()
-                        val breakEnd = breakEndH * 60 + breakEndM
+                            val breakEndH = parts[6].toInt()
+                            val breakEndM = parts[7].toInt()
+                            val breakEnd = breakEndH * 60 + breakEndM
 
-                        return !(currentTime >= breakStart && currentTime < breakEnd)
+                            return !(currentTime >= breakStart && currentTime < breakEnd)
+                        }
+
+
                     }
                     return true
                 }

@@ -2,6 +2,7 @@ package com.example.bbank.domain.use_cases
 
 import com.example.bbank.data.local.exchanges.toExchanges
 import com.example.bbank.data.local.news.toNews
+import com.example.bbank.domain.models.Cities
 import com.example.bbank.domain.models.Exchanges
 import com.example.bbank.domain.models.News
 import com.example.bbank.domain.models.toExchangesEntity
@@ -24,6 +25,9 @@ internal class GetLocalUseCase @Inject constructor(
             localRepository.saveToLocalNews(it.toNewsEntity())
         }
 
+    suspend fun deleteAllLocalNews() =
+        localRepository.deleteAllLocalNews()
+
     suspend fun getLocalExchangesByCity(cityName: String): List<Exchanges> =
         localRepository.getLocalExchangesByCity(cityName).map {
             it.toExchanges()
@@ -33,4 +37,11 @@ internal class GetLocalUseCase @Inject constructor(
         exchanges.map {
             localRepository.saveToLocalExchanges(it.toExchangesEntity())
         }
+
+    suspend fun deleteAllLocalExchanges() =
+        localRepository.deleteAllLocalExchanges()
+
+
+    suspend fun getCurrentCity() =
+        localRepository.getCurrentCity()
 }
