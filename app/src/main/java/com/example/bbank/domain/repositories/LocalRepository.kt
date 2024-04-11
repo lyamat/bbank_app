@@ -1,6 +1,6 @@
 package com.example.bbank.domain.repositories
 
-import com.example.bbank.data.local.exchanges.ExchangesEntity
+import com.example.bbank.data.local.departments.DepartmentEntity
 import com.example.bbank.data.local.news.NewsEntity
 
 internal interface LocalRepository {
@@ -9,11 +9,11 @@ internal interface LocalRepository {
     suspend fun saveToLocalNews(newsEntity: NewsEntity)
     suspend fun deleteAllLocalNews(): Unit
 
-    suspend fun getAllLocalExchanges(): List<ExchangesEntity>
-    suspend fun getLocalExchangeById(id: Long): ExchangesEntity
-    suspend fun getLocalExchangesByCity(cityName: String): List<ExchangesEntity>
-    suspend fun saveToLocalExchanges(exchangesEntity: ExchangesEntity)
-    suspend fun deleteAllLocalExchanges(): Unit
+    suspend fun getAllLocalDepartments(): List<DepartmentEntity>
+    suspend fun getLocalDepartmentById(id: Long): DepartmentEntity
+    suspend fun getLocalDepartmentsByCity(cityName: String): List<DepartmentEntity>
+    suspend fun saveToLocalDepartments(departmentEntity: DepartmentEntity)
+    suspend fun deleteAllLocalDepartments(): Unit
 
     suspend fun getCurrentCity(): String
 }

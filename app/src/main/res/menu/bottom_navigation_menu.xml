@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-
     <item android:title="@string/news"
         android:icon="@drawable/ic_news"
         android:id="@+id/newsFragment" />
 
-    <item android:title="@string/exchanges"
+    <item android:title="@string/departments"
         android:icon="@drawable/ic_exchange"
-        android:id="@+id/exchangesFragment"/>
+        android:id="@+id/departmentsFragment"/>
+
+    <item android:title="@string/converter"
+        android:icon="@drawable/ic_exchange"
+        android:id="@+id/converterFragment"/>
 
 </menu>

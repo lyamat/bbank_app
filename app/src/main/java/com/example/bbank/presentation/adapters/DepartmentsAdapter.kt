@@ -1,7 +1,6 @@
 package com.example.bbank.presentation.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +8,17 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
-import com.example.bbank.databinding.ExchangeRvItemBinding
-import com.example.bbank.domain.models.Exchanges
+import com.example.bbank.databinding.DepartmentRvItemBinding
+import com.example.bbank.domain.models.Department
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-internal class ExchangesAdapter(
+internal class DepartmentsAdapter(
     private val context: Context,
-    private var exchanges: List<Exchanges>,
-    private val onClick: (Exchanges) -> Unit
-) : RecyclerView.Adapter<ExchangesAdapter.ExchangesViewHolder>() {
+    private var departments: List<Department>,
+    private val onClick: (Department) -> Unit
+) : RecyclerView.Adapter<DepartmentsAdapter.DepartmentsViewHolder>() {
 
     private var dayOfWeek: Int = 0
     private var currentTime: Int = 0
@@ -42,62 +41,56 @@ internal class ExchangesAdapter(
         currentTime = currentTimeH * 60 + currentTimeM
     }
 
-    inner class ExchangesViewHolder(binding: ExchangeRvItemBinding) :
+    inner class DepartmentsViewHolder(binding: DepartmentRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val tvExchangeAddress: TextView = binding.tvExchangeAddress
+        val tvDepartmentAddress: TextView = binding.tvDepartmentAddress
         val tvBuyRate: TextView = binding.tvBuyRate
         val tvSaleRate: TextView = binding.tvSaleRate
         val departmentAccessibility: View = binding.departmentAccessibility
-        val exchangesCardView: CardView = binding.root
+        val departmentsCardView: CardView = binding.root
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExchangesViewHolder {
-        val binding = ExchangeRvItemBinding.inflate(LayoutInflater.from(context), parent, false)
-        return ExchangesViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DepartmentsViewHolder {
+        val binding = DepartmentRvItemBinding.inflate(LayoutInflater.from(context), parent, false)
+        return DepartmentsViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-        return exchanges.size
+        return departments.size
     }
 
-    override fun onBindViewHolder(holder: ExchangesViewHolder, position: Int) {
-        val exchange = exchanges[position]
+    override fun onBindViewHolder(holder: DepartmentsViewHolder, position: Int) {
+        val department = departments[position]
 
-        setExchangesCardViewClick(holder.exchangesCardView, position)
+        setDepartmentsCardViewClick(holder.departmentsCardView, position)
 
-        holder.departmentAccessibility.setBackgroundResource(getColorForDepartment(exchange))
-        holder.tvExchangeAddress.text = getFullAddress(exchange)
-        holder.tvBuyRate.text = exchange.usdOut
-        holder.tvSaleRate.text = exchange.usdIn
+        holder.departmentAccessibility.setBackgroundResource(getColorForDepartment(department))
+        holder.tvDepartmentAddress.text = getFullAddress(department)
+        holder.tvBuyRate.text = department.usdOut
+        holder.tvSaleRate.text = department.usdIn
     }
 
-    private fun getFullAddress(chosenExchange: Exchanges): CharSequence {
-        return "${chosenExchange.nameType} " +
-                "${chosenExchange.name}, " +
-                "${chosenExchange.streetType}, " +
-                "${chosenExchange.street}, " +
-                "${chosenExchange.homeNumber}, " +
-                chosenExchange.filialsText
+    private fun getFullAddress(department: Department): CharSequence {
+        return "${department.nameType} " +
+                "${department.name}, " +
+                "${department.streetType}, " +
+                "${department.street}, " +
+                "${department.homeNumber}, " +
+                department.filialsText
     }
 
-    private fun setExchangesCardViewClick(exchangesCardView: CardView, position: Int) {
-        try {
-            exchangesCardView.setOnClickListener {
-                onClick(exchanges[position])
-            }
+    private fun setDepartmentsCardViewClick(departmentsCardView: CardView, position: Int) {
+        departmentsCardView.setOnClickListener {
+            onClick(departments[position])
         }
-        catch (e: Exception) {
-            Log.e("Exchanges adapter", e.message.toString() )
-        }
-
     }
 
-    private fun getColorForDepartment(exchange: Exchanges): Int {
-        val isOpen = isExchangeOpen(exchange.infoWorktime)
+    private fun getColorForDepartment(department: Department): Int {
+        val isOpen = isDepartmentOpen(department.infoWorktime)
         return if (isOpen) R.color.lime_green else R.color.crimson
     }
 
-    private fun isExchangeOpen(infoWorktime: String): Boolean {
+    private fun isDepartmentOpen(infoWorktime: String): Boolean {
         val worktimeParts = infoWorktime.split("|")
         val todayWorktime =
             worktimeParts[dayOfWeek - 1].replaceFirst("[А-Яа-я]+".toRegex(), "").trim()
@@ -142,8 +135,8 @@ internal class ExchangesAdapter(
         }
     }
 
-    internal fun updateExchanges(newExchanges: List<Exchanges>) {
-        exchanges = newExchanges
+    internal fun updateDepartments(newDepartments: List<Department>) {
+        departments = newDepartments
         notifyDataSetChanged()
     }
 }

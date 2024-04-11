@@ -1,6 +1,6 @@
 package com.example.bbank.data.remote
 
-import com.example.bbank.data.remote.dto.ExchangesResponseDto
+import com.example.bbank.data.remote.dto.DepartmentResponseDto
 import com.example.bbank.data.remote.dto.NewsResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
@@ -16,7 +16,7 @@ internal interface BelarusBankApi {
     suspend fun getLatestNews(): Response<List<NewsResponseDto>>?
 
     @GET("kursExchange/")
-    suspend fun getExchangesByCity(
+    suspend fun getDepartmentsByCity(
         @Query(CITY) city: String
-    ): Response<List<ExchangesResponseDto>>?
+    ): Response<List<DepartmentResponseDto>>?
 }

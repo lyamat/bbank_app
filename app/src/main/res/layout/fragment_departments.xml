@@ -13,27 +13,30 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/btnGetRemoteExchanges"
+            android:id="@+id/btnGetRemoteDepartments"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lavender"
-            android:text="@string/get_remote_exchanges"
+            android:clickable="false"
+            android:text="@string/get_remote_departments"
             android:textSize="15sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/btnGetLocalDepartments"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnGetLocalExchanges"
+            android:id="@+id/btnGetLocalDepartments"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lavender"
-            android:text="@string/get_local_exchanges"
+            android:text="@string/get_local_departments"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnGetRemoteDepartments"
             app:layout_constraintTop_toTopOf="parent" />
 
         <HorizontalScrollView
@@ -42,10 +45,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnGetRemoteExchanges">
+            app:layout_constraintTop_toBottomOf="@id/btnGetRemoteDepartments">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/cgExchanges"
+                android:id="@+id/cgDepartments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
@@ -72,8 +75,6 @@
                     android:layout_height="wrap_content"
                     android:text="Еще что-то" />
 
-                <!-- Chips can be declared here, or added dynamically. -->
-
             </com.google.android.material.chip.ChipGroup>
 
 
@@ -85,13 +86,13 @@
             android:layout_height="wrap_content"
             android:background="@color/lavender"
             android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@id/rvExchanges"
+            app:layout_constraintBottom_toTopOf="@id/rvDepartments"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hsvChips">
 
             <TextView
-                android:id="@+id/tvExchangesCity"
+                android:id="@+id/tvDepartmentsCity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Отделения в {Город}\n17:42"
@@ -168,19 +169,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvExchanges"
+            android:id="@+id/rvDepartments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clInfo"
             tools:itemCount="5"
-            tools:listitem="@layout/exchange_rv_item">
+            tools:listitem="@layout/department_rv_item">
 
         </androidx.recyclerview.widget.RecyclerView>
 
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progressIndicatorExchanges"
+            android:id="@+id/progressIndicatorDepartments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"

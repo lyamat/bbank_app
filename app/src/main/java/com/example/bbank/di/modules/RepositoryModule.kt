@@ -1,19 +1,19 @@
 package com.example.bbank.di.modules
 
 import android.content.SharedPreferences
-import com.example.bbank.data.local.exchanges.ExchangesDao
+import com.example.bbank.data.local.departments.DepartmentDao
 import com.example.bbank.data.local.news.NewsDao
 import com.example.bbank.data.remote.BelarusBankApi
 import com.example.bbank.data.repositories.LocalRepositoryImpl
 import com.example.bbank.data.repositories.RemoteRepositoryImpl
-import com.example.bbank.data.repositories.local.ExchangesLocal
-import com.example.bbank.data.repositories.local.ExchangesLocalImpl
+import com.example.bbank.data.repositories.local.DepartmentLocal
+import com.example.bbank.data.repositories.local.DepartmentLocalImpl
 import com.example.bbank.data.repositories.local.NewsLocal
 import com.example.bbank.data.repositories.local.NewsLocalImpl
 import com.example.bbank.data.repositories.local.SharedPreferencesLocal
 import com.example.bbank.data.repositories.local.SharedPreferencesLocalImpl
-import com.example.bbank.data.repositories.remote.ExchangesRemote
-import com.example.bbank.data.repositories.remote.ExchangesRemoteImpl
+import com.example.bbank.data.repositories.remote.DepartmentRemote
+import com.example.bbank.data.repositories.remote.DepartmentRemoteImpl
 import com.example.bbank.data.repositories.remote.NewsRemote
 import com.example.bbank.data.repositories.remote.NewsRemoteImpl
 import com.example.bbank.domain.repositories.LocalRepository
@@ -31,16 +31,16 @@ internal class RepositoryModule {
     @Provides
     internal fun provideRemoteRepository(
         newsRemote: NewsRemote,
-        exchangesRemote: ExchangesRemote,
-    ): RemoteRepository = RemoteRepositoryImpl(newsRemote, exchangesRemote)
+        departmentRemote: DepartmentRemote,
+    ): RemoteRepository = RemoteRepositoryImpl(newsRemote, departmentRemote)
 
     @Singleton
     @Provides
     internal fun provideLocalRepository(
         newsLocal: NewsLocal,
-        exchangesLocal: ExchangesLocal,
+        departmentLocal: DepartmentLocal,
         sharedPreferencesLocal: SharedPreferencesLocal
-    ): LocalRepository = LocalRepositoryImpl(newsLocal, exchangesLocal, sharedPreferencesLocal)
+    ): LocalRepository = LocalRepositoryImpl(newsLocal, departmentLocal, sharedPreferencesLocal)
 
     @Singleton
     @Provides
@@ -50,9 +50,9 @@ internal class RepositoryModule {
 
     @Singleton
     @Provides
-    internal fun provideExchangesRemote(
+    internal fun provideDepartmentsRemote(
         belarusBankApi: BelarusBankApi
-    ): ExchangesRemote = ExchangesRemoteImpl(belarusBankApi)
+    ): DepartmentRemote = DepartmentRemoteImpl(belarusBankApi)
 
     @Singleton
     @Provides
@@ -62,9 +62,9 @@ internal class RepositoryModule {
 
     @Singleton
     @Provides
-    internal fun provideExchangesLocal(
-        exchangesDao: ExchangesDao
-    ): ExchangesLocal = ExchangesLocalImpl(exchangesDao)
+    internal fun provideDepartmentsLocal(
+        departmentDao: DepartmentDao
+    ): DepartmentLocal = DepartmentLocalImpl(departmentDao)
 
     @Singleton
     @Provides

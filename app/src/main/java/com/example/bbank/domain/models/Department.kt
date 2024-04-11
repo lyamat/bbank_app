@@ -1,8 +1,8 @@
 package com.example.bbank.domain.models
 
-import com.example.bbank.data.local.exchanges.ExchangesEntity
+import com.example.bbank.data.local.departments.DepartmentEntity
 
-internal data class Exchanges(
+internal data class Department(
     val usdIn: String,
     val usdOut: String,
     val eurIn: String,
@@ -51,8 +51,8 @@ internal data class Exchanges(
 )
 
 
-internal fun Exchanges.toExchangesEntity() =
-    ExchangesEntity(
+internal fun Department.toDepartmentEntity() =
+    DepartmentEntity(
         usdIn = usdIn,
         usdOut = usdOut,
         eurIn = eurIn,

@@ -26,7 +26,7 @@
         app:layout_constraintBaseline_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvExchangeAddress"
+            android:id="@+id/tvDepartmentAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Some street \nAnd some city"

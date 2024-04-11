@@ -9,16 +9,18 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.databinding.CityRvItemBinding
-import com.example.bbank.domain.models.Cities
+import com.example.bbank.domain.models.City
 import javax.inject.Inject
 
 internal class CityAdapter @Inject constructor(
-    private val cities: List<Cities>,
+    private val cities: List<City>,
     private val sharedPreferences: SharedPreferences,
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
-    inner class CityViewHolder(binding: CityRvItemBinding) :
+    inner class CityViewHolder(
+        binding: CityRvItemBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         val tvCity: TextView = binding.tvCity

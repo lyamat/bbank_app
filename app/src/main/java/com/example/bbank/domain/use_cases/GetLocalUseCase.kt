@@ -1,11 +1,10 @@
 package com.example.bbank.domain.use_cases
 
-import com.example.bbank.data.local.exchanges.toExchanges
+import com.example.bbank.data.local.departments.toDepartment
 import com.example.bbank.data.local.news.toNews
-import com.example.bbank.domain.models.Cities
-import com.example.bbank.domain.models.Exchanges
+import com.example.bbank.domain.models.Department
 import com.example.bbank.domain.models.News
-import com.example.bbank.domain.models.toExchangesEntity
+import com.example.bbank.domain.models.toDepartmentEntity
 import com.example.bbank.domain.models.toNewsEntity
 import com.example.bbank.domain.repositories.LocalRepository
 import javax.inject.Inject
@@ -28,18 +27,18 @@ internal class GetLocalUseCase @Inject constructor(
     suspend fun deleteAllLocalNews() =
         localRepository.deleteAllLocalNews()
 
-    suspend fun getLocalExchangesByCity(cityName: String): List<Exchanges> =
-        localRepository.getLocalExchangesByCity(cityName).map {
-            it.toExchanges()
+    suspend fun getLocalDepartmentsByCity(cityName: String): List<Department> =
+        localRepository.getLocalDepartmentsByCity(cityName).map {
+            it.toDepartment()
         }
 
-    suspend fun saveToLocalExchanges(exchanges: List<Exchanges>) =
-        exchanges.map {
-            localRepository.saveToLocalExchanges(it.toExchangesEntity())
+    suspend fun saveToLocalDepartments(departments: List<Department>) =
+        departments.map {
+            localRepository.saveToLocalDepartments(it.toDepartmentEntity())
         }
 
-    suspend fun deleteAllLocalExchanges() =
-        localRepository.deleteAllLocalExchanges()
+    suspend fun deleteAllLocalDepartments() =
+        localRepository.deleteAllLocalDepartments()
 
 
     suspend fun getCurrentCity() =

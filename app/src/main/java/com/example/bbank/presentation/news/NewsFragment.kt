@@ -24,7 +24,8 @@ internal class NewsFragment : Fragment() {
     private val newsViewModel: NewsViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
@@ -45,7 +46,6 @@ internal class NewsFragment : Fragment() {
             btnGetRemoteNews.setOnClickListener {
                 newsViewModel.uploadRemoteNews()
             }
-
             btnGetLocalNews.setOnClickListener {
                 newsViewModel.uploadLocalNews()
             }

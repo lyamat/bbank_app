@@ -34,7 +34,7 @@ internal object DatabaseModule {
 
     @Singleton
     @Provides
-    internal fun provideExchangesDao(
+    internal fun provideDepartmentsDao(
         db: LocalDatabase
-    ) = db.exchangesDao()
+    ) = db.departmentDao()
 }

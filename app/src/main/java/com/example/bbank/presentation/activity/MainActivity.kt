@@ -23,5 +23,25 @@ internal class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         setSupportActionBar(binding.topAppBar)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+//                R.id.exchangesFragment -> {
+//                    binding.topAppBar.apply {
+//                        menu.clear()
+//                        inflateMenu(R.menu.menu_exchanges)
+//                        title = "Exchanges"
+//                    }
+//                }
+//
+//                R.id.newsFragment -> {
+//                    binding.topAppBar.apply {
+//                        menu.clear()
+//                        inflateMenu(R.menu.menu_news_bar)
+//                        title = "News"
+//                    }
+//                }
+            }
+        }
     }
 }

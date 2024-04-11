@@ -1,103 +1,108 @@
-package com.example.bbank.data.remote.dto
+package com.example.bbank.data.local.departments
 
-import com.example.bbank.domain.models.Exchanges
-import com.google.gson.annotations.SerializedName
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.bbank.domain.models.Department
 
-internal data class ExchangesResponseDto(
-    @SerializedName("USD_in")
+@Entity(tableName = "departments")
+internal data class DepartmentEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    @ColumnInfo(name = "usdIn")
     val usdIn: String?,
-    @SerializedName("USD_out")
+    @ColumnInfo(name = "usdOut")
     val usdOut: String?,
-    @SerializedName("EUR_in")
+    @ColumnInfo(name = "eurIn")
     val eurIn: String?,
-    @SerializedName("EUR_out")
+    @ColumnInfo(name = "eurOut")
     val eurOut: String?,
-    @SerializedName("RUB_in")
+    @ColumnInfo(name = "rubIn")
     val rubIn: String?,
-    @SerializedName("RUB_out")
+    @ColumnInfo(name = "rubOut")
     val rubOut: String?,
-    @SerializedName("GBP_in")
+    @ColumnInfo(name = "gbpIn")
     val gbpIn: String?,
-    @SerializedName("GBP_out")
+    @ColumnInfo(name = "gbpOut")
     val gbpOut: String?,
-    @SerializedName("CAD_in")
+    @ColumnInfo(name = "cadIn")
     val cadIn: String?,
-    @SerializedName("CAD_out")
+    @ColumnInfo(name = "cadOut")
     val cadOut: String?,
-    @SerializedName("PLN_in")
+    @ColumnInfo(name = "plnIn")
     val plnIn: String?,
-    @SerializedName("PLN_out")
+    @ColumnInfo(name = "plnOut")
     val plnOut: String?,
-    @SerializedName("SEK_in")
+    @ColumnInfo(name = "sekIn")
     val sekIn: String?,
-    @SerializedName("SEK_out")
+    @ColumnInfo(name = "sekOut")
     val sekOut: String?,
-    @SerializedName("CHF_in")
+    @ColumnInfo(name = "chfIn")
     val chfIn: String?,
-    @SerializedName("CHF_out")
+    @ColumnInfo(name = "chfOut")
     val chfOut: String?,
-    @SerializedName("USD_EUR_in")
+    @ColumnInfo(name = "usdEurIn")
     val usdEurIn: String?,
-    @SerializedName("USD_EUR_out")
+    @ColumnInfo(name = "usdEurOut")
     val usdEurOut: String?,
-    @SerializedName("USD_RUB_in")
+    @ColumnInfo(name = "usdRubIn")
     val usdRubIn: String?,
-    @SerializedName("USD_RUB_out")
+    @ColumnInfo(name = "usdRubOut")
     val usdRubOut: String?,
-    @SerializedName("RUB_EUR_in")
+    @ColumnInfo(name = "rubEurIn")
     val rubEurIn: String?,
-    @SerializedName("RUB_EUR_out")
+    @ColumnInfo(name = "rubEurOut")
     val rubEurOut: String?,
-    @SerializedName("JPY_in")
+    @ColumnInfo(name = "jpyIn")
     val jpyIn: String?,
-    @SerializedName("JPY_out")
+    @ColumnInfo(name = "jpyOut")
     val jpyOut: String?,
-    @SerializedName("CNY_in")
+    @ColumnInfo(name = "cnyIn")
     val cnyIn: String?,
-    @SerializedName("CNY_out")
+    @ColumnInfo(name = "cnyOut")
     val cnyOut: String?,
-    @SerializedName("CNY_EUR_in")
+    @ColumnInfo(name = "cnyEurIn")
     val cnyEurIn: String?,
-    @SerializedName("CNY_EUR_out")
+    @ColumnInfo(name = "cnyEurOut")
     val cnyEurOut: String?,
-    @SerializedName("CNY_USD_in")
+    @ColumnInfo(name = "cnyUsdIn")
     val cnyUsdIn: String?,
-    @SerializedName("CNY_USD_out")
+    @ColumnInfo(name = "cnyUsdOut")
     val cnyUsdOut: String?,
-    @SerializedName("CNY_RUB_in")
+    @ColumnInfo(name = "cnyRubIn")
     val cnyRubIn: String?,
-    @SerializedName("CNY_RUB_out")
+    @ColumnInfo(name = "cnyRubOut")
     val cnyRubOut: String?,
-    @SerializedName("CZK_in")
+    @ColumnInfo(name = "czkIn")
     val czkIn: String?,
-    @SerializedName("CZK_out")
+    @ColumnInfo(name = "czkOut")
     val czkOut: String?,
-    @SerializedName("NOK_in")
+    @ColumnInfo(name = "nokIn")
     val nokIn: String?,
-    @SerializedName("NOK_out")
+    @ColumnInfo(name = "nokOut")
     val nokOut: String?,
-    @SerializedName("filial_id")
+    @ColumnInfo(name = "filialId")
     val filialId: String?,
-    @SerializedName("sap_id")
+    @ColumnInfo(name = "sapId")
     val sapId: String?,
-    @SerializedName("info_worktime")
+    @ColumnInfo(name = "infoWorktime")
     val infoWorktime: String?,
-    @SerializedName("street_type")
+    @ColumnInfo(name = "streetType")
     val streetType: String?,
-    @SerializedName("street")
+    @ColumnInfo(name = "street")
     val street: String?,
-    @SerializedName("filials_text")
+    @ColumnInfo(name = "filialsText")
     val filialsText: String?,
-    @SerializedName("home_number")
+    @ColumnInfo(name = "homeNumber")
     val homeNumber: String?,
-    @SerializedName("name")
+    @ColumnInfo(name = "name")
     val name: String?,
-    @SerializedName("name_type")
+    @ColumnInfo(name = "nameType")
     val nameType: String?
 ) {
-    internal companion object {
-        fun empty(): ExchangesResponseDto =
-            ExchangesResponseDto(
+    companion object {
+        fun empty(): DepartmentEntity =
+            DepartmentEntity(
                 usdIn = "",
                 usdOut = "",
                 eurIn = "",
@@ -145,10 +150,11 @@ internal data class ExchangesResponseDto(
                 nameType = ""
             )
     }
+
 }
 
-internal fun ExchangesResponseDto.toExchanges() =
-    Exchanges(
+internal fun DepartmentEntity.toDepartment() =
+    Department(
         usdIn = usdIn ?: "",
         usdOut = usdOut ?: "",
         eurIn = eurIn ?: "",
@@ -195,3 +201,4 @@ internal fun ExchangesResponseDto.toExchanges() =
         name = name ?: "",
         nameType = nameType ?: ""
     )
+
