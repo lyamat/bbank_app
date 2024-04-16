@@ -29,12 +29,10 @@ internal class DepartmentsAdapter(
 
     private fun setCurrentTimeProperties() {
         val calendar = Calendar.getInstance()
-
         dayOfWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
             Calendar.SUNDAY -> 7
             else -> calendar.get(Calendar.DAY_OF_WEEK) - 1
         }
-
         val (currentTimeH, currentTimeM) = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
             calendar.time
         ).split(":").map { it.toIntOrNull() ?: 0 }
@@ -47,7 +45,7 @@ internal class DepartmentsAdapter(
         val tvBuyRate: TextView = binding.tvBuyRate
         val tvSaleRate: TextView = binding.tvSaleRate
         val departmentAccessibility: View = binding.departmentAccessibility
-        val departmentsCardView: CardView = binding.root
+        val departmentsCardView: CardView = binding.cvDepartmentItem
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DepartmentsViewHolder {
@@ -99,17 +97,14 @@ internal class DepartmentsAdapter(
             todayWorktime.isEmpty() -> false
             else -> {
                 val parts = todayWorktime.split(" ").filter { it.isNotBlank() }
-
                 // Open time
                 val startTimeH = parts[0].toInt()
                 val startTimeM = parts[1].toInt()
                 val startTime = startTimeH * 60 + startTimeM
-
                 // Close time
-                val endTimeH = parts[2].toInt() // TODO: remove +2 after tests
+                val endTimeH = parts[2].toInt()
                 val endTimeM = parts[3].toInt()
                 val endTime = endTimeH * 60 + endTimeM
-
                 // If in work time
                 if (currentTime >= startTime && currentTime < endTime) {
                     //If break is exists
@@ -125,8 +120,6 @@ internal class DepartmentsAdapter(
 
                             return !(currentTime >= breakStart && currentTime < breakEnd)
                         }
-
-
                     }
                     return true
                 }

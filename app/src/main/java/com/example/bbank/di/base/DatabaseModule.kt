@@ -37,4 +37,10 @@ internal object DatabaseModule {
     internal fun provideDepartmentsDao(
         db: LocalDatabase
     ) = db.departmentDao()
+
+    @Singleton
+    @Provides
+    internal fun provideCurrencyRatesDao(
+        db: LocalDatabase
+    ) = db.currencyRatesDao()
 }

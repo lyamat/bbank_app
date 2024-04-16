@@ -1,5 +1,6 @@
 package com.example.bbank.domain.repositories
 
+import com.example.bbank.data.local.currency_rates.CurrencyRatesEntity
 import com.example.bbank.data.local.departments.DepartmentEntity
 import com.example.bbank.data.local.news.NewsEntity
 
@@ -14,6 +15,10 @@ internal interface LocalRepository {
     suspend fun getLocalDepartmentsByCity(cityName: String): List<DepartmentEntity>
     suspend fun saveToLocalDepartments(departmentEntity: DepartmentEntity)
     suspend fun deleteAllLocalDepartments(): Unit
+
+    suspend fun getLocalCurrencyRates(): List<CurrencyRatesEntity>
+    suspend fun saveToLocalCurrencyRates(currencyRatesEntity: CurrencyRatesEntity)
+    suspend fun deleteAllCurrencyRates(): Unit
 
     suspend fun getCurrentCity(): String
 }

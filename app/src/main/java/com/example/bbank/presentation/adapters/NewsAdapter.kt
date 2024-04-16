@@ -19,22 +19,11 @@ internal class NewsAdapter(
 
     inner class NewsViewHolder(binding: NewsRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         val tvNewsDate: TextView = binding.tvNewsDate
         val tvNewsLink: TextView = binding.tvNewsLink
         val tvNewsTitle: TextView = binding.tvNewsTitle
         val ivThumbnail: ImageView = binding.ivThumbnail
         val newsCardView: CardView = binding.newsCardView
-
-        init {
-            binding.root.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val chosenNews = news[position]
-                    onClick(chosenNews)
-                }
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -49,12 +38,12 @@ internal class NewsAdapter(
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val chosenNews = news[position]
 
+        newsSetOnClickListener(holder.newsCardView, position)
+
         loadImageIntoView(holder.ivThumbnail, chosenNews.img)
         holder.tvNewsDate.text = chosenNews.startDate
         holder.tvNewsLink.text = chosenNews.link
         holder.tvNewsTitle.text = chosenNews.nameRu
-
-        newsSetOnClickListener(holder.newsCardView, position)
     }
 
     private fun loadImageIntoView(imageView: ImageView, imageUrl: String) {

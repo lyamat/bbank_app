@@ -1,6 +1,5 @@
 package com.example.bbank.presentation.adapters
 
-
 import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,11 +17,8 @@ internal class CityAdapter @Inject constructor(
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
-    inner class CityViewHolder(
-        binding: CityRvItemBinding
-    ) :
+    inner class CityViewHolder(binding: CityRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         val tvCity: TextView = binding.tvCity
         val rbChosenCity: RadioButton = binding.rbChosenCity
         val cityCardView: CardView = binding.cityCardView

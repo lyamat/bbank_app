@@ -7,7 +7,7 @@ import com.example.bbank.domain.use_cases.GetLocalUseCase
 import com.example.bbank.domain.use_cases.GetRemoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ internal class DepartmentsViewModel @Inject constructor(
     private val getLocalUseCase: GetLocalUseCase
 ) : ViewModel() {
 
-    private val _departmentsFlow = MutableSharedFlow<DepartmentsEvent>()
+    private val _departmentsFlow = MutableStateFlow<DepartmentsEvent>(DepartmentsEvent.Unspecified)
     internal fun departmentsFlow(): Flow<DepartmentsEvent> = _departmentsFlow
 
     internal fun getRemoteDepartmentsByCity(city: String) {
@@ -41,6 +41,8 @@ internal class DepartmentsViewModel @Inject constructor(
                 val cityName = getLocalUseCase.getCurrentCity()
                 val departments = getLocalUseCase.getLocalDepartmentsByCity(cityName)
                 eventHolder(DepartmentsEvent.DepartmentsSuccess(departments))
+                getLocalUseCase.deleteAllCurrencyRates()
+                getLocalUseCase.saveToLocalCurrencyRates(departments)
             } catch (e: Exception) {
                 eventHolder(DepartmentsEvent.Error(e.message.toString()))
             }
@@ -64,7 +66,6 @@ internal class DepartmentsViewModel @Inject constructor(
             _departmentsFlow.emit(event)
         }
     }
-
 
     internal sealed class DepartmentsEvent {
         data object Unspecified : DepartmentsEvent()

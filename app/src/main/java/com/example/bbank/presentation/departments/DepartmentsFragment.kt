@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentsBinding
 import com.example.bbank.domain.models.Department
 import com.example.bbank.presentation.adapters.DepartmentsAdapter
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -38,18 +38,16 @@ internal class DepartmentsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onStartExchangesFragment()
-        observeExchangesEvent()
-        setupRecyclerViews()
+        onStartDepartmentsFragment()
+        observeDepartmentsEvent()
+        setupDepartmentsRecyclerView()
     }
 
-    private fun onStartExchangesFragment() {
+    private fun onStartDepartmentsFragment() {
         departmentsViewModel.getCurrentCity()
-
         binding.apply {
             btnGetRemoteDepartments.setOnClickListener {
-                departmentsViewModel.getRemoteDepartmentsByCity("") // TODO: in future make with city?
-//                exchangesViewModel.getRemoteExchangesByCity(sharedPreferences.getString("currentCity", "") ?: "")
+                departmentsViewModel.getRemoteDepartmentsByCity("")
             }
             btnGetLocalDepartments.setOnClickListener {
                 departmentsViewModel.getLocalDepartmentsByCity()
@@ -61,18 +59,21 @@ internal class DepartmentsFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerViews() {
+    private fun setupDepartmentsRecyclerView() {
         binding.rvDepartments.apply {
             layoutManager =
                 LinearLayoutManager(requireContext())
             adapter = DepartmentsAdapter(
                 context = requireContext(),
                 departments = emptyList(),
-                onClick = { } // TODO: add DepartmentDetailFragment
+                onClick = {
+                    val b = Bundle().apply { putParcelable("department", it) }
+                    findNavController().navigate(
+                        R.id.action_departmentsFragment_to_departmentDetails,
+                        b
+                    )
+                }
             )
-            val divider =
-                MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-            addItemDecoration(divider)
         }
     }
 
@@ -80,15 +81,15 @@ internal class DepartmentsFragment : Fragment() {
         CitySelectionDialog.display(getParentFragmentManager(), requireContext())
     }
 
-    private fun observeExchangesEvent() {
+    private fun observeDepartmentsEvent() {
         CoroutineScope(Dispatchers.Main).launch {
             departmentsViewModel.departmentsFlow().collect {
-                processExchangeEvent(it)
+                processDepartmentEvent(it)
             }
         }
     }
 
-    private fun processExchangeEvent(departmentsEvent: DepartmentsViewModel.DepartmentsEvent) {
+    private fun processDepartmentEvent(departmentsEvent: DepartmentsViewModel.DepartmentsEvent) {
         when (departmentsEvent) {
             is DepartmentsViewModel.DepartmentsEvent.DepartmentsSuccess -> {
                 handleSuccess(departmentsEvent.departments)
@@ -123,10 +124,9 @@ internal class DepartmentsFragment : Fragment() {
         } else {
             val currentTime = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
             val currentCity = departments[0].name
-
             binding.apply {
                 chipCity.text = currentCity
-                tvDepartmentsCity.text = "Отделения в $currentCity\n$currentTime"
+                tvDepartmentsCity.text = getString(R.string.deps_in, currentCity, currentTime)
                 (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(
                     departments
                 )

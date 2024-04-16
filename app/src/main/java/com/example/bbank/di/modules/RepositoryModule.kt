@@ -1,11 +1,14 @@
 package com.example.bbank.di.modules
 
 import android.content.SharedPreferences
+import com.example.bbank.data.local.currency_rates.CurrencyRatesDao
 import com.example.bbank.data.local.departments.DepartmentDao
 import com.example.bbank.data.local.news.NewsDao
 import com.example.bbank.data.remote.BelarusBankApi
 import com.example.bbank.data.repositories.LocalRepositoryImpl
 import com.example.bbank.data.repositories.RemoteRepositoryImpl
+import com.example.bbank.data.repositories.local.CurrencyRatesLocal
+import com.example.bbank.data.repositories.local.CurrencyRatesLocalImpl
 import com.example.bbank.data.repositories.local.DepartmentLocal
 import com.example.bbank.data.repositories.local.DepartmentLocalImpl
 import com.example.bbank.data.repositories.local.NewsLocal
@@ -39,8 +42,10 @@ internal class RepositoryModule {
     internal fun provideLocalRepository(
         newsLocal: NewsLocal,
         departmentLocal: DepartmentLocal,
+        currencyRatesLocal: CurrencyRatesLocal,
         sharedPreferencesLocal: SharedPreferencesLocal
-    ): LocalRepository = LocalRepositoryImpl(newsLocal, departmentLocal, sharedPreferencesLocal)
+    ): LocalRepository =
+        LocalRepositoryImpl(newsLocal, departmentLocal, currencyRatesLocal, sharedPreferencesLocal)
 
     @Singleton
     @Provides
@@ -65,6 +70,12 @@ internal class RepositoryModule {
     internal fun provideDepartmentsLocal(
         departmentDao: DepartmentDao
     ): DepartmentLocal = DepartmentLocalImpl(departmentDao)
+
+    @Singleton
+    @Provides
+    internal fun provideCurrencyRatesLocal(
+        currencyRatesDao: CurrencyRatesDao
+    ): CurrencyRatesLocal = CurrencyRatesLocalImpl(currencyRatesDao)
 
     @Singleton
     @Provides

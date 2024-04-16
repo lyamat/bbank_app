@@ -1,12 +1,12 @@
-package com.example.bbank.data.local.departments
+package com.example.bbank.data.local.currency_rates
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.bbank.domain.models.Department
+import com.example.bbank.domain.models.CurrencyRates
 
-@Entity(tableName = "departments")
-internal data class DepartmentEntity(
+@Entity(tableName = "currency_rates")
+internal data class CurrencyRatesEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     @ColumnInfo(name = "usdIn")
@@ -80,29 +80,11 @@ internal data class DepartmentEntity(
     @ColumnInfo(name = "nokIn")
     val nokIn: String?,
     @ColumnInfo(name = "nokOut")
-    val nokOut: String?,
-    @ColumnInfo(name = "filialId")
-    val filialId: String?,
-    @ColumnInfo(name = "sapId")
-    val sapId: String?,
-    @ColumnInfo(name = "infoWorktime")
-    val infoWorktime: String?,
-    @ColumnInfo(name = "streetType")
-    val streetType: String?,
-    @ColumnInfo(name = "street")
-    val street: String?,
-    @ColumnInfo(name = "filialsText")
-    val filialsText: String?,
-    @ColumnInfo(name = "homeNumber")
-    val homeNumber: String?,
-    @ColumnInfo(name = "name")
-    val name: String?,
-    @ColumnInfo(name = "nameType")
-    val nameType: String?
+    val nokOut: String?
 ) {
     companion object {
-        fun empty(): DepartmentEntity =
-            DepartmentEntity(
+        fun empty(): CurrencyRatesEntity =
+            CurrencyRatesEntity(
                 usdIn = "",
                 usdOut = "",
                 eurIn = "",
@@ -138,22 +120,13 @@ internal data class DepartmentEntity(
                 czkIn = "",
                 czkOut = "",
                 nokIn = "",
-                nokOut = "",
-                filialId = "",
-                sapId = "",
-                infoWorktime = "",
-                streetType = "",
-                street = "",
-                filialsText = "",
-                homeNumber = "",
-                name = "",
-                nameType = ""
+                nokOut = ""
             )
     }
 }
 
-internal fun DepartmentEntity.toDepartment() =
-    Department(
+internal fun CurrencyRatesEntity.toCurrencyRates() =
+    CurrencyRates(
         usdIn = usdIn ?: "",
         usdOut = usdOut ?: "",
         eurIn = eurIn ?: "",
@@ -189,14 +162,5 @@ internal fun DepartmentEntity.toDepartment() =
         czkIn = czkIn ?: "",
         czkOut = czkOut ?: "",
         nokIn = nokIn ?: "",
-        nokOut = nokOut ?: "",
-        filialId = filialId ?: "",
-        sapId = sapId ?: "",
-        infoWorktime = infoWorktime ?: "",
-        streetType = streetType ?: "",
-        street = street ?: "",
-        filialsText = filialsText ?: "",
-        homeNumber = homeNumber ?: "",
-        name = name ?: "",
-        nameType = nameType ?: ""
+        nokOut = nokOut ?: ""
     )

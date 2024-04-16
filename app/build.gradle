@@ -5,6 +5,8 @@ plugins {
 
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-parcelize'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     namespace 'com.example.bbank'

@@ -14,10 +14,23 @@
         android:id="@+id/departmentsFragment"
         android:name="com.example.bbank.presentation.departments.DepartmentsFragment"
         android:label="DepartmentsFragment"
-        tools:layout="@layout/fragment_departments"/>
+        tools:layout="@layout/fragment_departments">
+        <action
+            android:id="@+id/action_departmentsFragment_to_departmentDetails"
+            app:destination="@id/departmentDetails" />
+    </fragment>
     <fragment
         android:id="@+id/converterFragment"
         android:name="com.example.bbank.presentation.converter.ConverterFragment"
         android:label="ConverterFragment"
         tools:layout="@layout/fragment_converter"/>
+    <fragment
+        android:id="@+id/departmentDetails"
+        android:name="com.example.bbank.presentation.departments.DepartmentDetailsFragment"
+        android:label="DepartmentDetails"
+        tools:layout="@layout/fragment_department_details">
+        <argument
+            android:name="department"
+            app:argType="com.example.bbank.domain.models.Department" />
+    </fragment>
 </navigation>

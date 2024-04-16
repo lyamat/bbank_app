@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentConverterBinding
-import com.example.bbank.domain.models.Currency
 import com.example.bbank.presentation.adapters.CurrencyAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +18,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 internal class ConverterFragment : Fragment() {
-
     private lateinit var binding: FragmentConverterBinding
     private val converterViewModel by viewModels<ConverterViewModel>()
 
@@ -34,21 +32,32 @@ internal class ConverterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         populateConverterRecyclerView()
         observeCurrenciesEvent()
     }
 
     private fun populateConverterRecyclerView() {
         binding.currencyRecyclerView.apply {
-            layoutManager =
-                LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireContext())
             adapter = CurrencyAdapter(
-                currencies = emptyList(),
-                onCurrencyValueChanged = { currencyCode, newValue ->
+                currencyRates = listOf(
+                    Pair("rub", ""),
+                    Pair("usd", ""),
+                    Pair("eur", "")
+                ),
+                onCurrencyValueChanged = { currencyValues, currencyCode, newValue ->
+                    handleCurrenciesValuesChanged(currencyValues, currencyCode, newValue)
                 }
             )
         }
+    }
+
+    private fun handleCurrenciesValuesChanged(
+        currencyValues: List<Pair<String, String>>,
+        currencyCode: String,
+        newValue: String
+    ) {
+        converterViewModel.updateCurrencyValue(currencyValues, currencyCode, newValue)
     }
 
     private fun observeCurrenciesEvent() {
@@ -62,24 +71,21 @@ internal class ConverterFragment : Fragment() {
     private fun processCurrencyEvent(currenciesEvent: ConverterViewModel.CurrenciesEvent) {
         when (currenciesEvent) {
             is ConverterViewModel.CurrenciesEvent.CurrenciesSuccess -> {
-                handleSuccess(currenciesEvent.currencies)
-//                hideLoading()
-            }
-
-            is ConverterViewModel.CurrenciesEvent.Loading -> {
-//                showLoading()
+                handleSuccess(currenciesEvent.currencyValues)
             }
 
             is ConverterViewModel.CurrenciesEvent.Error -> {
                 handleError(currenciesEvent.message)
-//                hideLoading()
             }
 
             else -> Unit
         }
     }
 
-    private fun handleSuccess(currencies: List<Currency>) {
+    private fun handleSuccess(currencyValues: List<Pair<String, String>>) {
+        (binding.currencyRecyclerView.adapter as CurrencyAdapter).updateCurrencyRates(
+            currencyValues
+        )
     }
 
     private fun handleError(error: String) {
@@ -87,6 +93,4 @@ internal class ConverterFragment : Fragment() {
             .setAnchorView(R.id.bottomNavigation)
             .show()
     }
-
-
 }

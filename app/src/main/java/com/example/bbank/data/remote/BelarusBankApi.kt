@@ -7,7 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 internal interface BelarusBankApi {
-
     companion object {
         private const val CITY = "city"
     }

@@ -20,4 +20,13 @@
     <string name="bank_sale">Банк продает</string>
     <string name="add_exchage_rate">Добавить валюту</string>
     <string name="empty_department_list">Empty department list</string>
+    <string name="oao_belarusbank">%1$s ОАО \"АСБ Беларусбанк\"</string>
+    <string name="address_example">г. Париж, ул.Сильвьенто, 14</string>
+    <string name="department_number_example">Отделение №666-666 ОАО \'АСБ Беларусбанк\'</string>
+    <string name="currency_exchange_rates_at_dep">Курсы валют в отделении</string>
+    <string name="currency">Валюта</string>
+    <string name="buying">Покупка</string>
+    <string name="selling">Продажа</string>
+    <string name="department_address">%1$s %2$s, %3$s %4$s %5$s</string>
+    <string name="deps_in">Отделения в %1$s\n%2$s</string>
 </resources>
