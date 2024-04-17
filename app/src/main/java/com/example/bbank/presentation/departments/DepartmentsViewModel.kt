@@ -58,7 +58,7 @@ internal class DepartmentsViewModel @Inject constructor(
         }
     }
 
-    internal fun getCurrentCity() {
+    private fun getCurrentCity() {
         viewModelScope.launch {
             try {
                 eventHolder(DepartmentsEvent.Loading)
@@ -86,4 +86,3 @@ internal class DepartmentsViewModel @Inject constructor(
         data object Loading : DepartmentsEvent()
     }
 }
-

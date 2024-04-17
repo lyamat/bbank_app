@@ -16,15 +16,12 @@ internal class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         val navController = findNavController(R.id.shoppingHostFragment)
         binding.bottomNavigation.setupWithNavController(navController)
-
-        setSupportActionBar(binding.topAppBar)
 
         MapKitFactory.initialize(this)
     }

@@ -49,9 +49,6 @@ internal class DepartmentsFragment : Fragment() {
             btnGetRemoteDepartments.setOnClickListener {
                 departmentsViewModel.getRemoteDepartmentsByCity("")
             }
-            btnGetLocalDepartments.setOnClickListener {
-                departmentsViewModel.getLocalDepartmentsByCity()
-            }
             chipCity.setOnClickListener {
                 openCitySelectionDetailDialog()
             }

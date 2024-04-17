@@ -10,19 +10,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <HorizontalScrollView
-            android:id="@+id/chipsConverter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarConverter"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/belarusbankIconDepartments"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/belarusbank_logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="@string/converter"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@id/belarusbankIconDepartments"
+                    app:layout_constraintStart_toEndOf="@id/belarusbankIconDepartments"
+                    app:layout_constraintTop_toTopOf="@id/belarusbankIconDepartments" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <HorizontalScrollView
+            android:id="@+id/chipsConverter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="@id/rightGuideLine96Vertical"
+            app:layout_constraintStart_toStartOf="@id/leftGuideLine4Vertical"
+            app:layout_constraintTop_toBottomOf="@id/toolbarConverter">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/converterChipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
                 app:singleLine="true">
 
                 <com.google.android.material.chip.Chip
@@ -30,7 +66,7 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bank_buy"/>
+                    android:text="@string/bank_buy" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipIsWorking"
@@ -47,34 +83,32 @@
 
             </com.google.android.material.chip.ChipGroup>
 
-
         </HorizontalScrollView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/currencyRecyclerView"
-
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chipsConverter"
-            tools:itemCount="3"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@id/rightGuideLine96Vertical"
+            app:layout_constraintStart_toStartOf="@id/leftGuideLine4Vertical"
+            app:layout_constraintTop_toBottomOf="@id/chipsConverter"
+            tools:itemCount="2"
             tools:listitem="@layout/currency_rv_item" />
 
-        <Button
-            android:id="@+id/btnAddExchangeRate"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/lavender"
-            android:text="@string/add_exchage_rate"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currencyRecyclerView" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rightGuideLine96Vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
 
-
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/leftGuideLine4Vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

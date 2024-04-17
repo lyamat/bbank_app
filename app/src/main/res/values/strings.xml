@@ -1,28 +1,19 @@
 <resources>
     <string name="app_name">BBank</string>
-    <string name="get_local_news">Get local news</string>
-    <string name="get_remote_news">Get remote news</string>
-    <string name="count">Count</string>
-    <string name="news_fragment">NEWS FRAGMENT</string>
-    <string name="departments_fragment">DEPARTMENTS FRAGMENT</string>
-    <string name="departments">Departments</string>
-    <string name="news">News</string>
-    <string name="news_thumbnail">News thumbnail</string>
-    <string name="title">Title</string>
-    <string name="link">Link</string>
-    <string name="date">Date</string>
-    <string name="get_local_departments">Get local departments</string>
-    <string name="city">City</string>
-    <string name="get_remote_departments">Get remote departments</string>
-    <string name="city_selection_dialog">City selection</string>
-    <string name="converter">Converter</string>
+    <string name="get_remote_news">Запросить новости с API</string>
+    <string name="news_title">Заголовок новости</string>
+    <string name="news_link">www.belarusbank.by/news/somenews123</string>
+    <string name="news_date">33.13.2024</string>
+    <string name="city">Город</string>
+    <string name="city_selection_dialog">Выберите город</string>
+    <string name="converter">Конвертер</string>
     <string name="bank_buy">Банк покупает</string>
     <string name="bank_sale">Банк продает</string>
-    <string name="add_exchage_rate">Добавить валюту</string>
-    <string name="empty_department_list">Empty department list</string>
+    <string name="add_currency">Добавить валюту</string>
+    <string name="empty_department_list">Пустой список отделений</string>
     <string name="oao_belarusbank">%1$s ОАО \"АСБ Беларусбанк\"</string>
     <string name="address_example">г. Париж, ул.Сильвьенто, 14</string>
-    <string name="department_number_example">Отделение №666-666 ОАО \'АСБ Беларусбанк\'</string>
+    <string name="department_number_example">Отделение №666–666 ОАО \'АСБ Беларусбанк\'</string>
     <string name="currency_exchange_rates_at_dep">Курсы валют в отделении</string>
     <string name="currency">Валюта</string>
     <string name="buying">Покупка</string>
@@ -30,4 +21,6 @@
     <string name="department_address">%1$s %2$s, %3$s %4$s %5$s</string>
     <string name="deps_in">Отделения в %1$s\n%2$s</string>
     <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>
+    <string name="news">Новости</string>
+    <string name="departments">Отделения</string>
 </resources>

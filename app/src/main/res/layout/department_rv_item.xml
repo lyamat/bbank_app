@@ -32,8 +32,22 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:paddingVertical="10dp"
                 app:layout_constraintBaseline_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/rightGuideLine96Vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.96" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/leftGuideLine4Vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.04" />
 
                 <TextView
                     android:id="@+id/tvDepartmentAddress"
@@ -45,7 +59,7 @@
                     android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/guideline50Vertical"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/leftGuideLine4Vertical"
                     app:layout_constraintTop_toTopOf="parent">
 
                 </TextView>
@@ -70,7 +84,7 @@
                     android:textAlignment="center"
                     android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/rightGuideLine96Vertical"
                     app:layout_constraintStart_toStartOf="@id/guideline75Vertical"
                     app:layout_constraintTop_toTopOf="parent">
 

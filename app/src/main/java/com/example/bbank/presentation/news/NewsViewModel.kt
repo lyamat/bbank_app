@@ -31,14 +31,14 @@ internal class NewsViewModel @Inject constructor(
                 val news = getRemoteUseCase.getNews()
                 getLocalUseCase.deleteAllLocalNews()
                 getLocalUseCase.saveToLocalNews(news)
-                eventHolder(NewsEvent.Success(news.shuffled().take(5)))
+                eventHolder(NewsEvent.Success(news.take(5)))
             } catch (e: Exception) {
                 eventHolder(NewsEvent.Error(e.message.toString()))
             }
         }
     }
 
-    internal fun uploadLocalNews() {
+    private fun uploadLocalNews() {
         viewModelScope.launch {
             try {
                 eventHolder(NewsEvent.Loading)

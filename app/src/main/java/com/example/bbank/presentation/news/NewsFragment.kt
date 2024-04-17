@@ -44,9 +44,6 @@ internal class NewsFragment : Fragment() {
             btnGetRemoteNews.setOnClickListener {
                 newsViewModel.uploadRemoteNews()
             }
-            btnGetLocalNews.setOnClickListener {
-                newsViewModel.uploadLocalNews()
-            }
         }
     }
 
@@ -106,13 +103,11 @@ internal class NewsFragment : Fragment() {
 
     private fun hideLoading() {
         binding.progressIndicatorNews.visibility = View.GONE
-        binding.btnGetLocalNews.visibility = View.VISIBLE
         binding.btnGetRemoteNews.visibility = View.VISIBLE
     }
 
     private fun showLoading() {
         binding.progressIndicatorNews.visibility = View.VISIBLE
-        binding.btnGetLocalNews.visibility = View.INVISIBLE
         binding.btnGetRemoteNews.visibility = View.INVISIBLE
     }
 }

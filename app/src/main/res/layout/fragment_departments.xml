@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,74 +7,104 @@
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnGetRemoteDepartments"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/lavender"
-            android:clickable="false"
-            android:text="@string/get_remote_departments"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/btnGetLocalDepartments"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btnGetLocalDepartments"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/lavender"
-            android:text="@string/get_local_departments"
-            android:textSize="15sp"
-            android:textStyle="bold"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarDepartments"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnGetRemoteDepartments"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/belarusbankIconDepartments"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/belarusbank_logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="@string/departments"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@id/belarusbankIconDepartments"
+                    app:layout_constraintStart_toEndOf="@id/belarusbankIconDepartments"
+                    app:layout_constraintTop_toTopOf="@id/belarusbankIconDepartments" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
 
         <HorizontalScrollView
             android:id="@+id/hsvChips"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnGetRemoteDepartments">
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="@id/rightGuideLine96Vertical"
+            app:layout_constraintStart_toEndOf="@id/leftGuideLine4Vertical"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarDepartments">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/cgDepartments"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                app:singleLine="true">
+                android:layout_height="match_parent">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipCity"
-                    style="@style/Widget.MaterialComponents.Chip.Action"
+                <ImageView
+                    android:id="@+id/btnGetRemoteDepartments"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:clickable="false"
+                    android:src="@drawable/ic_update"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cgDepartments"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cgDepartments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/city"
-                    app:chipIcon="@drawable/ic_location" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:singleLine="true">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipIsWorking"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Сейчас работает" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCity"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/city"
+                        app:chipIcon="@drawable/ic_location" />
 
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Entry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Еще что-то" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipIsWorking"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Сейчас работает" />
 
-            </com.google.android.material.chip.ChipGroup>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Entry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Еще что-то" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </HorizontalScrollView>
@@ -85,23 +114,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lavender"
-            android:padding="10dp"
             app:layout_constraintBottom_toTopOf="@id/rvDepartments"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hsvChips">
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.04" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline96Right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.96" />
+
             <TextView
                 android:id="@+id/tvDepartmentsCity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
                 android:text="Отделения в {Город}\n17:42"
 
                 android:textAlignment="textStart"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/guideline50Vertical"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline4Left"
                 app:layout_constraintTop_toTopOf="parent">
 
             </TextView>
@@ -130,12 +173,11 @@
                 android:textAlignment="center"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline96Right"
                 app:layout_constraintStart_toStartOf="@id/guideline75Vertical"
                 app:layout_constraintTop_toTopOf="parent">
 
             </TextView>
-
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline50Vertical"
@@ -151,21 +193,6 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.75" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="20dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="20dp" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -179,7 +206,6 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progressIndicatorDepartments"
             android:layout_width="match_parent"
@@ -189,11 +215,19 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline17Horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.15" />
+            android:id="@+id/rightGuideLine96Vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/leftGuideLine4Vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>
