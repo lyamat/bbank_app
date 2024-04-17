@@ -20,6 +20,11 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+        buildConfigField "String", "MAPKIT_API_KEY", "\"${properties.getProperty('MAPKIT_API_KEY')}\""
     }
 
     buildTypes {
@@ -37,6 +42,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 
@@ -96,6 +102,9 @@ dependencies {
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.13.0'
+
+    //Yandex Maps
+    implementation 'com.yandex.android:maps.mobile:4.5.1-lite'
 }
 
 kapt {

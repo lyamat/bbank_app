@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.bbank.BuildConfig
 import com.example.bbank.R
 import com.example.bbank.databinding.ActivityMainBinding
+import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,6 +17,7 @@ internal class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -23,5 +26,7 @@ internal class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         setSupportActionBar(binding.topAppBar)
+
+        MapKitFactory.initialize(this)
     }
 }

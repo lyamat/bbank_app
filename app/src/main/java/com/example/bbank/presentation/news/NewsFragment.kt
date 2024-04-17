@@ -36,10 +36,8 @@ internal class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         onStartNewsFragment()
         observeNewsEvent()
-
         setupNewsRv()
     }
-
 
     private fun onStartNewsFragment() {
         binding.apply {
