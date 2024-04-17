@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentNewsBinding
@@ -14,8 +15,7 @@ import com.example.bbank.presentation.adapters.NewsAdapter
 import com.example.bbank.presentation.utils.VerticalItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -35,8 +35,8 @@ internal class NewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onStartNewsFragment()
-        observeNewsEvent()
         setupNewsRv()
+        observeNewsEvent()
     }
 
     private fun onStartNewsFragment() {
@@ -67,8 +67,8 @@ internal class NewsFragment : Fragment() {
     }
 
     private fun observeNewsEvent() {
-        CoroutineScope(Dispatchers.Main).launch {
-            newsViewModel.newsFlow().collect {
+        lifecycleScope.launch {
+            newsViewModel.newsFlow().collectLatest {
                 processNewsEvent(it)
             }
         }
@@ -95,8 +95,7 @@ internal class NewsFragment : Fragment() {
     }
 
     private fun handleSuccess(news: List<News>) {
-        val shuffledNews = news.shuffled().take(5)
-        (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(shuffledNews)
+        (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(news)
     }
 
     private fun handleError(error: String) {

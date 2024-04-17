@@ -6,8 +6,8 @@ import com.example.bbank.domain.models.Department
 import com.example.bbank.domain.use_cases.GetLocalUseCase
 import com.example.bbank.domain.use_cases.GetRemoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,7 +18,15 @@ internal class DepartmentsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _departmentsFlow = MutableStateFlow<DepartmentsEvent>(DepartmentsEvent.Unspecified)
-    internal fun departmentsFlow(): Flow<DepartmentsEvent> = _departmentsFlow
+    internal fun departmentsFlow(): StateFlow<DepartmentsEvent> = _departmentsFlow
+
+    private val _cityFlow = MutableStateFlow<DepartmentsEvent>(DepartmentsEvent.Unspecified)
+    internal fun cityFlow(): StateFlow<DepartmentsEvent> = _cityFlow
+
+    init {
+        getCurrentCity()
+        getLocalDepartmentsByCity()
+    }
 
     internal fun getRemoteDepartmentsByCity(city: String) {
         viewModelScope.launch {
@@ -41,6 +49,7 @@ internal class DepartmentsViewModel @Inject constructor(
                 val cityName = getLocalUseCase.getCurrentCity()
                 val departments = getLocalUseCase.getLocalDepartmentsByCity(cityName)
                 eventHolder(DepartmentsEvent.DepartmentsSuccess(departments))
+                eventHolder(DepartmentsEvent.CitySuccess(cityName))
                 getLocalUseCase.deleteAllCurrencyRates()
                 getLocalUseCase.saveToLocalCurrencyRates(departments)
             } catch (e: Exception) {
@@ -63,7 +72,9 @@ internal class DepartmentsViewModel @Inject constructor(
 
     private fun eventHolder(event: DepartmentsEvent) {
         viewModelScope.launch {
-            _departmentsFlow.emit(event)
+            if (event is DepartmentsEvent.CitySuccess) {
+                _cityFlow.emit(event)
+            } else _departmentsFlow.emit((event))
         }
     }
 

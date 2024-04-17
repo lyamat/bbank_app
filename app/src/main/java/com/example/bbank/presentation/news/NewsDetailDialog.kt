@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.bumptech.glide.Glide
 import com.example.bbank.R
 import com.example.bbank.databinding.NewsDetailDialogBinding
 import com.example.bbank.domain.models.News
 
 internal class NewsDetailDialog : DialogFragment() {
     private lateinit var chosenNews: News
-
     private lateinit var binding: NewsDetailDialogBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,23 +43,26 @@ internal class NewsDetailDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
-            tbNewsDetail.setNavigationOnClickListener { dismiss() }
-            tbNewsDetail.setTitle(chosenNews.nameRu) // title from news object
-            tbNewsDetail.setOnMenuItemClickListener {
-                dismiss()
-                true
-            }
+        setupWebView()
+    }
 
-            Glide.with(view).load(chosenNews.img).into(ivChosenNewsImage)
-            tvNewsDetailDate.text = chosenNews.startDate
-            tvNewsDetailLink.text = chosenNews.link
-            tvNewsText.text = chosenNews.htmlRu
+    private fun setupWebView() {
+        binding.apply {
+            val webView: WebView = binding.newsDetailsWebView
+            webView.settings.javaScriptEnabled = false
+            webView.webViewClient = WebViewClient()
+            webView.loadDataWithBaseURL(
+                null,
+                getString(R.string.html_image_style) + chosenNews.htmlRu,
+                "text/html",
+                "UTF-8",
+                null
+            )
         }
     }
 
     internal companion object {
-        const val TAG = "news_detail_dialog"
+        private const val TAG = "news_detail_dialog"
         fun display(fragmentManager: FragmentManager?, chosenNews: News): NewsDetailDialog {
             val exampleDialog = NewsDetailDialog()
             exampleDialog.chosenNews = chosenNews

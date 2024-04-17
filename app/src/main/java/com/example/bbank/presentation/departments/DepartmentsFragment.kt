@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
@@ -14,8 +15,7 @@ import com.example.bbank.domain.models.Department
 import com.example.bbank.presentation.adapters.DepartmentsAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -39,12 +39,12 @@ internal class DepartmentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onStartDepartmentsFragment()
-        observeDepartmentsEvent()
         setupDepartmentsRecyclerView()
+        observeDepartmentsEvent()
+        observeCityEvent()
     }
 
     private fun onStartDepartmentsFragment() {
-        departmentsViewModel.getCurrentCity()
         binding.apply {
             btnGetRemoteDepartments.setOnClickListener {
                 departmentsViewModel.getRemoteDepartmentsByCity("")
@@ -52,7 +52,6 @@ internal class DepartmentsFragment : Fragment() {
             btnGetLocalDepartments.setOnClickListener {
                 departmentsViewModel.getLocalDepartmentsByCity()
             }
-
             chipCity.setOnClickListener {
                 openCitySelectionDetailDialog()
             }
@@ -82,14 +81,22 @@ internal class DepartmentsFragment : Fragment() {
     }
 
     private fun observeDepartmentsEvent() {
-        CoroutineScope(Dispatchers.Main).launch {
-            departmentsViewModel.departmentsFlow().collect {
-                processDepartmentEvent(it)
+        lifecycleScope.launch {
+            departmentsViewModel.departmentsFlow().collectLatest {
+                processEvent(it)
             }
         }
     }
 
-    private fun processDepartmentEvent(departmentsEvent: DepartmentsViewModel.DepartmentsEvent) {
+    private fun observeCityEvent() {
+        lifecycleScope.launch {
+            departmentsViewModel.cityFlow().collectLatest {
+                processEvent(it)
+            }
+        }
+    }
+
+    private fun processEvent(departmentsEvent: DepartmentsViewModel.DepartmentsEvent) {
         when (departmentsEvent) {
             is DepartmentsViewModel.DepartmentsEvent.DepartmentsSuccess -> {
                 handleSuccess(departmentsEvent.departments)

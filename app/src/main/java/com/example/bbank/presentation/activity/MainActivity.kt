@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.bbank.BuildConfig
 import com.example.bbank.R
 import com.example.bbank.databinding.ActivityMainBinding
 import com.yandex.mapkit.MapKitFactory

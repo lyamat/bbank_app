@@ -29,4 +29,5 @@
     <string name="selling">Продажа</string>
     <string name="department_address">%1$s %2$s, %3$s %4$s %5$s</string>
     <string name="deps_in">Отделения в %1$s\n%2$s</string>
+    <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>
 </resources>

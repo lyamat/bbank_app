@@ -6,8 +6,8 @@ import com.example.bbank.domain.models.News
 import com.example.bbank.domain.use_cases.GetLocalUseCase
 import com.example.bbank.domain.use_cases.GetRemoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,20 +17,21 @@ internal class NewsViewModel @Inject constructor(
     private val getLocalUseCase: GetLocalUseCase,
 ) : ViewModel() {
 
-    private val _newsFlow = MutableSharedFlow<NewsEvent>()
-    internal fun newsFlow(): Flow<NewsEvent> = _newsFlow
+    private val _newsFlow = MutableStateFlow<NewsEvent>(NewsEvent.Unspecified)
+    internal fun newsFlow(): StateFlow<NewsEvent> = _newsFlow
+
+    init {
+        uploadLocalNews()
+    }
 
     internal fun uploadRemoteNews() {
         viewModelScope.launch {
-            // TODO: start progress bar
             try {
                 eventHolder(NewsEvent.Loading)
                 val news = getRemoteUseCase.getNews()
                 getLocalUseCase.deleteAllLocalNews()
                 getLocalUseCase.saveToLocalNews(news)
-                eventHolder(NewsEvent.Success(news))
-                // progress bar delay for about 4 sec
-                // stop progress bar
+                eventHolder(NewsEvent.Success(news.shuffled().take(5)))
             } catch (e: Exception) {
                 eventHolder(NewsEvent.Error(e.message.toString()))
             }
@@ -42,7 +43,7 @@ internal class NewsViewModel @Inject constructor(
             try {
                 eventHolder(NewsEvent.Loading)
                 val news = getLocalUseCase.getLocalNews()
-                eventHolder(NewsEvent.Success(news))
+                eventHolder(NewsEvent.Success(news.shuffled().take(5)))
             } catch (e: Exception) {
                 eventHolder(NewsEvent.Error(e.message.toString()))
             }
@@ -61,4 +62,3 @@ internal class NewsViewModel @Inject constructor(
         data object Loading : NewsEvent()
     }
 }
-
