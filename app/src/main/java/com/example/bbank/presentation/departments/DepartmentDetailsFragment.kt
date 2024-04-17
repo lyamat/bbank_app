@@ -84,12 +84,12 @@ internal class DepartmentDetailsFragment : Fragment() {
     private fun setMapResizeOnClickListener() {
         binding.apply {
             ivIncreaseMapView.setOnClickListener {
-                animateHeightChange(binding.mapView, dpToPx(500))
+                animateHeightChange(binding.mapLayout, dpToPx(500))
                 ivDecreaseMapView.visibility = View.VISIBLE
                 ivIncreaseMapView.visibility = View.GONE
             }
             ivDecreaseMapView.setOnClickListener {
-                animateHeightChange(binding.mapView, dpToPx(150))
+                animateHeightChange(binding.mapLayout, dpToPx(150))
                 ivDecreaseMapView.visibility = View.GONE
                 ivIncreaseMapView.visibility = View.VISIBLE
             }
@@ -132,9 +132,9 @@ internal class DepartmentDetailsFragment : Fragment() {
                 mapView.mapWindow.map.move(
                     CameraPosition(
                         Point(coordinates.first, coordinates.second),
-                        17.0f,
-                        150.0f,
-                        10.0f
+                        18.0f,
+                        0.0f,
+                        0.0f
                     )
                 )
             } else {

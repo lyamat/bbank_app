@@ -23,6 +23,9 @@ internal class DepartmentsAdapter(
     private var dayOfWeek: Int = 0
     private var currentTime: Int = 0
 
+    private var allDepartments: List<Department> = mutableListOf()
+    private var openDepartments: MutableList<Department> = mutableListOf()
+
     init {
         setCurrentTimeProperties()
     }
@@ -71,7 +74,7 @@ internal class DepartmentsAdapter(
     private fun getFullAddress(department: Department): CharSequence {
         return "${department.nameType} " +
                 "${department.name}, " +
-                "${department.streetType}, " +
+                "${department.streetType} " +
                 "${department.street}, " +
                 "${department.homeNumber}, " +
                 department.filialsText
@@ -84,9 +87,13 @@ internal class DepartmentsAdapter(
     }
 
     private fun getColorForDepartment(department: Department): Int {
-        val isOpen = isDepartmentOpen(department.infoWorktime)
-        return if (isOpen) R.color.lime_green else R.color.crimson
+        if (isDepartmentOpen(department.infoWorktime)) {
+            openDepartments.add(department)
+            return R.color.lime_green
+        }
+        return R.color.crimson
     }
+
 
     private fun isDepartmentOpen(infoWorktime: String): Boolean {
         val worktimeParts = infoWorktime.split("|")
@@ -129,7 +136,20 @@ internal class DepartmentsAdapter(
     }
 
     internal fun updateDepartments(newDepartments: List<Department>) {
+        openDepartments.clear()
+        allDepartments = newDepartments
         departments = newDepartments
+        notifyDataSetChanged()
+    }
+
+    internal fun showOnlyOpenDepartments() {
+        departments = openDepartments.toList()
+        notifyDataSetChanged()
+    }
+
+    internal fun showAllDepartments() {
+        openDepartments.clear()
+        departments = allDepartments.toList()
         notifyDataSetChanged()
     }
 }

@@ -52,6 +52,13 @@ internal class DepartmentsFragment : Fragment() {
             chipCity.setOnClickListener {
                 openCitySelectionDetailDialog()
             }
+            chipIsWorking.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    (rvDepartments.adapter as DepartmentsAdapter).showOnlyOpenDepartments()
+                } else {
+                    (rvDepartments.adapter as DepartmentsAdapter).showAllDepartments()
+                }
+            }
         }
     }
 
