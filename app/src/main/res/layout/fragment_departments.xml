@@ -202,7 +202,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clInfo"
             tools:itemCount="5"
-            tools:listitem="@layout/department_rv_item">
+            tools:listitem="@layout/item_department_rv">
 
         </androidx.recyclerview.widget.RecyclerView>
 

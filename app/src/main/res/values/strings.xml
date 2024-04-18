@@ -23,4 +23,6 @@
     <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>
     <string name="news">Новости</string>
     <string name="departments">Отделения</string>
+    <string name="text_html">text/html</string>
+    <string name="utf_8">UTF-8</string>
 </resources>

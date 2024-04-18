@@ -5,11 +5,11 @@
         android:id="@+id/newsFragment" />
 
     <item android:title="@string/departments"
-        android:icon="@drawable/ic_exchange"
+        android:icon="@drawable/ic_department"
         android:id="@+id/departmentsFragment"/>
 
     <item android:title="@string/converter"
-        android:icon="@drawable/ic_exchange"
+        android:icon="@drawable/ic_converter"
         android:id="@+id/converterFragment"/>
 
 </menu>

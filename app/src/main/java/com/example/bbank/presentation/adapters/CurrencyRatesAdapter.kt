@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bbank.databinding.CurrencyRateRvItemBinding
+import com.example.bbank.databinding.ItemCurrencyRateRvBinding
 import com.example.bbank.domain.models.Department
 import com.example.bbank.domain.models.toCurrencyRatesToByn
 import com.google.android.material.imageview.ShapeableImageView
@@ -16,10 +16,10 @@ internal class CurrencyRatesAdapter(
     private val currencyRatesToByn: List<Pair<String, Pair<String, String>>> =
         department.toCurrencyRatesToByn()
 
-    inner class CurrencyRatesViewHolder(binding: CurrencyRateRvItemBinding) :
+    inner class CurrencyRatesViewHolder(binding: ItemCurrencyRateRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tvCurrencyCode: TextView = binding.tvCurrencyCode
-        val tvCurrencyExchangeCount: TextView = binding.tvCurrencyExchangeCount
+        val tvCurrencyExchangeCount: TextView = binding.tvCurrencyExchangeCount // TODO: add
         val tvBuyRate: TextView = binding.tvBuyRate
         val tvSaleRate: TextView = binding.tvSaleRate
         val ivCurrencyImage: ShapeableImageView = binding.ivCurrencyImage
@@ -27,7 +27,7 @@ internal class CurrencyRatesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyRatesViewHolder {
         val binding =
-            CurrencyRateRvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemCurrencyRateRvBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CurrencyRatesViewHolder(binding)
     }
 

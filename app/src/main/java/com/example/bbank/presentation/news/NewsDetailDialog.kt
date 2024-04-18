@@ -9,12 +9,12 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.example.bbank.R
-import com.example.bbank.databinding.NewsDetailDialogBinding
+import com.example.bbank.databinding.DialogNewsDetailBinding
 import com.example.bbank.domain.models.News
 
 internal class NewsDetailDialog : DialogFragment() {
     private lateinit var chosenNews: News
-    private lateinit var binding: NewsDetailDialogBinding
+    private lateinit var binding: DialogNewsDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ internal class NewsDetailDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = NewsDetailDialogBinding.inflate(inflater, container, false)
+        binding = DialogNewsDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -54,8 +54,8 @@ internal class NewsDetailDialog : DialogFragment() {
             webView.loadDataWithBaseURL(
                 null,
                 getString(R.string.html_image_style) + chosenNews.htmlRu,
-                "text/html",
-                "UTF-8",
+                getString(R.string.text_html),
+                getString(R.string.utf_8),
                 null
             )
         }

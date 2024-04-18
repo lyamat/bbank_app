@@ -44,21 +44,22 @@ internal class ConverterFragment : Fragment() {
                     Pair("rub", ""),
                     Pair("usd", ""),
                     Pair("eur", "")
-                ),
-                onCurrencyValueChanged = { currencyValues, currencyCode, newValue ->
-                    handleCurrenciesValuesChanged(currencyValues, currencyCode, newValue)
-                }
+                )
+//                ,
+//                onCurrencyValueChanged = { currencyValues, currencyCode, newValue ->
+//                    handleCurrenciesValuesChanged(currencyValues, currencyCode, newValue)
+//                }
             )
         }
     }
 
-    private fun handleCurrenciesValuesChanged(
-        currencyValues: List<Pair<String, String>>,
-        currencyCode: String,
-        newValue: String
-    ) {
-        converterViewModel.updateCurrencyValue(currencyValues, currencyCode, newValue)
-    }
+//    private fun handleCurrenciesValuesChanged(
+//        currencyValues: List<Pair<String, String>>,
+//        currencyCode: String,
+//        newValue: String
+//    ) {
+//        converterViewModel.updateCurrencyValue(currencyValues, currencyCode, newValue)
+//    }
 
     private fun observeCurrenciesEvent() {
         CoroutineScope(Dispatchers.Main).launch {
@@ -83,9 +84,9 @@ internal class ConverterFragment : Fragment() {
     }
 
     private fun handleSuccess(currencyValues: List<Pair<String, String>>) {
-        (binding.currencyRecyclerView.adapter as CurrencyAdapter).updateCurrencyRates(
-            currencyValues
-        )
+//        (binding.currencyRecyclerView.adapter as CurrencyAdapter).updateCurrencyRates(
+//            currencyValues
+//        )
     }
 
     private fun handleError(error: String) {

@@ -7,7 +7,7 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bbank.databinding.CityRvItemBinding
+import com.example.bbank.databinding.ItemCityRvBinding
 import com.example.bbank.domain.models.City
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ internal class CityAdapter @Inject constructor(
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
-    inner class CityViewHolder(binding: CityRvItemBinding) :
+    inner class CityViewHolder(binding: ItemCityRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tvCity: TextView = binding.tvCity
         val rbChosenCity: RadioButton = binding.rbChosenCity
@@ -25,7 +25,7 @@ internal class CityAdapter @Inject constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
-        val binding = CityRvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemCityRvBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CityViewHolder(binding)
     }
 

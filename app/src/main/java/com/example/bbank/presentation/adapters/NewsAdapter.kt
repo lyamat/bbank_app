@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.bbank.databinding.NewsRvItemBinding
+import com.example.bbank.databinding.ItemNewsRvBinding
 import com.example.bbank.domain.models.News
 
 internal class NewsAdapter(
@@ -17,7 +17,7 @@ internal class NewsAdapter(
     private val onClick: (News) -> Unit
 ) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    inner class NewsViewHolder(binding: NewsRvItemBinding) :
+    inner class NewsViewHolder(binding: ItemNewsRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tvNewsDate: TextView = binding.tvNewsDate
         val tvNewsLink: TextView = binding.tvNewsLink
@@ -27,7 +27,7 @@ internal class NewsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        val binding = NewsRvItemBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = ItemNewsRvBinding.inflate(LayoutInflater.from(context), parent, false)
         return NewsViewHolder(binding)
     }
 

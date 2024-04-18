@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:itemCount="3"
-                tools:listitem="@layout/city_rv_item">
+                tools:listitem="@layout/item_city_rv">
 
             </androidx.recyclerview.widget.RecyclerView>
 

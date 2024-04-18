@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
-import com.example.bbank.databinding.DepartmentRvItemBinding
+import com.example.bbank.databinding.ItemDepartmentRvBinding
 import com.example.bbank.domain.models.Department
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -42,7 +42,7 @@ internal class DepartmentsAdapter(
         currentTime = currentTimeH * 60 + currentTimeM
     }
 
-    inner class DepartmentsViewHolder(binding: DepartmentRvItemBinding) :
+    inner class DepartmentsViewHolder(binding: ItemDepartmentRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tvDepartmentAddress: TextView = binding.tvDepartmentAddress
         val tvBuyRate: TextView = binding.tvBuyRate
@@ -52,7 +52,7 @@ internal class DepartmentsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DepartmentsViewHolder {
-        val binding = DepartmentRvItemBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = ItemDepartmentRvBinding.inflate(LayoutInflater.from(context), parent, false)
         return DepartmentsViewHolder(binding)
     }
 
