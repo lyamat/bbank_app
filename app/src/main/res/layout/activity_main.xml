@@ -20,12 +20,9 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
+        style="@style/BottomNavigationTheme"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:elevation="0dp"
-        app:itemPaddingBottom="10dp"
-        app:itemPaddingTop="10dp"
-        app:labelVisibilityMode="selected"
+        android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

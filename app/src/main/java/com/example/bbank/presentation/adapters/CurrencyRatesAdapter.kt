@@ -13,13 +13,14 @@ internal class CurrencyRatesAdapter(
     department: Department,
 ) : RecyclerView.Adapter<CurrencyRatesAdapter.CurrencyRatesViewHolder>() {
 
-    private val currencyRatesToByn: List<Pair<String, Pair<String, String>>> =
+    private val currencyRatesToByn: List<Triple<String, Pair<String, String>, String>> =
         department.toCurrencyRatesToByn()
 
     inner class CurrencyRatesViewHolder(binding: ItemCurrencyRateRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tvCurrencyCode: TextView = binding.tvCurrencyCode
-        val tvCurrencyExchangeCount: TextView = binding.tvCurrencyExchangeCount // TODO: add
+        val tvCurrencyExchangeDescription: TextView =
+            binding.tvCurrencyExchangeDescription // TODO: add
         val tvBuyRate: TextView = binding.tvBuyRate
         val tvSaleRate: TextView = binding.tvSaleRate
         val ivCurrencyImage: ShapeableImageView = binding.ivCurrencyImage
@@ -31,27 +32,26 @@ internal class CurrencyRatesAdapter(
         return CurrencyRatesViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return currencyRatesToByn.size
-    }
-
     override fun onBindViewHolder(holder: CurrencyRatesViewHolder, position: Int) {
         val currencyRate = currencyRatesToByn[position]
-
-        holder.ivCurrencyImage.setImageResource(setResourceId(holder, currencyRate))
-
-        holder.tvCurrencyCode.text = currencyRate.first
-        holder.tvBuyRate.text = currencyRate.second.first
-        holder.tvSaleRate.text = currencyRate.second.second
+        with(holder) {
+            tvCurrencyCode.text = currencyRate.first
+            tvBuyRate.text = currencyRate.second.first
+            tvSaleRate.text = currencyRate.second.second
+            tvCurrencyExchangeDescription.text = currencyRate.third
+            ivCurrencyImage.setImageResource(setResourceId(holder, currencyRate))
+        }
     }
 
     private fun setResourceId(
         holder: CurrencyRatesViewHolder,
-        currencyRate: Pair<String, Pair<String, String>>
+        currencyRate: Triple<String, Pair<String, String>, String>
     ): Int =
         holder.ivCurrencyImage.context.resources.getIdentifier(
             "ic_${currencyRate.first.lowercase()}",
             "drawable",
             holder.ivCurrencyImage.context.packageName
         )
+
+    override fun getItemCount(): Int = currencyRatesToByn.size
 }

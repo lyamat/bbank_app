@@ -24,7 +24,7 @@ internal class NewsViewModel @Inject constructor(
         uploadLocalNews()
     }
 
-    internal fun uploadRemoteNews() {
+    internal fun uploadRemoteNews() =
         viewModelScope.launch {
             try {
                 eventHolder(NewsEvent.Loading)
@@ -36,9 +36,8 @@ internal class NewsViewModel @Inject constructor(
                 eventHolder(NewsEvent.Error(e.message.toString()))
             }
         }
-    }
 
-    private fun uploadLocalNews() {
+    private fun uploadLocalNews() =
         viewModelScope.launch {
             try {
                 eventHolder(NewsEvent.Loading)
@@ -49,7 +48,6 @@ internal class NewsViewModel @Inject constructor(
             }
 
         }
-    }
 
     private fun eventHolder(event: NewsEvent) = viewModelScope.launch {
         _newsFlow.emit(event)

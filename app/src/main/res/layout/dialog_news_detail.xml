@@ -30,10 +30,10 @@
         android:layout_marginBottom="10dp"
         android:clickable="false"
         android:focusable="false"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tbNewsDetailLayout"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tbNewsDetailLayout">
 
     </WebView>
 

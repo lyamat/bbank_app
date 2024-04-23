@@ -19,16 +19,29 @@ internal class DepartmentsViewModel @Inject constructor(
 
     private val _departmentsFlow = MutableStateFlow<DepartmentsEvent>(DepartmentsEvent.Unspecified)
     internal fun departmentsFlow(): StateFlow<DepartmentsEvent> = _departmentsFlow
-
     private val _cityFlow = MutableStateFlow<DepartmentsEvent>(DepartmentsEvent.Unspecified)
     internal fun cityFlow(): StateFlow<DepartmentsEvent> = _cityFlow
 
     init {
-        getCurrentCity()
         getLocalDepartmentsByCity()
     }
 
-    internal fun getRemoteDepartmentsByCity(city: String) {
+    internal fun getLocalDepartmentsByCity() {
+        viewModelScope.launch {
+            try {
+                eventHolder(DepartmentsEvent.Loading)
+                val cityName = getLocalUseCase.getCurrentCity()
+                val departments = getLocalUseCase.getLocalDepartmentsByCity(cityName)
+                eventHolder(DepartmentsEvent.DepartmentsSuccess(departments))
+                getLocalUseCase.deleteAllCurrencyRates()
+                getLocalUseCase.saveToLocalCurrencyRates(departments)
+            } catch (e: Exception) {
+                eventHolder(DepartmentsEvent.Error(e.message.toString()))
+            }
+        }
+    }
+
+    internal fun getRemoteDepartmentsByCity(city: String) =
         viewModelScope.launch {
             try {
                 eventHolder(DepartmentsEvent.Loading)
@@ -40,43 +53,24 @@ internal class DepartmentsViewModel @Inject constructor(
                 eventHolder(DepartmentsEvent.Error(e.message.toString()))
             }
         }
-    }
 
-    internal fun getLocalDepartmentsByCity() {
+    internal fun saveCity(cityName: String) =
         viewModelScope.launch {
             try {
                 eventHolder(DepartmentsEvent.Loading)
-                val cityName = getLocalUseCase.getCurrentCity()
-                val departments = getLocalUseCase.getLocalDepartmentsByCity(cityName)
-                eventHolder(DepartmentsEvent.DepartmentsSuccess(departments))
-                eventHolder(DepartmentsEvent.CitySuccess(cityName))
-                getLocalUseCase.deleteAllCurrencyRates()
-                getLocalUseCase.saveToLocalCurrencyRates(departments)
-            } catch (e: Exception) {
-                eventHolder(DepartmentsEvent.Error(e.message.toString()))
-            }
-        }
-    }
-
-    private fun getCurrentCity() {
-        viewModelScope.launch {
-            try {
-                eventHolder(DepartmentsEvent.Loading)
-                val cityName = getLocalUseCase.getCurrentCity()
+                getLocalUseCase.saveCurrentCity(cityName)
                 eventHolder(DepartmentsEvent.CitySuccess(cityName))
             } catch (e: Exception) {
                 eventHolder(DepartmentsEvent.Error(e.message.toString()))
             }
         }
-    }
 
-    private fun eventHolder(event: DepartmentsEvent) {
+    private fun eventHolder(event: DepartmentsEvent) =
         viewModelScope.launch {
             if (event is DepartmentsEvent.CitySuccess) {
                 _cityFlow.emit(event)
             } else _departmentsFlow.emit((event))
         }
-    }
 
     internal sealed class DepartmentsEvent {
         data object Unspecified : DepartmentsEvent()

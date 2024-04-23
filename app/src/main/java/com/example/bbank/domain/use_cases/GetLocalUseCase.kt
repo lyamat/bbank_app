@@ -54,7 +54,15 @@ internal class GetLocalUseCase @Inject constructor(
     suspend fun deleteAllCurrencyRates() =
         localRepository.deleteAllCurrencyRates()
 
-    suspend fun getCurrentCity() =
+    suspend fun getCurrentCity(): String =
         localRepository.getCurrentCity()
 
+    suspend fun saveCurrentCity(cityName: String) =
+        localRepository.saveCurrentCity(cityName)
+
+    suspend fun getCurrencyValues(): List<Pair<String, String>> =
+        localRepository.getCurrencyValues()
+
+    suspend fun setCurrencyValues(currencyValues: List<Pair<String, String>>) =
+        localRepository.setCurrencyValues(currencyValues)
 }

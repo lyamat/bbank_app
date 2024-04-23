@@ -9,9 +9,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.databinding.ItemCityRvBinding
 import com.example.bbank.domain.models.City
-import javax.inject.Inject
 
-internal class CityAdapter @Inject constructor(
+internal class CityAdapter(
     private val cities: List<City>,
     private val sharedPreferences: SharedPreferences,
     private val onClick: (String) -> Unit
@@ -31,21 +30,20 @@ internal class CityAdapter @Inject constructor(
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
         val city = cities[position]
-
-        setOnCityClick(holder.cityCardView, position)
-        holder.tvCity.text = city.cityName
-        holder.rbChosenCity.isChecked = isChosenCityEqualsCurrentCity(city.cityName)
+        with(holder) {
+            tvCity.text = city.cityName
+            rbChosenCity.isChecked = isChosenCityEqualsCurrentCity(city.cityName)
+            setOnCityClick(cityCardView, position)
+        }
     }
 
-    private fun isChosenCityEqualsCurrentCity(cityName: String): Boolean {
-        return cityName == sharedPreferences.getString("currentCity", "")
-    }
+    private fun isChosenCityEqualsCurrentCity(cityName: String): Boolean =
+        cityName == sharedPreferences.getString("currentCity", "")
 
-    private fun setOnCityClick(cityCardView: CardView, position: Int) {
+    private fun setOnCityClick(cityCardView: CardView, position: Int) =
         cityCardView.setOnClickListener {
             onClick(cities[position].cityName)
         }
-    }
 
     override fun getItemCount() = cities.size
 }

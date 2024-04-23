@@ -53,12 +53,11 @@ internal class CitySelectionDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupCitySelectionDialog()
         setupCitiesRecyclerView()
     }
 
-    private fun setupCitySelectionDialog() {
+    private fun setupCitySelectionDialog() =
         binding.apply {
             tbCitySelection.setNavigationOnClickListener { dismiss() }
             tbCitySelection.setTitle(getString(R.string.city_selection_dialog))
@@ -67,9 +66,8 @@ internal class CitySelectionDialog : DialogFragment() {
                 true
             }
         }
-    }
 
-    private fun setupCitiesRecyclerView() {
+    private fun setupCitiesRecyclerView() =
         binding.rvCities.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = CityAdapter(
@@ -78,11 +76,10 @@ internal class CitySelectionDialog : DialogFragment() {
                 onClick = { cityName -> processCityClick(cityName) }
             )
         }
-    }
 
     private fun processCityClick(cityName: String) {
-        sharedPreferences.edit().putString("currentCity", cityName).apply()
-        departmentsViewModel.getLocalDepartmentsByCity()
+//        sharedPreferences.edit().putString("currentCity", cityName).apply()
+        departmentsViewModel.saveCity(cityName)
         dialog?.dismiss()
     }
 

@@ -44,7 +44,7 @@ internal class DepartmentsFragment : Fragment() {
         observeCityEvent()
     }
 
-    private fun onStartDepartmentsFragment() {
+    private fun onStartDepartmentsFragment() =
         binding.apply {
             btnGetRemoteDepartments.setOnClickListener {
                 departmentsViewModel.getRemoteDepartmentsByCity("")
@@ -60,47 +60,40 @@ internal class DepartmentsFragment : Fragment() {
                 }
             }
         }
-    }
 
-    private fun setupDepartmentsRecyclerView() {
+    private fun setupDepartmentsRecyclerView() =
         binding.rvDepartments.apply {
             layoutManager =
                 LinearLayoutManager(requireContext())
             adapter = DepartmentsAdapter(
-                context = requireContext(),
                 departments = emptyList(),
                 onClick = {
                     val b = Bundle().apply { putParcelable("department", it) }
                     findNavController().navigate(
-                        R.id.action_departmentsFragment_to_departmentDetails,
-                        b
+                        R.id.action_departmentsFragment_to_departmentDetails, b
                     )
                 }
             )
         }
-    }
 
-    private fun openCitySelectionDetailDialog() {
+    private fun openCitySelectionDetailDialog() =
         CitySelectionDialog.display(getParentFragmentManager(), requireContext())
-    }
 
-    private fun observeDepartmentsEvent() {
+    private fun observeDepartmentsEvent() =
         lifecycleScope.launch {
             departmentsViewModel.departmentsFlow().collectLatest {
                 processEvent(it)
             }
         }
-    }
 
-    private fun observeCityEvent() {
+    private fun observeCityEvent() =
         lifecycleScope.launch {
             departmentsViewModel.cityFlow().collectLatest {
                 processEvent(it)
             }
         }
-    }
 
-    private fun processEvent(departmentsEvent: DepartmentsViewModel.DepartmentsEvent) {
+    private fun processEvent(departmentsEvent: DepartmentsViewModel.DepartmentsEvent) =
         when (departmentsEvent) {
             is DepartmentsViewModel.DepartmentsEvent.DepartmentsSuccess -> {
                 handleSuccess(departmentsEvent.departments)
@@ -123,10 +116,12 @@ internal class DepartmentsFragment : Fragment() {
 
             else -> Unit
         }
-    }
 
     private fun handleCitySuccess(cityName: String) {
-        binding.chipCity.text = cityName
+        binding.apply {
+            chipCity.text = cityName
+        }
+        departmentsViewModel.getLocalDepartmentsByCity()
     }
 
     private fun handleSuccess(departments: List<Department>) {
@@ -145,11 +140,10 @@ internal class DepartmentsFragment : Fragment() {
         }
     }
 
-    private fun handleError(error: String) {
+    private fun handleError(error: String) =
         Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()
-    }
 
     private fun hideLoading() {
         binding.progressIndicatorDepartments.visibility = View.GONE

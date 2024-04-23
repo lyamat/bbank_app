@@ -1,7 +1,5 @@
 package com.example.bbank.domain.models
 
-import com.example.bbank.data.local.currency_rates.CurrencyRatesEntity
-
 internal data class CurrencyRates(
     val usdIn: String,
     val usdOut: String,
@@ -40,43 +38,3 @@ internal data class CurrencyRates(
     val nokIn: String,
     val nokOut: String
 )
-
-internal fun CurrencyRates.toCurrencyRatesEntity() =
-    CurrencyRatesEntity(
-        usdIn = usdIn,
-        usdOut = usdOut,
-        eurIn = eurIn,
-        eurOut = eurOut,
-        rubIn = rubIn,
-        rubOut = rubOut,
-        gbpIn = gbpIn,
-        gbpOut = gbpOut,
-        cadIn = cadIn,
-        cadOut = cadOut,
-        plnIn = plnIn,
-        plnOut = plnOut,
-        sekIn = sekIn,
-        sekOut = sekOut,
-        chfIn = chfIn,
-        chfOut = chfOut,
-        usdEurIn = usdEurIn,
-        usdEurOut = usdEurOut,
-        usdRubIn = usdRubIn,
-        usdRubOut = usdRubOut,
-        rubEurIn = rubEurIn,
-        rubEurOut = rubEurOut,
-        jpyIn = jpyIn,
-        jpyOut = jpyOut,
-        cnyIn = cnyIn,
-        cnyOut = cnyOut,
-        cnyEurIn = cnyEurIn,
-        cnyEurOut = cnyEurOut,
-        cnyUsdIn = cnyUsdIn,
-        cnyUsdOut = cnyUsdOut,
-        cnyRubIn = cnyRubIn,
-        cnyRubOut = cnyRubOut,
-        czkIn = czkIn,
-        czkOut = czkOut,
-        nokIn = nokIn,
-        nokOut = nokOut
-    )

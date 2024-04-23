@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bbank.domain.use_cases.GetLocalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,23 +15,45 @@ internal class ConverterViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _currenciesFlow = MutableStateFlow<CurrenciesEvent>(CurrenciesEvent.Unspecified)
-    internal fun currenciesFlow(): Flow<CurrenciesEvent> = _currenciesFlow
+    internal fun currenciesFlow(): StateFlow<CurrenciesEvent> = _currenciesFlow
 
-//    internal fun updateCurrencyValue(
-//        currencyValues: List<Pair<String, String>>,
-//        currencyCode: String,
-//        newValue: String
-//    ) {
-//        viewModelScope.launch {
-//            try {
-//                eventHolder(CurrenciesEvent.Loading)
-//                val updatedCurrencies = getNewCurrencyValues(currencyValues, currencyCode, newValue)
-//                eventHolder(CurrenciesEvent.CurrenciesSuccess(updatedCurrencies))
-//            } catch (e: Exception) {
-//                eventHolder(CurrenciesEvent.Error(e.message.toString()))
-//            }
-//        }
-//    }
+    internal fun setCurrencyValues(currencyValues: List<Pair<String, String>>) {
+        viewModelScope.launch {
+            try {
+                eventHolder(CurrenciesEvent.Loading)
+                getLocalUseCase.setCurrencyValues(currencyValues)
+                eventHolder(CurrenciesEvent.CurrenciesSuccess(currencyValues))
+            } catch (e: Exception) {
+                eventHolder(CurrenciesEvent.Error(e.message.toString()))
+            }
+        }
+    }
+
+    internal fun getCurrencyValues(callback: (List<Pair<String, String>>) -> Unit) {
+        viewModelScope.launch {
+            try {
+                eventHolder(CurrenciesEvent.Loading)
+                val currencyValues = getLocalUseCase.getCurrencyValues()
+                callback(currencyValues)
+            } catch (e: Exception) {
+                eventHolder(CurrenciesEvent.Error(e.message.toString()))
+            }
+        }
+    }
+
+    private fun eventHolder(event: CurrenciesEvent) =
+        viewModelScope.launch {
+            _currenciesFlow.emit(event)
+        }
+
+    internal sealed class CurrenciesEvent {
+        data object Unspecified : CurrenciesEvent()
+        data class CurrenciesSuccess(val currencyValues: List<Pair<String, String>>) :
+            CurrenciesEvent()
+
+        data class Error(val message: String) : CurrenciesEvent()
+        data object Loading : CurrenciesEvent()
+    }
 
 //    private fun getNewCurrencyValues(
 //        currencyValues: List<Pair<String, String>>,
@@ -64,19 +86,4 @@ internal class ConverterViewModel @Inject constructor(
 //            else -> 1.0
 //        }
 //    }
-
-    private fun eventHolder(event: CurrenciesEvent) {
-        viewModelScope.launch {
-            _currenciesFlow.emit(event)
-        }
-    }
-
-    internal sealed class CurrenciesEvent {
-        data object Unspecified : CurrenciesEvent()
-        data class CurrenciesSuccess(val currencyValues: List<Pair<String, String>>) :
-            CurrenciesEvent()
-
-        data class Error(val message: String) : CurrenciesEvent()
-        data object Loading : CurrenciesEvent()
-    }
 }

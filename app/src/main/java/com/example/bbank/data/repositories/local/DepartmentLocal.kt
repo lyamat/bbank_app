@@ -7,5 +7,5 @@ internal interface DepartmentLocal {
     suspend fun getLocalDepartmentById(id: Long): DepartmentEntity?
     suspend fun getLocalDepartmentsByCity(cityName: String): List<DepartmentEntity>?
     suspend fun saveToLocalDepartments(departmentEntity: DepartmentEntity)
-    suspend fun deleteAllLocalDepartments(): Unit
+    suspend fun deleteAllLocalDepartments()
 }

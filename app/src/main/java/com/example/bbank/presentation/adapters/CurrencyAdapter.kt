@@ -2,18 +2,22 @@ package com.example.bbank.presentation.adapters
 
 import android.text.InputFilter
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bbank.R
 import com.example.bbank.databinding.ItemCurrencyRvBinding
 import com.example.bbank.presentation.utils.DecimalDigitsInputFilter
+import com.google.android.material.card.MaterialCardView
 import java.util.Locale
-import javax.inject.Inject
 
-internal class CurrencyAdapter @Inject constructor(
-    private var currencyRates: List<Pair<String, String>>
+internal class CurrencyAdapter(
+    private var currencyValues: List<Pair<String, String>>
 ) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>() {
 
     private var savedPosition = -1
@@ -23,6 +27,9 @@ internal class CurrencyAdapter @Inject constructor(
     ) : RecyclerView.ViewHolder(binding.root) {
         val etCurrencyValue: EditText = binding.etCurrencyValue
         val ivCurrency: ImageView = binding.ivCurrency
+        val tvCurrencyCode: TextView = binding.tvCurrencyCode
+        val cvCurrency: MaterialCardView = binding.cvCurrency
+        val btnClear: ImageView = binding.btnClear
     }
 
     override fun onCreateViewHolder(
@@ -34,43 +41,83 @@ internal class CurrencyAdapter @Inject constructor(
     }
 
     override fun onBindViewHolder(holder: CurrencyViewHolder, position: Int) {
-        holder.setIsRecyclable(false)
+        val currency = currencyValues[position]
+        with(holder) {
+            setIsRecyclable(false)
+            etCurrencyValue.setText(currency.second)
+            tvCurrencyCode.text = currency.first.uppercase(Locale.ROOT)
+            etCurrencyValue.filters = arrayOf<InputFilter>(DecimalDigitsInputFilter())
+            ivCurrency.setImageResource(setResourceId(holder, currency))
+            setupItem(holder, position)
+            setCurrencyValueTextChangedListener(etCurrencyValue, position)
+            setCurrencyValueOnFocusChangeListener(holder)
+            setBtnClearOnClickListener(holder.btnClear, position)
+        }
+    }
 
-        val currency = currencyRates[position]
+    private fun setupItem(holder: CurrencyViewHolder, position: Int) {
+        with(holder) {
+            if (position == savedPosition) {
+                etCurrencyValue.requestFocus()
+                etCurrencyValue.setSelection(etCurrencyValue.text.length)
+                setCurrencyViewAppearance(holder, R.color.lime_green, 6, View.VISIBLE)
+            } else {
+                setCurrencyViewAppearance(holder, R.color.gray, 1, View.GONE)
+            }
+        }
+    }
 
-        holder.etCurrencyValue.setText(currency.second)
-        holder.ivCurrency.setImageResource(setResourceId(holder, currency))
+    private fun setCurrencyValueTextChangedListener(etCurrencyValue: EditText, position: Int) {
+        etCurrencyValue.doAfterTextChanged { it ->
+            if (etCurrencyValue.hasFocus() && it.toString().isNotEmpty() && it.toString() != ".") {
+                val newValue = it.toString()
+                val newCurrencyValues =
+                    getNewCurrencyValues(currencyValues, currencyValues[position].first, newValue)
+                savedPosition = position
+                updateCurrencyValues(newCurrencyValues)
+            }
+            if (it.toString().isEmpty()) {
+                updateCurrencyValues(currencyValues.map { Pair(it.first, "") })
+            }
+        }
+    }
 
-        setSelectionForEditText(holder.etCurrencyValue, position)
-        holder.etCurrencyValue.filters = arrayOf<InputFilter>(DecimalDigitsInputFilter())
-        setCurrencyValueTextChangedListener(holder.etCurrencyValue, position)
+    private fun setCurrencyValueOnFocusChangeListener(holder: CurrencyViewHolder) {
+        with(holder) {
+            etCurrencyValue.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    setCurrencyViewAppearance(this, R.color.lime_green, 6, View.VISIBLE)
+                } else {
+                    setCurrencyViewAppearance(this, R.color.gray, 1, View.GONE)
+                }
+            }
+        }
+    }
+
+    private fun setCurrencyViewAppearance(
+        holder: CurrencyViewHolder,
+        strokeColor: Int,
+        strokeWidth: Int,
+        btnClearVisibility: Int
+    ) {
+        with(holder) {
+            cvCurrency.strokeColor = ContextCompat.getColor(holder.cvCurrency.context, strokeColor)
+            cvCurrency.strokeWidth = strokeWidth
+            btnClear.visibility = btnClearVisibility
+        }
+    }
+
+    private fun setBtnClearOnClickListener(btnClear: ImageView, position: Int) {
+        btnClear.setOnClickListener {
+            savedPosition = position
+            updateCurrencyValues(currencyValues.map { Pair(it.first, "") })
+        }
     }
 
     private fun setResourceId(holder: CurrencyViewHolder, currency: Pair<String, String>): Int =
         holder.ivCurrency.context.resources.getIdentifier(
             "ic_${currency.first}", "drawable", holder.ivCurrency.context.packageName
         )
-
-    private fun setSelectionForEditText(view: EditText, position: Int) {
-        if (position == savedPosition) {
-            view.requestFocus()
-            view.setSelection(view.text.length)
-        }
-    }
-
-    private fun setCurrencyValueTextChangedListener(etCurrencyValue: EditText, position: Int) {
-        etCurrencyValue.doAfterTextChanged {
-            if (etCurrencyValue.hasFocus() && it.toString().isNotEmpty() && it.toString() != ".") {
-                val newValue = it.toString()
-                val newCurrencyValues =
-                    getNewCurrencyValues(currencyRates, currencyRates[position].first, newValue)
-                savedPosition = position
-                updateCurrencyRates(newCurrencyValues)
-            }
-        }
-    }
-
-    override fun getItemCount() = currencyRates.size
 
     // TODO: move to domain layer OR add in adapter constructor val conversionRates
     private fun getNewCurrencyValues(
@@ -101,8 +148,13 @@ internal class CurrencyAdapter @Inject constructor(
         }
     }
 
-    private fun updateCurrencyRates(newCurrencyRates: List<Pair<String, String>>) {
-        currencyRates = newCurrencyRates.toList()
+    internal fun updateCurrencyValues(newCurrencyValues: List<Pair<String, String>>) {
+        currencyValues = newCurrencyValues.toList()
         notifyDataSetChanged()
     }
+
+    internal fun getCurrentCurrencyValues() = currencyValues
+
+    override fun getItemCount() = currencyValues.size
+
 }

@@ -46,7 +46,7 @@ internal class NewsDetailDialog : DialogFragment() {
         setupWebView()
     }
 
-    private fun setupWebView() {
+    private fun setupWebView() =
         binding.apply {
             val webView: WebView = binding.newsDetailsWebView
             webView.settings.javaScriptEnabled = false
@@ -59,7 +59,6 @@ internal class NewsDetailDialog : DialogFragment() {
                 null
             )
         }
-    }
 
     internal companion object {
         private const val TAG = "news_detail_dialog"

@@ -6,5 +6,5 @@ internal interface NewsLocal {
     suspend fun getLocalNews(): List<NewsEntity>?
     suspend fun getLocalNewsById(id: Long): NewsEntity?
     suspend fun saveToLocalNews(newsEntity: NewsEntity)
-    suspend fun deleteAllLocalNews(): Unit
+    suspend fun deleteAllLocalNews()
 }

@@ -39,39 +39,34 @@ internal class NewsFragment : Fragment() {
         observeNewsEvent()
     }
 
-    private fun onStartNewsFragment() {
+    private fun onStartNewsFragment() =
         binding.apply {
             btnGetRemoteNews.setOnClickListener {
                 newsViewModel.uploadRemoteNews()
             }
         }
-    }
 
-    private fun openNewsDetailDialog(news: News) {
+    private fun openNewsDetailDialog(news: News) =
         NewsDetailDialog.display(getParentFragmentManager(), news)
-    }
 
-    private fun setupNewsRv() {
+    private fun setupNewsRv() =
         binding.rvNews.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = NewsAdapter(
-                context = requireContext(),
                 news = emptyList(),
                 onClick = { news -> openNewsDetailDialog(news) }
             )
             addItemDecoration(VerticalItemDecoration())
         }
-    }
 
-    private fun observeNewsEvent() {
+    private fun observeNewsEvent() =
         lifecycleScope.launch {
             newsViewModel.newsFlow().collectLatest {
                 processNewsEvent(it)
             }
         }
-    }
 
-    private fun processNewsEvent(newsEvent: NewsViewModel.NewsEvent) {
+    private fun processNewsEvent(newsEvent: NewsViewModel.NewsEvent) =
         when (newsEvent) {
             is NewsViewModel.NewsEvent.Success -> {
                 handleSuccess(newsEvent.news)
@@ -89,17 +84,14 @@ internal class NewsFragment : Fragment() {
 
             else -> Unit
         }
-    }
 
-    private fun handleSuccess(news: List<News>) {
+    private fun handleSuccess(news: List<News>) =
         (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(news)
-    }
 
-    private fun handleError(error: String) {
+    private fun handleError(error: String) =
         Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()
-    }
 
     private fun hideLoading() {
         binding.progressIndicatorNews.visibility = View.GONE

@@ -75,12 +75,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/bank_sale" />
 
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Entry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Еще что-то" />
-
             </com.google.android.material.chip.ChipGroup>
 
         </HorizontalScrollView>
@@ -95,6 +89,19 @@
             app:layout_constraintTop_toBottomOf="@id/chipsConverter"
             tools:itemCount="2"
             tools:listitem="@layout/item_currency_rv" />
+
+        <Button
+            android:id="@+id/btnAddCurrency"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="@string/add_currency"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideLine96Vertical"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideLine4Vertical"
+            app:layout_constraintTop_toBottomOf="@+id/currencyRecyclerView" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/rightGuideLine96Vertical"

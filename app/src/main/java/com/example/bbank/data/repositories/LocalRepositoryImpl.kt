@@ -62,4 +62,15 @@ internal class LocalRepositoryImpl @Inject constructor(
 
     override suspend fun getCurrentCity(): String =
         sharedPreferencesLocal.getCurrentCity()
+
+    override suspend fun saveCurrentCity(cityName: String) {
+        sharedPreferencesLocal.saveCurrentCity(cityName)
+    }
+
+    override suspend fun getCurrencyValues(): List<Pair<String, String>> =
+        sharedPreferencesLocal.getCurrencyValues()
+
+    override suspend fun setCurrencyValues(currencyValues: List<Pair<String, String>>) {
+        sharedPreferencesLocal.setCurrencyValues(currencyValues)
+    }
 }

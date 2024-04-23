@@ -1,6 +1,5 @@
 package com.example.bbank.presentation.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,31 +14,17 @@ import java.util.Calendar
 import java.util.Locale
 
 internal class DepartmentsAdapter(
-    private val context: Context,
     private var departments: List<Department>,
     private val onClick: (Department) -> Unit
 ) : RecyclerView.Adapter<DepartmentsAdapter.DepartmentsViewHolder>() {
 
     private var dayOfWeek: Int = 0
     private var currentTime: Int = 0
-
     private var allDepartments: List<Department> = mutableListOf()
     private var openDepartments: MutableList<Department> = mutableListOf()
 
     init {
         setCurrentTimeProperties()
-    }
-
-    private fun setCurrentTimeProperties() {
-        val calendar = Calendar.getInstance()
-        dayOfWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
-            Calendar.SUNDAY -> 7
-            else -> calendar.get(Calendar.DAY_OF_WEEK) - 1
-        }
-        val (currentTimeH, currentTimeM) = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
-            calendar.time
-        ).split(":").map { it.toIntOrNull() ?: 0 }
-        currentTime = currentTimeH * 60 + currentTimeM
     }
 
     inner class DepartmentsViewHolder(binding: ItemDepartmentRvBinding) :
@@ -52,48 +37,41 @@ internal class DepartmentsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DepartmentsViewHolder {
-        val binding = ItemDepartmentRvBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding =
+            ItemDepartmentRvBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DepartmentsViewHolder(binding)
-    }
-
-    override fun getItemCount(): Int {
-        return departments.size
     }
 
     override fun onBindViewHolder(holder: DepartmentsViewHolder, position: Int) {
         val department = departments[position]
-
-        setDepartmentsCardViewClick(holder.departmentsCardView, position)
-
-        holder.departmentAccessibility.setBackgroundResource(getColorForDepartment(department))
-        holder.tvDepartmentAddress.text = getFullAddress(department)
-        holder.tvBuyRate.text = department.usdOut
-        holder.tvSaleRate.text = department.usdIn
+        with(holder) {
+            tvDepartmentAddress.text = getFullAddress(department)
+            tvBuyRate.text = department.usdOut
+            tvSaleRate.text = department.usdIn
+            setDepartmentsCardViewClick(departmentsCardView, position)
+            departmentAccessibility.setBackgroundResource(getColorForDepartment(department))
+        }
     }
 
-    private fun getFullAddress(department: Department): CharSequence {
-        return "${department.nameType} " +
+    private fun getFullAddress(department: Department): CharSequence =
+        "${department.nameType} " +
                 "${department.name}, " +
                 "${department.streetType} " +
                 "${department.street}, " +
                 "${department.homeNumber}, " +
                 department.filialsText
-    }
 
-    private fun setDepartmentsCardViewClick(departmentsCardView: CardView, position: Int) {
+    private fun setDepartmentsCardViewClick(departmentsCardView: CardView, position: Int) =
         departmentsCardView.setOnClickListener {
             onClick(departments[position])
         }
-    }
 
     private fun getColorForDepartment(department: Department): Int {
         if (isDepartmentOpen(department.infoWorktime)) {
-            openDepartments.add(department)
             return R.color.lime_green
         }
         return R.color.crimson
     }
-
 
     private fun isDepartmentOpen(infoWorktime: String): Boolean {
         val worktimeParts = infoWorktime.split("|")
@@ -113,7 +91,7 @@ internal class DepartmentsAdapter(
                 val endTimeM = parts[3].toInt()
                 val endTime = endTimeH * 60 + endTimeM
                 // If in work time
-                if (currentTime >= startTime && currentTime < endTime) {
+                if (currentTime in startTime..<endTime) {
                     //If break is exists
                     if (parts.size > 4) {
                         if (parts[4] != "00") { // get shit response from api (Пн 10 00 18 00  00  00)
@@ -125,7 +103,7 @@ internal class DepartmentsAdapter(
                             val breakEndM = parts[7].toInt()
                             val breakEnd = breakEndH * 60 + breakEndM
 
-                            return !(currentTime >= breakStart && currentTime < breakEnd)
+                            return currentTime !in breakStart..<breakEnd
                         }
                     }
                     return true
@@ -135,21 +113,39 @@ internal class DepartmentsAdapter(
         }
     }
 
+    private fun setOpenDepartments() {
+        openDepartments.addAll(allDepartments.filter { department -> isDepartmentOpen(department.infoWorktime) })
+    }
+
+    private fun setCurrentTimeProperties() {
+        val calendar = Calendar.getInstance()
+        dayOfWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
+            Calendar.SUNDAY -> 7
+            else -> calendar.get(Calendar.DAY_OF_WEEK) - 1
+        }
+        val (currentTimeH, currentTimeM) = SimpleDateFormat("HH:mm", Locale.getDefault()).format(
+            calendar.time
+        ).split(":").map { it.toIntOrNull() ?: 0 }
+        currentTime = currentTimeH * 60 + currentTimeM
+    }
+
     internal fun updateDepartments(newDepartments: List<Department>) {
         openDepartments.clear()
         allDepartments = newDepartments
+        setOpenDepartments()
         departments = newDepartments
         notifyDataSetChanged()
     }
 
     internal fun showOnlyOpenDepartments() {
-        departments = openDepartments.toList()
+        departments = openDepartments
         notifyDataSetChanged()
     }
 
     internal fun showAllDepartments() {
-        openDepartments.clear()
-        departments = allDepartments.toList()
+        departments = allDepartments
         notifyDataSetChanged()
     }
+
+    override fun getItemCount(): Int = departments.size
 }

@@ -56,16 +56,15 @@ internal class DepartmentDetailsFragment : Fragment() {
         setMapResizeOnClickListener()
     }
 
-    private fun setupCurrencyRatesRecyclerView() {
+    private fun setupCurrencyRatesRecyclerView() =
         binding.rvCurrencyBuySale.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = CurrencyRatesAdapter(
                 department = args.department
             )
         }
-    }
 
-    private fun setupFragmentViews() {
+    private fun setupFragmentViews() =
         binding.apply {
             val department = args.department
             val address = getDepartmentAddress(department)
@@ -73,15 +72,13 @@ internal class DepartmentDetailsFragment : Fragment() {
             tvDepartmentName.text = getString(R.string.oao_belarusbank, department.filialsText)
             tvUpdateTime.text = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
         }
-    }
 
-    private fun setupMapDisplay() {
+    private fun setupMapDisplay() =
         CoroutineScope(Dispatchers.Main).launch {
             setupMap()
         }
-    }
 
-    private fun setMapResizeOnClickListener() {
+    private fun setMapResizeOnClickListener() =
         binding.apply {
             ivIncreaseMapView.setOnClickListener {
                 animateHeightChange(binding.mapLayout, dpToPx(500))
@@ -94,23 +91,20 @@ internal class DepartmentDetailsFragment : Fragment() {
                 ivIncreaseMapView.visibility = View.VISIBLE
             }
         }
-    }
 
-    private fun dpToPx(dp: Int): Int {
-        val density = resources.displayMetrics.density
-        return (dp * density).roundToInt()
-    }
+    private fun dpToPx(dp: Int): Int =
+        (dp * resources.displayMetrics.density).roundToInt()
 
-    private fun animateHeightChange(view: View, toHeight: Int) {
-        val anim = ValueAnimator.ofInt(view.measuredHeight, toHeight)
-        anim.addUpdateListener { valueAnimator ->
-            val layoutParams = view.layoutParams
-            layoutParams.height = valueAnimator.animatedValue as Int
-            view.layoutParams = layoutParams
+    private fun animateHeightChange(view: View, toHeight: Int) =
+        with(ValueAnimator.ofInt(view.measuredHeight, toHeight)) {
+            addUpdateListener { valueAnimator ->
+                val layoutParams = view.layoutParams
+                layoutParams.height = valueAnimator.animatedValue as Int
+                view.layoutParams = layoutParams
+            }
+            duration = 150
+            start()
         }
-        anim.duration = 150
-        anim.start()
-    }
 
     private fun getDepartmentAddress(department: Department) = getString(
         R.string.department_address,
@@ -125,7 +119,6 @@ internal class DepartmentDetailsFragment : Fragment() {
         MapKitFactory.initialize(requireContext())
         mapView = binding.mapView
         val geocoder = Geocoder(requireContext())
-
         try {
             val coordinates = geocoder.getAddressCoordinates(getDepartmentAddress(args.department))
             if (coordinates != null) {
@@ -137,9 +130,7 @@ internal class DepartmentDetailsFragment : Fragment() {
                         0.0f
                     )
                 )
-            } else {
-                mapView.visibility = View.GONE
-            }
+            } else mapView.visibility = View.GONE
         } catch (e: Exception) {
             handleError(e.message.toString())
         }
@@ -183,9 +174,8 @@ internal class DepartmentDetailsFragment : Fragment() {
         super.onStop()
     }
 
-    private fun handleError(error: String) {
+    private fun handleError(error: String) =
         Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()
-    }
 }
