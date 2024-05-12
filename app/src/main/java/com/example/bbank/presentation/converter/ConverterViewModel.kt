@@ -2,10 +2,12 @@ package com.example.bbank.presentation.converter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bbank.domain.models.ConversionRate
+import com.example.bbank.domain.models.getConversionRates
 import com.example.bbank.domain.use_cases.GetLocalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,76 +16,63 @@ internal class ConverterViewModel @Inject constructor(
     private val getLocalUseCase: GetLocalUseCase
 ) : ViewModel() {
 
-    private val _currenciesFlow = MutableStateFlow<CurrenciesEvent>(CurrenciesEvent.Unspecified)
-    internal fun currenciesFlow(): StateFlow<CurrenciesEvent> = _currenciesFlow
+    private val _converterFlow = MutableSharedFlow<ConverterEvent>()
+    internal fun converterFlow(): SharedFlow<ConverterEvent> = _converterFlow
 
     internal fun setCurrencyValues(currencyValues: List<Pair<String, String>>) {
         viewModelScope.launch {
             try {
-                eventHolder(CurrenciesEvent.Loading)
+                eventHolder(ConverterEvent.Loading)
                 getLocalUseCase.setCurrencyValues(currencyValues)
-                eventHolder(CurrenciesEvent.CurrenciesSuccess(currencyValues))
+//                eventHolder(ConverterEvent.Unspecified)
             } catch (e: Exception) {
-                eventHolder(CurrenciesEvent.Error(e.message.toString()))
+                eventHolder(ConverterEvent.Error(e.message.toString()))
             }
         }
     }
 
-    internal fun getCurrencyValues(callback: (List<Pair<String, String>>) -> Unit) {
+    internal fun getCurrencyValues() {
         viewModelScope.launch {
             try {
-                eventHolder(CurrenciesEvent.Loading)
+                eventHolder(ConverterEvent.Loading)
                 val currencyValues = getLocalUseCase.getCurrencyValues()
-                callback(currencyValues)
+                eventHolder(ConverterEvent.CurrencyValuesSuccess(currencyValues))
             } catch (e: Exception) {
-                eventHolder(CurrenciesEvent.Error(e.message.toString()))
+                eventHolder(ConverterEvent.Error(e.message.toString()))
             }
         }
     }
 
-    private fun eventHolder(event: CurrenciesEvent) =
+    internal fun getStartDataForConverterAdapter() {
         viewModelScope.launch {
-            _currenciesFlow.emit(event)
+            try {
+                eventHolder(ConverterEvent.Loading)
+                val currencyRates = getLocalUseCase.getLocalCurrencyRates()
+                val conversionRates = currencyRates[0].getConversionRates()
+                val currencyValues = getLocalUseCase.getCurrencyValues()
+                eventHolder(ConverterEvent.AdapterDataSuccess(currencyValues, conversionRates))
+            } catch (e: Exception) {
+                eventHolder(ConverterEvent.Error(e.message.toString()))
+            }
         }
-
-    internal sealed class CurrenciesEvent {
-        data object Unspecified : CurrenciesEvent()
-        data class CurrenciesSuccess(val currencyValues: List<Pair<String, String>>) :
-            CurrenciesEvent()
-
-        data class Error(val message: String) : CurrenciesEvent()
-        data object Loading : CurrenciesEvent()
     }
 
-//    private fun getNewCurrencyValues(
-//        currencyValues: List<Pair<String, String>>,
-//        currencyCode: String,
-//        newValue: String
-//    ): List<Pair<String, String>> {
-//        return currencyValues.map { pair ->
-//            if (pair.first == currencyCode) {
-//                pair.copy(second = newValue)
-//            } else {
-//                val conversionRate = getConversionRate(currencyCode, pair.first)
-//                val newPairValue = String.format(
-//                    Locale.US,
-//                    "%.3f",
-//                    newValue.replace(',', '.').toDouble() * conversionRate
-//                )
-//                pair.copy(second = newPairValue)
-//            }
-//        }
-//    }
-//
-//    private fun getConversionRate(from: String, to: String): Double {
-//        return when {
-//            from == "usd" && to == "rub" -> 93.0
-//            from == "usd" && to == "eur" -> 0.9319
-//            from == "rub" && to == "usd" -> 0.0107
-//            from == "rub" && to == "eur" -> 0.0099
-//            from == "eur" && to == "usd" -> 1.0731
-//            from == "eur" && to == "rub" -> 100.6735
-//            else -> 1.0
-//        }
-//    }
+    private fun eventHolder(event: ConverterEvent) =
+        viewModelScope.launch {
+            _converterFlow.emit(event)
+        }
+
+    internal sealed class ConverterEvent {
+        data object Unspecified : ConverterEvent()
+        data class AdapterDataSuccess(
+            val currencyValues: List<Pair<String, String>>,
+            val conversionRates: List<ConversionRate>
+        ) : ConverterEvent()
+
+        data class CurrencyValuesSuccess(val currencyValues: List<Pair<String, String>>) :
+            ConverterEvent()
+
+        data class Error(val message: String) : ConverterEvent()
+        data object Loading : ConverterEvent()
+    }
 }

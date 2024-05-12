@@ -12,12 +12,18 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
 import com.example.bbank.databinding.ItemCurrencyRvBinding
+import com.example.bbank.domain.models.ConversionRate
 import com.example.bbank.presentation.utils.DecimalDigitsInputFilter
 import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 
 internal class CurrencyAdapter(
-    private var currencyValues: List<Pair<String, String>>
+    private var currencyValues: List<Pair<String, String>>,
+    private val conversionRates: List<ConversionRate>,
+    private var buySaleStatus: String,
+    private val onCurrencyValuesChanged: (List<Pair<String, String>>) -> Unit,
+    private val messageCallback: (String) -> Unit
+
 ) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>() {
 
     private var savedPosition = -1
@@ -69,16 +75,22 @@ internal class CurrencyAdapter(
 
     private fun setCurrencyValueTextChangedListener(etCurrencyValue: EditText, position: Int) {
         etCurrencyValue.doAfterTextChanged { it ->
-            if (etCurrencyValue.hasFocus() && it.toString().isNotEmpty() && it.toString() != ".") {
-                val newValue = it.toString()
+            if (it.toString().isEmpty()) {
+                updateCurrencyValues(currencyValues.map { Pair(it.first, "0") })
+            } else if (it.toString() != ".") {
+                val newValue = when {
+                    it.toString() == "0." -> "0."
+                    it.toString().startsWith("0.") -> it.toString()
+                    it.toString().startsWith("0") -> it.toString().substring(1)
+                    else -> it.toString()
+                }
+
                 val newCurrencyValues =
                     getNewCurrencyValues(currencyValues, currencyValues[position].first, newValue)
                 savedPosition = position
                 updateCurrencyValues(newCurrencyValues)
             }
-            if (it.toString().isEmpty()) {
-                updateCurrencyValues(currencyValues.map { Pair(it.first, "") })
-            }
+
         }
     }
 
@@ -86,7 +98,13 @@ internal class CurrencyAdapter(
         with(holder) {
             etCurrencyValue.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    setCurrencyViewAppearance(this, R.color.lime_green, 6, View.VISIBLE)
+                    if (etCurrencyValue.text.toString() == "Infinity" || etCurrencyValue.text.toString() == "NaN") {
+                        etCurrencyValue.isCursorVisible = false
+                        etCurrencyValue.clearFocus()
+                        messageCallback("Currency not available")
+                    } else {
+                        setCurrencyViewAppearance(this, R.color.lime_green, 6, View.VISIBLE)
+                    }
                 } else {
                     setCurrencyViewAppearance(this, R.color.gray, 1, View.GONE)
                 }
@@ -110,7 +128,7 @@ internal class CurrencyAdapter(
     private fun setBtnClearOnClickListener(btnClear: ImageView, position: Int) {
         btnClear.setOnClickListener {
             savedPosition = position
-            updateCurrencyValues(currencyValues.map { Pair(it.first, "") })
+            updateCurrencyValues(currencyValues.map { Pair(it.first, "0") })
         }
     }
 
@@ -119,7 +137,6 @@ internal class CurrencyAdapter(
             "ic_${currency.first}", "drawable", holder.ivCurrency.context.packageName
         )
 
-    // TODO: move to domain layer OR add in adapter constructor val conversionRates
     private fun getNewCurrencyValues(
         currencyValues: List<Pair<String, String>>, currencyCode: String, newValue: String
     ): List<Pair<String, String>> {
@@ -128,33 +145,42 @@ internal class CurrencyAdapter(
                 pair.copy(second = newValue)
             } else {
                 val conversionRate = getConversionRate(currencyCode, pair.first)
-                val newPairValue = String.format(
+                var newPairValue = String.format(
                     Locale.US, "%.2f", newValue.replace(',', '.').toDouble() * conversionRate
                 )
+                if (newPairValue == "0.00") {
+                    newPairValue = "0"
+                }
                 pair.copy(second = newPairValue)
             }
         }
     }
 
     private fun getConversionRate(from: String, to: String): Double {
-        return when {
-            from == "usd" && to == "rub" -> 93.0
-            from == "usd" && to == "eur" -> 0.9319
-            from == "rub" && to == "usd" -> 0.0107
-            from == "rub" && to == "eur" -> 0.0099
-            from == "eur" && to == "usd" -> 1.0731
-            from == "eur" && to == "rub" -> 100.6735
-            else -> 1.0
-        }
+        val conversionRate =
+            conversionRates.find { it.from == from + "_$buySaleStatus" && it.to == to + "_$buySaleStatus" }
+        return conversionRate?.rate ?: 1.0
     }
 
     internal fun updateCurrencyValues(newCurrencyValues: List<Pair<String, String>>) {
         currencyValues = newCurrencyValues.toList()
+        onCurrencyValuesChanged(newCurrencyValues)
         notifyDataSetChanged()
     }
 
-    internal fun getCurrentCurrencyValues() = currencyValues
+    internal fun showBuyRates() {
+        buySaleStatus = "in"
+        val position = if (savedPosition == -1) 0 else savedPosition
+        val currency = currencyValues[position]
+        updateCurrencyValues(getNewCurrencyValues(currencyValues, currency.first, currency.second))
+    }
+
+    internal fun showSalesRates() {
+        buySaleStatus = "out"
+        val position = if (savedPosition == -1) 0 else savedPosition
+        val currency = currencyValues[position]
+        updateCurrencyValues(getNewCurrencyValues(currencyValues, currency.first, currency.second))
+    }
 
     override fun getItemCount() = currencyValues.size
-
 }
