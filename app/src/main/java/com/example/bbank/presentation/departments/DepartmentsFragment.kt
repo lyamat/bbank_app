@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
 @AndroidEntryPoint
 internal class DepartmentsFragment : Fragment() {
     private lateinit var binding: FragmentDepartmentsBinding
@@ -118,9 +117,7 @@ internal class DepartmentsFragment : Fragment() {
         }
 
     private fun handleCitySuccess(cityName: String) {
-        binding.apply {
-            chipCity.text = cityName
-        }
+        binding.chipCity.text = cityName
         departmentsViewModel.getLocalDepartmentsByCity()
     }
 
@@ -146,10 +143,13 @@ internal class DepartmentsFragment : Fragment() {
             .show()
 
     private fun hideLoading() {
+        binding.btnGetRemoteDepartments.visibility = View.VISIBLE
         binding.progressIndicatorDepartments.visibility = View.GONE
     }
 
     private fun showLoading() {
+        binding.btnGetRemoteDepartments.visibility = View.GONE
         binding.progressIndicatorDepartments.visibility = View.VISIBLE
+        binding.btnCancelGettingRemoteDepartments.visibility = View.VISIBLE
     }
 }

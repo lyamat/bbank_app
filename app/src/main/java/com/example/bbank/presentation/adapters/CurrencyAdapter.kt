@@ -20,12 +20,11 @@ import java.util.Locale
 internal class CurrencyAdapter(
     private var currencyValues: List<Pair<String, String>>,
     private val conversionRates: List<ConversionRate>,
-    private var buySaleStatus: String,
-    private val onCurrencyValuesChanged: (List<Pair<String, String>>) -> Unit,
+//    private val onCurrencyValuesChanged: (List<Pair<String, String>>) -> Unit,
     private val messageCallback: (String) -> Unit
 
 ) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>() {
-
+    private var buySaleStatus: String = "in"
     private var savedPosition = -1
 
     inner class CurrencyViewHolder(
@@ -164,19 +163,16 @@ internal class CurrencyAdapter(
 
     internal fun updateCurrencyValues(newCurrencyValues: List<Pair<String, String>>) {
         currencyValues = newCurrencyValues.toList()
-        onCurrencyValuesChanged(newCurrencyValues)
+//        onCurrencyValuesChanged(newCurrencyValues)
         notifyDataSetChanged()
     }
 
-    internal fun showBuyRates() {
-        buySaleStatus = "in"
-        val position = if (savedPosition == -1) 0 else savedPosition
-        val currency = currencyValues[position]
-        updateCurrencyValues(getNewCurrencyValues(currencyValues, currency.first, currency.second))
+    fun getCurrencyValues(): List<Pair<String, String>> {
+        return currencyValues
     }
 
-    internal fun showSalesRates() {
-        buySaleStatus = "out"
+    internal fun showRates(status: String) {
+        buySaleStatus = status
         val position = if (savedPosition == -1) 0 else savedPosition
         val currency = currencyValues[position]
         updateCurrencyValues(getNewCurrencyValues(currencyValues, currency.first, currency.second))

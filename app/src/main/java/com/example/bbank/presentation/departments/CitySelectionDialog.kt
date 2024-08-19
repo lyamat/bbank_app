@@ -78,7 +78,6 @@ internal class CitySelectionDialog : DialogFragment() {
         }
 
     private fun processCityClick(cityName: String) {
-//        sharedPreferences.edit().putString("currentCity", cityName).apply()
         departmentsViewModel.saveCity(cityName)
         dialog?.dismiss()
     }

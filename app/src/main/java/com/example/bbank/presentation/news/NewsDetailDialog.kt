@@ -44,7 +44,13 @@ internal class NewsDetailDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupWebView()
+        setOnBackPressedButton()
     }
+
+    private fun setOnBackPressedButton() =
+        binding.tbNewsDetail.setNavigationOnClickListener {
+            dialog?.cancel()
+        }
 
     private fun setupWebView() =
         binding.apply {
@@ -61,7 +67,7 @@ internal class NewsDetailDialog : DialogFragment() {
         }
 
     internal companion object {
-        private const val TAG = "news_detail_dialog"
+        private const val TAG = "NewsDetailDialog"
         fun display(fragmentManager: FragmentManager?, chosenNews: News): NewsDetailDialog {
             val exampleDialog = NewsDetailDialog()
             exampleDialog.chosenNews = chosenNews

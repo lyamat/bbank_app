@@ -44,6 +44,9 @@ internal class NewsFragment : Fragment() {
             btnGetRemoteNews.setOnClickListener {
                 newsViewModel.uploadRemoteNews()
             }
+            btnCancelGettingRemoteNews.setOnClickListener {
+                newsViewModel.cancelRequestForNews()
+            }
         }
 
     private fun openNewsDetailDialog(news: News) =
@@ -94,12 +97,18 @@ internal class NewsFragment : Fragment() {
             .show()
 
     private fun hideLoading() {
-        binding.progressIndicatorNews.visibility = View.GONE
-        binding.btnGetRemoteNews.visibility = View.VISIBLE
+        binding.apply {
+            progressIndicatorNews.visibility = View.GONE
+            btnGetRemoteNews.visibility = View.VISIBLE
+            btnCancelGettingRemoteNews.visibility = View.GONE
+        }
     }
 
     private fun showLoading() {
-        binding.progressIndicatorNews.visibility = View.VISIBLE
-        binding.btnGetRemoteNews.visibility = View.INVISIBLE
+        binding.apply {
+            progressIndicatorNews.visibility = View.VISIBLE
+            btnGetRemoteNews.visibility = View.GONE
+            btnCancelGettingRemoteNews.visibility = View.VISIBLE
+        }
     }
 }

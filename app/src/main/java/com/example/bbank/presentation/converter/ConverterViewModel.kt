@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bbank.domain.models.ConversionRate
 import com.example.bbank.domain.models.getConversionRates
-import com.example.bbank.domain.use_cases.GetLocalUseCase
+import com.example.bbank.domain.use_cases.local.GetCurrencyValuesUseCase
+import com.example.bbank.domain.use_cases.local.GetLocalCurrencyRatesUseCase
+import com.example.bbank.domain.use_cases.local.SetCurrencyValuesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -13,18 +15,33 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class ConverterViewModel @Inject constructor(
-    private val getLocalUseCase: GetLocalUseCase
+    private val getLocalCurrencyRatesUseCase: GetLocalCurrencyRatesUseCase,
+    private val getCurrencyValuesUseCase: GetCurrencyValuesUseCase,
+    private val setCurrencyValuesUseCase: SetCurrencyValuesUseCase
 ) : ViewModel() {
 
     private val _converterFlow = MutableSharedFlow<ConverterEvent>()
     internal fun converterFlow(): SharedFlow<ConverterEvent> = _converterFlow
 
+    internal fun getDataForConverterAdapter() {
+        viewModelScope.launch {
+            try {
+                val currencyRates = getLocalCurrencyRatesUseCase()
+                if (currencyRates.isNotEmpty()) {
+                    val conversionRates = currencyRates[0].getConversionRates()
+                    val currencyValues = getCurrencyValuesUseCase()
+                    eventHolder(ConverterEvent.AdapterDataSuccess(currencyValues, conversionRates))
+                }
+            } catch (e: Exception) {
+                eventHolder(ConverterEvent.Error(e.message.toString()))
+            }
+        }
+    }
+
     internal fun setCurrencyValues(currencyValues: List<Pair<String, String>>) {
         viewModelScope.launch {
             try {
-                eventHolder(ConverterEvent.Loading)
-                getLocalUseCase.setCurrencyValues(currencyValues)
-//                eventHolder(ConverterEvent.Unspecified)
+                setCurrencyValuesUseCase(currencyValues)
             } catch (e: Exception) {
                 eventHolder(ConverterEvent.Error(e.message.toString()))
             }
@@ -35,22 +52,8 @@ internal class ConverterViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 eventHolder(ConverterEvent.Loading)
-                val currencyValues = getLocalUseCase.getCurrencyValues()
+                val currencyValues = getCurrencyValuesUseCase()
                 eventHolder(ConverterEvent.CurrencyValuesSuccess(currencyValues))
-            } catch (e: Exception) {
-                eventHolder(ConverterEvent.Error(e.message.toString()))
-            }
-        }
-    }
-
-    internal fun getStartDataForConverterAdapter() {
-        viewModelScope.launch {
-            try {
-                eventHolder(ConverterEvent.Loading)
-                val currencyRates = getLocalUseCase.getLocalCurrencyRates()
-                val conversionRates = currencyRates[0].getConversionRates()
-                val currencyValues = getLocalUseCase.getCurrencyValues()
-                eventHolder(ConverterEvent.AdapterDataSuccess(currencyValues, conversionRates))
             } catch (e: Exception) {
                 eventHolder(ConverterEvent.Error(e.message.toString()))
             }

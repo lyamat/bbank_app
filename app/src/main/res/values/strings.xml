@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">BBank</string>
-    <string name="get_remote_news">Запросить новости с API</string>
+    <string name="get_remote_news">Новости с API</string>
     <string name="news_title">Заголовок новости</string>
     <string name="news_link">www.belarusbank.by/news/somenews123</string>
     <string name="news_date">33.13.2024</string>
@@ -10,7 +10,7 @@
     <string name="bank_buy">Банк покупает</string>
     <string name="bank_sale">Банк продает</string>
     <string name="add_currency">Добавить валюту</string>
-    <string name="empty_department_list">Пустой список отделений</string>
+    <string name="empty_department_list">Пустой список отделений.\nЗапросите их с сервера.</string>
     <string name="oao_belarusbank">%1$s ОАО \"АСБ Беларусбанк\"</string>
     <string name="address_example">г. Париж, ул.Сильвьенто, 14</string>
     <string name="department_number_example">Отделение №666–666 ОАО \'АСБ Беларусбанк\'</string>

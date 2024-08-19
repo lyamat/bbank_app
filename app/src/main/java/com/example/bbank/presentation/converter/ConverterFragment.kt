@@ -16,6 +16,7 @@ import com.example.bbank.presentation.adapters.CurrencyAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -35,36 +36,36 @@ internal class ConverterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getDataForConverter()
         setBtnAddCurrencyOnClickListener()
         setChipsOnClickListeners()
         observeConverterEvent()
     }
 
-    private fun getDataForConverter() {
-        converterViewModel.getStartDataForConverterAdapter()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setDataForConverterAdapter()
     }
 
-    private fun setBtnAddCurrencyOnClickListener() {
+    private fun setDataForConverterAdapter() = converterViewModel.getDataForConverterAdapter()
+
+    private fun setBtnAddCurrencyOnClickListener() =
         binding.apply {
             btnAddCurrency.setOnClickListener {
                 converterViewModel.getCurrencyValues()
             }
         }
-    }
 
-    private fun setChipsOnClickListeners() {
+    private fun setChipsOnClickListeners() =
         binding.apply {
             chipBankBuy.setOnClickListener {
                 chipBankSale.isChecked = false
-                (currencyRecyclerView.adapter as CurrencyAdapter).showBuyRates()
+                (currencyRecyclerView.adapter as CurrencyAdapter).showRates("in")
             }
             chipBankSale.setOnClickListener {
                 chipBankBuy.isChecked = false
-                (currencyRecyclerView.adapter as CurrencyAdapter).showSalesRates()
+                (currencyRecyclerView.adapter as CurrencyAdapter).showRates("out")
             }
         }
-    }
 
     private fun populateConverterRecyclerView(
         currencyValues: List<Pair<String, String>>,
@@ -75,25 +76,25 @@ internal class ConverterFragment : Fragment() {
             adapter = CurrencyAdapter(
                 currencyValues,
                 conversionRates,
-                buySaleStatus = "in",
-                onCurrencyValuesChanged = { newCurrencyValues ->
-                    processCurrencyValuesChanged(
-                        newCurrencyValues
-                    )
-                },
                 messageCallback = { message ->
                     handleError(message)
                 }
             )
         }
 
-    private fun processCurrencyValuesChanged(newCurrencyValues: List<Pair<String, String>>) {
-        converterViewModel.setCurrencyValues(newCurrencyValues)
+
+    override fun onPause() {
+        super.onPause()
+        binding.apply {
+            val currencyValues =
+                (currencyRecyclerView.adapter as CurrencyAdapter).getCurrencyValues()
+            converterViewModel.setCurrencyValues(currencyValues)
+        }
     }
 
     private fun observeConverterEvent() =
         viewLifecycleOwner.lifecycleScope.launch {
-            converterViewModel.converterFlow().collect {
+            converterViewModel.converterFlow().collectLatest {
                 processConverterEvent(it)
             }
         }
@@ -105,10 +106,16 @@ internal class ConverterFragment : Fragment() {
                     currenciesEvent.currencyValues,
                     currenciesEvent.conversionRates
                 )
+                hideLoading()
             }
 
             is ConverterViewModel.ConverterEvent.CurrencyValuesSuccess -> {
                 handleCurrencyValuesSuccess(currenciesEvent.currencyValues)
+                hideLoading()
+            }
+
+            is ConverterViewModel.ConverterEvent.Loading -> {
+                showLoading()
             }
 
             is ConverterViewModel.ConverterEvent.Error -> {
@@ -119,11 +126,8 @@ internal class ConverterFragment : Fragment() {
         }
 
     private fun handleAdapterDataSuccess(
-        currencyValues: List<Pair<String, String>>,
-        conversionRates: List<ConversionRate>
-    ) {
-        populateConverterRecyclerView(currencyValues, conversionRates)
-    }
+        currencyValues: List<Pair<String, String>>, conversionRates: List<ConversionRate>
+    ) = populateConverterRecyclerView(currencyValues, conversionRates)
 
     private fun handleCurrencyValuesSuccess(currencyValues: List<Pair<String, String>>) {
         binding.apply {
@@ -176,4 +180,12 @@ internal class ConverterFragment : Fragment() {
         Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()
+
+    private fun hideLoading() {
+        binding.progressIndicatorConverter.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        binding.progressIndicatorConverter.visibility = View.VISIBLE
+    }
 }

@@ -20,7 +20,7 @@ internal class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val navController = findNavController(R.id.shoppingHostFragment)
+        val navController = findNavController(R.id.hostFragment)
         binding.bottomNavigation.setupWithNavController(navController)
 
         MapKitFactory.initialize(this)
