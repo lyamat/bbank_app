@@ -1,11 +1,13 @@
 package com.example.bbank.presentation.departments
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -33,6 +35,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToInt
 
+
 @AndroidEntryPoint
 internal class DepartmentDetailsFragment : Fragment() {
     private lateinit var binding: FragmentDepartmentDetailsBinding
@@ -53,6 +56,7 @@ internal class DepartmentDetailsFragment : Fragment() {
         setupCurrencyRatesRecyclerView()
         setupFragmentViews()
         setupMapDisplay()
+        makeMapVerticalScrollable()
         setMapResizeOnClickListener()
     }
 
@@ -172,6 +176,34 @@ internal class DepartmentDetailsFragment : Fragment() {
         binding.mapView.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun makeMapVerticalScrollable() {
+        val mainScrollView = binding.scrollView
+        val transparentImageView = binding.transparentImage
+
+        transparentImageView.setOnTouchListener { _, event ->
+            val action = event.action
+            when (action) {
+                MotionEvent.ACTION_DOWN -> {
+                    mainScrollView.requestDisallowInterceptTouchEvent(true)
+                    false
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    mainScrollView.requestDisallowInterceptTouchEvent(false)
+                    true
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    mainScrollView.requestDisallowInterceptTouchEvent(true)
+                    false
+                }
+
+                else -> true
+            }
+        }
     }
 
     private fun handleError(error: String) =

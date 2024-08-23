@@ -11,8 +11,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentsBinding
-import com.example.bbank.domain.models.Department
 import com.example.bbank.presentation.adapters.DepartmentsAdapter
+import com.example.bbank.presentation.utils.UiText
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -37,19 +37,18 @@ internal class DepartmentsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onStartDepartmentsFragment()
+        setupViewListeners()
         setupDepartmentsRecyclerView()
-        observeDepartmentsEvent()
-        observeCityEvent()
+        observeDepartmentsUiState()
     }
 
-    private fun onStartDepartmentsFragment() =
+    private fun setupViewListeners() =
         binding.apply {
             btnGetRemoteDepartments.setOnClickListener {
-                departmentsViewModel.getRemoteDepartmentsByCity("")
+                departmentsViewModel.fetchRemoteDepartmentsByCity("")
             }
             chipCity.setOnClickListener {
-                openCitySelectionDetailDialog()
+                showCitySelectionDialog()
             }
             chipIsWorking.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
@@ -66,8 +65,8 @@ internal class DepartmentsFragment : Fragment() {
                 LinearLayoutManager(requireContext())
             adapter = DepartmentsAdapter(
                 departments = emptyList(),
-                onClick = {
-                    val b = Bundle().apply { putParcelable("department", it) }
+                onClick = { department ->
+                    val b = Bundle().apply { putParcelable("department", department) }
                     findNavController().navigate(
                         R.id.action_departmentsFragment_to_departmentDetails, b
                     )
@@ -75,72 +74,38 @@ internal class DepartmentsFragment : Fragment() {
             )
         }
 
-    private fun openCitySelectionDetailDialog() =
+    private fun showCitySelectionDialog() =
         CitySelectionDialog.display(getParentFragmentManager(), requireContext())
 
-    private fun observeDepartmentsEvent() =
-        lifecycleScope.launch {
-            departmentsViewModel.departmentsFlow().collectLatest {
-                processEvent(it)
+    private fun observeDepartmentsUiState() =
+        viewLifecycleOwner.lifecycleScope.launch {
+            departmentsViewModel.departmentsUiState.collectLatest {
+                handleDepartmentsUiState(it)
             }
         }
 
-    private fun observeCityEvent() =
-        lifecycleScope.launch {
-            departmentsViewModel.cityFlow().collectLatest {
-                processEvent(it)
-            }
+    private fun handleDepartmentsUiState(departmentsUiState: DepartmentsUiState) {
+        val currentTime = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
+        val currentCity = departmentsUiState.currentCity
+        binding.apply {
+            chipCity.text = currentCity
+            tvDepartmentsCity.text = getString(R.string.deps_in, currentCity, currentTime)
+            (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(departmentsUiState.departments)
         }
-
-    private fun processEvent(departmentsEvent: DepartmentsViewModel.DepartmentsEvent) =
-        when (departmentsEvent) {
-            is DepartmentsViewModel.DepartmentsEvent.DepartmentsSuccess -> {
-                handleSuccess(departmentsEvent.departments)
-                hideLoading()
-            }
-
-            is DepartmentsViewModel.DepartmentsEvent.Loading -> {
-                showLoading()
-            }
-
-            is DepartmentsViewModel.DepartmentsEvent.Error -> {
-                handleError(departmentsEvent.message)
-                hideLoading()
-            }
-
-            is DepartmentsViewModel.DepartmentsEvent.CitySuccess -> {
-                handleCitySuccess(departmentsEvent.cityName)
-                hideLoading()
-            }
-
-            else -> Unit
+        departmentsUiState.error?.let {
+            handleDepartmentsError(it)
         }
-
-    private fun handleCitySuccess(cityName: String) {
-        binding.chipCity.text = cityName
-        departmentsViewModel.getLocalDepartmentsByCity()
+        if (departmentsUiState.isLoading)
+            showLoading()
+        else hideLoading()
     }
 
-    private fun handleSuccess(departments: List<Department>) {
-        if (departments.isEmpty()) {
-            handleError(getString(R.string.empty_department_list))
-        } else {
-            val currentTime = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
-            val currentCity = departments[0].name
-            binding.apply {
-                chipCity.text = currentCity
-                tvDepartmentsCity.text = getString(R.string.deps_in, currentCity, currentTime)
-                (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(
-                    departments
-                )
-            }
-        }
-    }
-
-    private fun handleError(error: String) =
-        Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
+    private fun handleDepartmentsError(messageError: UiText) {
+        departmentsViewModel.clearDepartmentsError()
+        Snackbar.make(requireView(), messageError.asString(requireContext()), Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()
+    }
 
     private fun hideLoading() {
         binding.btnGetRemoteDepartments.visibility = View.VISIBLE
@@ -150,6 +115,5 @@ internal class DepartmentsFragment : Fragment() {
     private fun showLoading() {
         binding.btnGetRemoteDepartments.visibility = View.GONE
         binding.progressIndicatorDepartments.visibility = View.VISIBLE
-        binding.btnCancelGettingRemoteDepartments.visibility = View.VISIBLE
     }
 }

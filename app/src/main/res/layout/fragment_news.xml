@@ -76,19 +76,6 @@
         app:layout_constraintEnd_toStartOf="@+id/rightGuideLine96Vertical"
         app:layout_constraintTop_toTopOf="@+id/toolbarNews" />
 
-    <ImageView
-        android:id="@+id/btnCancelGettingRemoteNews"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="20dp"
-        android:clickable="false"
-        android:src="@drawable/ic_cancel_request"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbarNews"
-        app:layout_constraintEnd_toStartOf="@+id/rightGuideLine96Vertical"
-        app:layout_constraintTop_toTopOf="@+id/toolbarNews" />
-
-
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressIndicatorNews"
         android:layout_width="match_parent"

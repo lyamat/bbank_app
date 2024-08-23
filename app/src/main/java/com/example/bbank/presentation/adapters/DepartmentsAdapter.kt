@@ -73,43 +73,47 @@ internal class DepartmentsAdapter(
         return R.color.crimson
     }
 
-    private fun isDepartmentOpen(infoWorktime: String): Boolean {
-        val worktimeParts = infoWorktime.split("|")
-        val todayWorktime =
-            worktimeParts[dayOfWeek - 1].replaceFirst("[А-Яа-я]+".toRegex(), "").trim()
+    private fun isDepartmentOpen(infoWorkTime: String): Boolean {
+        try { // upd: try/catch added cus of shit response from api (), e.g. "...|Пт      00  |..."
+            val workTimeParts = infoWorkTime.split("|")
+            val todayWorkTime =
+                workTimeParts[dayOfWeek - 1].replaceFirst("[А-Яа-я]+".toRegex(), "").trim()
 
-        return when {
-            todayWorktime.isEmpty() -> false
-            else -> {
-                val parts = todayWorktime.split(" ").filter { it.isNotBlank() }
-                // Open time
-                val startTimeH = parts[0].toInt()
-                val startTimeM = parts[1].toInt()
-                val startTime = startTimeH * 60 + startTimeM
-                // Close time
-                val endTimeH = parts[2].toInt()
-                val endTimeM = parts[3].toInt()
-                val endTime = endTimeH * 60 + endTimeM
-                // If in work time
-                if (currentTime in startTime..<endTime) {
-                    //If break is exists
-                    if (parts.size > 4) {
-                        if (parts[4] != "00") { // get shit response from api (Пн 10 00 18 00  00  00)
-                            val breakStartH = parts[4].toInt()
-                            val breakStartM = parts[5].toInt()
-                            val breakStart = breakStartH * 60 + breakStartM
+            return when {
+                todayWorkTime.isEmpty() -> false
+                else -> {
+                    val parts = todayWorkTime.split(" ").filter { it.isNotBlank() }
+                    // Open time
+                    val startTimeH = parts[0].toInt()
+                    val startTimeM = parts[1].toInt()
+                    val startTime = startTimeH * 60 + startTimeM
+                    // Close time
+                    val endTimeH = parts[2].toInt()
+                    val endTimeM = parts[3].toInt()
+                    val endTime = endTimeH * 60 + endTimeM
+                    // If in work time
+                    if (currentTime in startTime..<endTime) {
+                        //If break is exists
+                        if (parts.size > 4) {
+                            if (parts[4] != "00") { // get shit response from api - e.g. "Пн 10 00 18 00  00  00|..."
+                                val breakStartH = parts[4].toInt()
+                                val breakStartM = parts[5].toInt()
+                                val breakStart = breakStartH * 60 + breakStartM
 
-                            val breakEndH = parts[6].toInt()
-                            val breakEndM = parts[7].toInt()
-                            val breakEnd = breakEndH * 60 + breakEndM
+                                val breakEndH = parts[6].toInt()
+                                val breakEndM = parts[7].toInt()
+                                val breakEnd = breakEndH * 60 + breakEndM
 
-                            return currentTime !in breakStart..<breakEnd
+                                return currentTime !in breakStart..<breakEnd
+                            }
                         }
+                        return true
                     }
-                    return true
+                    return false
                 }
-                return false
             }
+        } catch (e: Exception) {
+            return false
         }
     }
 

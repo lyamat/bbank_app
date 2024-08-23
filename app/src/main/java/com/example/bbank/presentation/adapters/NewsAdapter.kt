@@ -53,7 +53,9 @@ internal class NewsAdapter(
         }
 
     internal fun updateNewsAdapterData(newNews: List<News>) {
-        news = newNews
-        notifyDataSetChanged()
+        if (news != newNews) {
+            news = newNews
+            notifyDataSetChanged()
+        }
     }
 }

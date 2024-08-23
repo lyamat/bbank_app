@@ -12,7 +12,7 @@ import com.example.bbank.R
 import com.example.bbank.databinding.FragmentNewsBinding
 import com.example.bbank.domain.models.News
 import com.example.bbank.presentation.adapters.NewsAdapter
-import com.example.bbank.presentation.utils.VerticalItemDecoration
+import com.example.bbank.presentation.utils.UiText
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -34,81 +34,61 @@ internal class NewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onStartNewsFragment()
-        setupNewsRv()
-        observeNewsEvent()
+        setupNewsRecyclerView()
+        observeNewsUiState()
+        setupViewListeners()
     }
 
-    private fun onStartNewsFragment() =
-        binding.apply {
-            btnGetRemoteNews.setOnClickListener {
-                newsViewModel.uploadRemoteNews()
-            }
-            btnCancelGettingRemoteNews.setOnClickListener {
-                newsViewModel.cancelRequestForNews()
-            }
-        }
-
-    private fun openNewsDetailDialog(news: News) =
-        NewsDetailDialog.display(getParentFragmentManager(), news)
-
-    private fun setupNewsRv() =
+    private fun setupNewsRecyclerView() =
         binding.rvNews.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = NewsAdapter(
                 news = emptyList(),
                 onClick = { news -> openNewsDetailDialog(news) }
             )
-            addItemDecoration(VerticalItemDecoration())
         }
 
-    private fun observeNewsEvent() =
-        lifecycleScope.launch {
-            newsViewModel.newsFlow().collectLatest {
-                processNewsEvent(it)
+    private fun observeNewsUiState() =
+        viewLifecycleOwner.lifecycleScope.launch {
+            newsViewModel.newsUiState.collectLatest {
+                handleNewsUiState(it)
             }
         }
 
-    private fun processNewsEvent(newsEvent: NewsViewModel.NewsEvent) =
-        when (newsEvent) {
-            is NewsViewModel.NewsEvent.Success -> {
-                handleSuccess(newsEvent.news)
-                hideLoading()
-            }
-
-            is NewsViewModel.NewsEvent.Error -> {
-                handleError(newsEvent.message)
-                hideLoading()
-            }
-
-            is NewsViewModel.NewsEvent.Loading -> {
-                showLoading()
-            }
-
-            else -> Unit
+    private fun setupViewListeners() =
+        binding.btnGetRemoteNews.setOnClickListener {
+            newsViewModel.fetchRemoteNews()
         }
 
-    private fun handleSuccess(news: List<News>) =
-        (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(news)
+    private fun handleNewsUiState(newsUiState: NewsUiState) {
+        if (newsUiState.news.isNotEmpty())
+            (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(newsUiState.news)
+        if (newsUiState.error != null) {
+            handleError(newsUiState.error)
+            newsViewModel.clearNewsStateError()
+        }
+        if (newsUiState.isLoading)
+            showLoading()
+        else hideLoading()
+    }
 
-    private fun handleError(error: String) =
-        Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
+    private fun openNewsDetailDialog(news: News) =
+        NewsDetailDialog.display(parentFragmentManager, news)
+
+    private fun handleError(messageError: UiText) =
+        Snackbar.make(requireView(), messageError.asString(requireContext()), Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()
 
     private fun hideLoading() {
         binding.apply {
             progressIndicatorNews.visibility = View.GONE
-            btnGetRemoteNews.visibility = View.VISIBLE
-            btnCancelGettingRemoteNews.visibility = View.GONE
         }
     }
 
     private fun showLoading() {
         binding.apply {
             progressIndicatorNews.visibility = View.VISIBLE
-            btnGetRemoteNews.visibility = View.GONE
-            btnCancelGettingRemoteNews.visibility = View.VISIBLE
         }
     }
 }

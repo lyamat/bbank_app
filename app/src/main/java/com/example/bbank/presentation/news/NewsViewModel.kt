@@ -3,15 +3,18 @@ package com.example.bbank.presentation.news
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bbank.domain.models.News
+import com.example.bbank.domain.networking.Result
 import com.example.bbank.domain.use_cases.local.DeleteAllLocalNewsUseCase
 import com.example.bbank.domain.use_cases.local.GetLocalNewsUseCase
 import com.example.bbank.domain.use_cases.local.SaveToLocalNewsUseCase
 import com.example.bbank.domain.use_cases.remote.GetRemoteNewsUseCase
+import com.example.bbank.presentation.utils.UiText
+import com.example.bbank.presentation.utils.asUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,57 +26,65 @@ internal class NewsViewModel @Inject constructor(
     private val getLocalNewsUseCase: GetLocalNewsUseCase
 ) : ViewModel() {
 
-    private val _newsFlow = MutableStateFlow<NewsEvent>(NewsEvent.Unspecified)
-    internal fun newsFlow(): StateFlow<NewsEvent> = _newsFlow
-
-    private var newsJob: Job? = null
+    private val _newsUiState = MutableStateFlow(NewsUiState())
+    val newsUiState: StateFlow<NewsUiState> get() = _newsUiState
 
     init {
-        uploadLocalNews()
+        fetchLocalNews()
     }
 
-    internal fun uploadRemoteNews() {
-        newsJob = viewModelScope.launch {
-            try {
-                eventHolder(NewsEvent.Loading)
-                val news = getRemoteNewsUseCase()
-                deleteAllLocalNewsUseCase()
-                saveToLocalNewsUseCase(news)
-                eventHolder(NewsEvent.Success(news.take(5)))
-            } catch (e: CancellationException) {
-                eventHolder(NewsEvent.Error(e.message.toString()))
-            } catch (e: Exception) {
-                eventHolder(NewsEvent.Error(e.message.toString()))
+    private var getRemoteNewsJob: Job? = null
+
+    internal fun fetchRemoteNews() {
+        if (getRemoteNewsJob != null) return
+        getRemoteNewsJob = viewModelScope.launch {
+            _newsUiState.update { it.copy(isLoading = true) }
+            when (val result = getRemoteNewsUseCase()) {
+                is Result.Success -> processSuccessNews(result.data)
+                is Result.Error -> updateNewsStateWithError(result.error.asUiText())
             }
+            getRemoteNewsJob = null
         }
     }
 
-    private fun uploadLocalNews() =
+    private suspend fun processSuccessNews(news: List<News>) {
+        deleteAllLocalNewsUseCase()
+        saveToLocalNewsUseCase(news)
+        _newsUiState.value = NewsUiState(news = news.take(5))
+    }
+
+    private fun fetchLocalNews() =
         viewModelScope.launch {
+            _newsUiState.update { it.copy(isLoading = true) }
             try {
-                eventHolder(NewsEvent.Loading)
                 val news = getLocalNewsUseCase()
-                if (news.isEmpty()) uploadRemoteNews()
-                else eventHolder(NewsEvent.Success(news.shuffled().take(5)))
+                if (news.isEmpty()) {
+                    fetchRemoteNews()
+                } else {
+                    _newsUiState.update { NewsUiState(news = news.shuffled().take(5)) }
+                }
             } catch (e: Exception) {
-                eventHolder(NewsEvent.Error(e.message.toString()))
+                updateNewsStateWithError(e)
             }
-
         }
 
-    private fun eventHolder(event: NewsEvent) = viewModelScope.launch {
-        _newsFlow.emit(event)
-    }
+    private fun updateNewsStateWithError(uiText: UiText) =
+        _newsUiState.update {
+            it.copy(
+                error = uiText,
+                isLoading = false
+            )
+        }
 
-    internal fun cancelRequestForNews() {
-        newsJob?.cancel()
-        newsJob = null
-    }
+    private fun updateNewsStateWithError(e: Exception) =
+        _newsUiState.update {
+            it.copy(
+                error = e.message?.let { message -> UiText.DynamicString(message) },
+                isLoading = false
+            )
+        }
 
-    internal sealed class NewsEvent {
-        data object Unspecified : NewsEvent()
-        data class Success(val news: List<News>) : NewsEvent()
-        data class Error(val message: String) : NewsEvent()
-        data object Loading : NewsEvent()
+    internal fun clearNewsStateError() {
+        _newsUiState.value = _newsUiState.value.copy(error = null)
     }
 }
