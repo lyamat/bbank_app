@@ -22,6 +22,7 @@ internal class CitySelectionDialog : DialogFragment() {
     private lateinit var cities: List<City>
     private lateinit var binding: DialogCitySelectionBinding
     private val departmentsViewModel by activityViewModels<DepartmentsViewModel>()
+    private var currentCity: String? = null
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
@@ -29,17 +30,16 @@ internal class CitySelectionDialog : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog)
+        currentCity = sharedPreferences.getString("currentCity", "")
     }
 
     override fun onStart() {
         super.onStart()
-        val dialog = dialog
-        if (dialog != null) {
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            dialog.window!!.setLayout(width, height)
-            dialog.window!!.setWindowAnimations(R.style.AppTheme_Slide)
-        }
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        dialog?.window?.setWindowAnimations(R.style.AppTheme_Slide)
     }
 
     override fun onCreateView(
@@ -57,25 +57,23 @@ internal class CitySelectionDialog : DialogFragment() {
         setupCitiesRecyclerView()
     }
 
-    private fun setupCitySelectionDialog() =
-        binding.apply {
-            tbCitySelection.setNavigationOnClickListener { dismiss() }
-            tbCitySelection.setTitle(getString(R.string.city_selection_dialog))
-            tbCitySelection.setOnMenuItemClickListener {
-                dismiss()
-                true
-            }
+    private fun setupCitySelectionDialog() = binding.apply {
+        tbCitySelection.setNavigationOnClickListener { dismiss() }
+        tbCitySelection.setTitle(getString(R.string.city_selection_dialog))
+        tbCitySelection.setOnMenuItemClickListener {
+            dismiss()
+            true
         }
+    }
 
-    private fun setupCitiesRecyclerView() =
-        binding.rvCities.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = CityAdapter(
-                cities = cities,
-                sharedPreferences = sharedPreferences, // TODO: remove
-                onClick = { cityName -> processCityClick(cityName) }
-            )
-        }
+    private fun setupCitiesRecyclerView() = binding.rvCities.apply {
+        layoutManager = LinearLayoutManager(context)
+        adapter = CityAdapter(
+            cities = cities,
+            currentCity = currentCity,
+            onClick = { cityName -> processCityClick(cityName) }
+        )
+    }
 
     private fun processCityClick(cityName: String) {
         departmentsViewModel.saveCity(cityName)

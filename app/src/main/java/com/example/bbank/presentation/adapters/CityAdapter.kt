@@ -12,12 +12,11 @@ import com.example.bbank.domain.models.City
 
 internal class CityAdapter(
     private val cities: List<City>,
-    private val sharedPreferences: SharedPreferences,
+    private val currentCity: String?,
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
-    inner class CityViewHolder(binding: ItemCityRvBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class CityViewHolder(binding: ItemCityRvBinding) : RecyclerView.ViewHolder(binding.root) {
         val tvCity: TextView = binding.tvCity
         val rbChosenCity: RadioButton = binding.rbChosenCity
         val cityCardView: CardView = binding.cityCardView
@@ -32,18 +31,10 @@ internal class CityAdapter(
         val city = cities[position]
         with(holder) {
             tvCity.text = city.cityName
-            rbChosenCity.isChecked = isChosenCityEqualsCurrentCity(city.cityName)
-            setOnCityClick(cityCardView, position)
+            rbChosenCity.isChecked = city.cityName == currentCity
+            cityCardView.setOnClickListener { onClick(city.cityName) }
         }
     }
-
-    private fun isChosenCityEqualsCurrentCity(cityName: String): Boolean =
-        cityName == sharedPreferences.getString("currentCity", "")
-
-    private fun setOnCityClick(cityCardView: CardView, position: Int) =
-        cityCardView.setOnClickListener {
-            onClick(cities[position].cityName)
-        }
 
     override fun getItemCount() = cities.size
 }
