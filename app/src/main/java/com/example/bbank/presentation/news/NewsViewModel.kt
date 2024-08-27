@@ -11,7 +11,6 @@ import com.example.bbank.domain.use_cases.remote.GetRemoteNewsUseCase
 import com.example.bbank.presentation.utils.UiText
 import com.example.bbank.presentation.utils.asUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -33,17 +32,13 @@ internal class NewsViewModel @Inject constructor(
         fetchLocalNews()
     }
 
-    private var getRemoteNewsJob: Job? = null
-
     internal fun fetchRemoteNews() {
-        if (getRemoteNewsJob != null) return
-        getRemoteNewsJob = viewModelScope.launch {
+        viewModelScope.launch {
             _newsUiState.update { it.copy(isLoading = true) }
             when (val result = getRemoteNewsUseCase()) {
                 is Result.Success -> processSuccessNews(result.data)
                 is Result.Error -> updateNewsStateWithError(result.error.asUiText())
             }
-            getRemoteNewsJob = null
         }
     }
 

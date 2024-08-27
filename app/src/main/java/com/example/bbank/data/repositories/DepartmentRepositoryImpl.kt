@@ -1,9 +1,10 @@
 package com.example.bbank.data.repositories
 
 import com.example.bbank.data.local.departments.DepartmentEntity
-import com.example.bbank.data.remote.dto.DepartmentResponseDto
+import com.example.bbank.data.remote.dto.toDepartment
 import com.example.bbank.data.repositories.local.DepartmentLocal
 import com.example.bbank.data.repositories.remote.DepartmentRemote
+import com.example.bbank.domain.models.Department
 import com.example.bbank.domain.networking.orNullResponseError
 import com.example.bbank.domain.repositories.DepartmentRepository
 import retrofit2.Response
@@ -35,6 +36,13 @@ internal class DepartmentRepositoryImpl @Inject constructor(
     override suspend fun deleteAllLocalDepartments() =
         departmentLocal.deleteAllLocalDepartments()
 
-    override suspend fun getRemoteDepartmentsByCity(city: String): Response<List<DepartmentResponseDto>> =
-        departmentRemote.getRemoteDepartmentsByCity(city).orNullResponseError()
+    override suspend fun getRemoteDepartmentsByCity(city: String): Response<List<Department>> {
+        val response = departmentRemote.getRemoteDepartmentsByCity(city).orNullResponseError()
+        return if (response.isSuccessful && response.body() != null) {
+            val departments = response.body()!!.map { it.toDepartment() }
+            Response.success(departments)
+        } else {
+            Response.error(response.code(), response.errorBody()!!)
+        }
+    }
 }

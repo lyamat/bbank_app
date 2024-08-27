@@ -18,18 +18,20 @@ internal suspend fun <T> safeApiCall(
     } catch (e: IOException) {
         Result.Error(DataError.Network.NO_INTERNET)
     } catch (e: HttpException) {
-        when (e.code()) {
-            408 -> Result.Error(DataError.Network.REQUEST_TIMEOUT)
-            413 -> Result.Error(DataError.Network.PAYLOAD_TOO_LARGE)
-            else -> Result.Error(DataError.Network.UNKNOWN)
-        }
+        Result.Error(handleHttpException(e))
     } catch (e: Exception) {
         Result.Error(DataError.Network.UNKNOWN)
     }
 }
 
-fun <T> Response<T>?.orNullResponseError(): Response<T> {
-    return this ?: Response.error(500, "Response was null".toResponseBody(null))
+private fun handleHttpException(e: HttpException): DataError.Network {
+    return when (e.code()) {
+        408 -> DataError.Network.REQUEST_TIMEOUT
+        413 -> DataError.Network.PAYLOAD_TOO_LARGE
+        else -> DataError.Network.UNKNOWN
+    }
 }
 
-
+internal fun <T> Response<T>?.orNullResponseError(): Response<T> {
+    return this ?: Response.error(500, "Response was null".toResponseBody(null))
+}

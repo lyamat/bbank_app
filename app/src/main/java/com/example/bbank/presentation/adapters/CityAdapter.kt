@@ -1,6 +1,5 @@
 package com.example.bbank.presentation.adapters
 
-import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RadioButton

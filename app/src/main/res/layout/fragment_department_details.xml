@@ -26,14 +26,13 @@
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </com.yandex.mapkit.mapview.MapView>
+                app:layout_constraintTop_toTopOf="parent"></com.yandex.mapkit.mapview.MapView>
 
             <ImageView
                 android:id="@+id/transparent_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/transparent" >
+                android:src="@color/transparent">
 
             </ImageView>
         </RelativeLayout>

@@ -1,7 +1,7 @@
 package com.example.bbank.domain.repositories
 
 import com.example.bbank.data.local.departments.DepartmentEntity
-import com.example.bbank.data.remote.dto.DepartmentResponseDto
+import com.example.bbank.domain.models.Department
 import retrofit2.Response
 
 internal interface DepartmentRepository {
@@ -11,5 +11,5 @@ internal interface DepartmentRepository {
     suspend fun saveToLocalDepartments(departmentEntity: DepartmentEntity)
     suspend fun deleteAllLocalDepartments()
 
-    suspend fun getRemoteDepartmentsByCity(city: String): Response<List<DepartmentResponseDto>>
+    suspend fun getRemoteDepartmentsByCity(city: String): Response<List<Department>>
 }

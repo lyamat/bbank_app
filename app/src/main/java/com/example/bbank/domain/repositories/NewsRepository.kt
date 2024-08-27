@@ -1,7 +1,7 @@
 package com.example.bbank.domain.repositories
 
 import com.example.bbank.data.local.news.NewsEntity
-import com.example.bbank.data.remote.dto.NewsResponseDto
+import com.example.bbank.domain.models.News
 import retrofit2.Response
 
 internal interface NewsRepository {
@@ -10,5 +10,5 @@ internal interface NewsRepository {
     suspend fun saveToLocalNews(newsEntity: NewsEntity)
     suspend fun deleteAllLocalNews()
 
-    suspend fun getRemoteNews(): Response<List<NewsResponseDto>>
+    suspend fun getRemoteNews(): Response<List<News>>
 }

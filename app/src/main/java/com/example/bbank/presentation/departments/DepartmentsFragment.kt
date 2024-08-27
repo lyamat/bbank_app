@@ -45,7 +45,7 @@ internal class DepartmentsFragment : Fragment() {
     private fun setupViewListeners() =
         binding.apply {
             btnGetRemoteDepartments.setOnClickListener {
-                departmentsViewModel.fetchRemoteDepartmentsByCity("")
+                departmentsViewModel.fetchRemoteDepartmentsByCity()
             }
             chipCity.setOnClickListener {
                 showCitySelectionDialog()

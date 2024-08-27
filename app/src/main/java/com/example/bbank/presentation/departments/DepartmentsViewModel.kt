@@ -43,11 +43,11 @@ internal class DepartmentsViewModel @Inject constructor(
 
     private var getRemoteDepartmentsJob: Job? = null
 
-    internal fun fetchRemoteDepartmentsByCity(city: String) {
+    internal fun fetchRemoteDepartmentsByCity() {
         if (getRemoteDepartmentsJob != null) return
         getRemoteDepartmentsJob = viewModelScope.launch {
             _departmentsUiState.update { it.copy(isLoading = true) }
-            when (val result = getRemoteDepartmentsByCityUseCase(city)) {
+            when (val result = getRemoteDepartmentsByCityUseCase()) {
                 is Result.Success -> handleSuccessfulDepartmentsFetch(result.data)
                 is Result.Error -> updateDepartmentsStateWithError(result.error.asUiText())
             }

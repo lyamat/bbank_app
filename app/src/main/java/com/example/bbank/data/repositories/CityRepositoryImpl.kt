@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 internal class CityRepositoryImpl @Inject constructor(
     private val sharedPreferencesLocal: SharedPreferencesLocal
-): CityRepository {
+) : CityRepository {
     override suspend fun getCurrentCity(): String =
         sharedPreferencesLocal.getCurrentCity()
 

@@ -58,7 +58,7 @@ internal class ConverterFragment : Fragment() {
                 converterViewModel.startAddingCurrencyInConverter()
             }
             tvSuggestionToGetData.setOnClickListener {
-                departmentsViewModel.fetchRemoteDepartmentsByCity("")
+                departmentsViewModel.fetchRemoteDepartmentsByCity()
             }
         }
 
@@ -118,8 +118,7 @@ internal class ConverterFragment : Fragment() {
     private fun handleConverterUiState(converterUiState: ConverterUiState) {
         if (converterUiState.isCurrencyAdding) {
             openDialogForCurrencyAdding()
-        }
-        else {
+        } else {
             populateConverterRecyclerView(
                 converterUiState.currencyValues,
                 converterUiState.conversionRates
@@ -163,7 +162,8 @@ internal class ConverterFragment : Fragment() {
                 .bufferedReader().use { it.readText() }
                 .let { Gson().fromJson(it, Array<String>::class.java).toList() }
 
-            val currentCurrencyValues = (binding.currencyRecyclerView.adapter as CurrencyAdapter).getCurrencyValues()
+            val currentCurrencyValues =
+                (binding.currencyRecyclerView.adapter as CurrencyAdapter).getCurrencyValues()
 
             val selectedCurrencies = currentCurrencyValues.map { it.first }
             val currencyList =
