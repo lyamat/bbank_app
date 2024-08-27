@@ -5,8 +5,10 @@ import com.example.bbank.data.local.currency_rates.CurrencyRatesDao
 import com.example.bbank.data.local.departments.DepartmentDao
 import com.example.bbank.data.local.news.NewsDao
 import com.example.bbank.data.remote.BelarusBankApi
-import com.example.bbank.data.repositories.LocalRepositoryImpl
-import com.example.bbank.data.repositories.RemoteRepositoryImpl
+import com.example.bbank.data.repositories.CityRepositoryImpl
+import com.example.bbank.data.repositories.CurrencyRepositoryImpl
+import com.example.bbank.data.repositories.DepartmentRepositoryImpl
+import com.example.bbank.data.repositories.NewsRepositoryImpl
 import com.example.bbank.data.repositories.local.CurrencyRatesLocal
 import com.example.bbank.data.repositories.local.CurrencyRatesLocalImpl
 import com.example.bbank.data.repositories.local.DepartmentLocal
@@ -19,8 +21,10 @@ import com.example.bbank.data.repositories.remote.DepartmentRemote
 import com.example.bbank.data.repositories.remote.DepartmentRemoteImpl
 import com.example.bbank.data.repositories.remote.NewsRemote
 import com.example.bbank.data.repositories.remote.NewsRemoteImpl
-import com.example.bbank.domain.repositories.LocalRepository
-import com.example.bbank.domain.repositories.RemoteRepository
+import com.example.bbank.domain.repositories.CityRepository
+import com.example.bbank.domain.repositories.CurrencyRepository
+import com.example.bbank.domain.repositories.DepartmentRepository
+import com.example.bbank.domain.repositories.NewsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,20 +36,30 @@ import javax.inject.Singleton
 internal class RepositoryModule {
     @Singleton
     @Provides
-    internal fun provideRemoteRepository(
-        newsRemote: NewsRemote,
-        departmentRemote: DepartmentRemote,
-    ): RemoteRepository = RemoteRepositoryImpl(newsRemote, departmentRemote)
+    internal fun provideNewsRepository(
+        newsLocal: NewsLocal,
+        newsRemote: NewsRemote
+    ): NewsRepository = NewsRepositoryImpl(newsLocal, newsRemote)
 
     @Singleton
     @Provides
-    internal fun provideLocalRepository(
-        newsLocal: NewsLocal,
+    internal fun provideDepartmentRepository(
         departmentLocal: DepartmentLocal,
+        departmentRemote: DepartmentRemote
+    ): DepartmentRepository = DepartmentRepositoryImpl(departmentLocal, departmentRemote)
+
+    @Singleton
+    @Provides
+    internal fun provideCurrencyRepository(
         currencyRatesLocal: CurrencyRatesLocal,
         sharedPreferencesLocal: SharedPreferencesLocal
-    ): LocalRepository =
-        LocalRepositoryImpl(newsLocal, departmentLocal, currencyRatesLocal, sharedPreferencesLocal)
+    ): CurrencyRepository = CurrencyRepositoryImpl(currencyRatesLocal, sharedPreferencesLocal)
+
+    @Singleton
+    @Provides
+    internal fun provideCityRepository(
+        sharedPreferencesLocal: SharedPreferencesLocal
+    ): CityRepository = CityRepositoryImpl(sharedPreferencesLocal)
 
     @Singleton
     @Provides

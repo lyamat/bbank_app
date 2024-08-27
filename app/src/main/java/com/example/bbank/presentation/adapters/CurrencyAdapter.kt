@@ -14,20 +14,20 @@ import com.example.bbank.R
 import com.example.bbank.databinding.ItemCurrencyRvBinding
 import com.example.bbank.domain.models.ConversionRate
 import com.example.bbank.presentation.utils.DecimalDigitsInputFilter
+import com.example.bbank.presentation.utils.UiText
 import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 
 internal class CurrencyAdapter(
     private var currencyValues: List<Pair<String, String>>,
     private val conversionRates: List<ConversionRate>,
-//    private val onCurrencyValuesChanged: (List<Pair<String, String>>) -> Unit,
-    private val messageCallback: (String) -> Unit
+    private val messageCallback: (UiText) -> Unit
 
 ) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>() {
     private var buySaleStatus: String = "in"
     private var savedPosition = -1
 
-    inner class CurrencyViewHolder(
+    internal inner class CurrencyViewHolder(
         binding: ItemCurrencyRvBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         val etCurrencyValue: EditText = binding.etCurrencyValue
@@ -100,7 +100,7 @@ internal class CurrencyAdapter(
                     if (etCurrencyValue.text.toString() == "Infinity" || etCurrencyValue.text.toString() == "NaN") {
                         etCurrencyValue.isCursorVisible = false
                         etCurrencyValue.clearFocus()
-                        messageCallback("Currency not available")
+                        messageCallback(UiText.StringResource(R.string.currency_not_available))
                     } else {
                         setCurrencyViewAppearance(this, R.color.lime_green, 6, View.VISIBLE)
                     }
@@ -163,12 +163,7 @@ internal class CurrencyAdapter(
 
     internal fun updateCurrencyValues(newCurrencyValues: List<Pair<String, String>>) {
         currencyValues = newCurrencyValues.toList()
-//        onCurrencyValuesChanged(newCurrencyValues)
         notifyDataSetChanged()
-    }
-
-    fun getCurrencyValues(): List<Pair<String, String>> {
-        return currencyValues
     }
 
     internal fun showRates(status: String) {
@@ -177,6 +172,8 @@ internal class CurrencyAdapter(
         val currency = currencyValues[position]
         updateCurrencyValues(getNewCurrencyValues(currencyValues, currency.first, currency.second))
     }
+
+    internal fun getCurrencyValues(): List<Pair<String, String>> = currencyValues
 
     override fun getItemCount() = currencyValues.size
 }

@@ -1,13 +1,13 @@
 package com.example.bbank.domain.use_cases.local
 
-import com.example.bbank.domain.repositories.LocalRepository
+import com.example.bbank.domain.repositories.CurrencyRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class DeleteAllCurrencyRatesUseCase @Inject constructor(
-    private val localRepository: LocalRepository
+    private val currencyRepository: CurrencyRepository
 ) {
     suspend operator fun invoke() =
-        localRepository.deleteAllCurrencyRates()
+        currencyRepository.deleteAllCurrencyRates()
 }

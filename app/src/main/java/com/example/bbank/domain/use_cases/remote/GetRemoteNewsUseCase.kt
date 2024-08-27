@@ -5,17 +5,17 @@ import com.example.bbank.domain.models.News
 import com.example.bbank.domain.networking.DataError
 import com.example.bbank.domain.networking.Result
 import com.example.bbank.domain.networking.safeApiCall
-import com.example.bbank.domain.repositories.RemoteRepository
+import com.example.bbank.domain.repositories.NewsRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class GetRemoteNewsUseCase @Inject constructor(
-    private val remoteRepository: RemoteRepository
+    private val newsRepository: NewsRepository
 ) {
     suspend operator fun invoke(): Result<List<News>, DataError.Network> {
         val result = safeApiCall {
-            remoteRepository.getRemoteNews()
+            newsRepository.getRemoteNews()
         }
         return when (result) {
             is Result.Success -> {

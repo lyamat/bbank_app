@@ -1,13 +1,13 @@
 package com.example.bbank.domain.use_cases.local
 
-import com.example.bbank.domain.repositories.LocalRepository
+import com.example.bbank.domain.repositories.CityRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class GetCurrentCityUseCase @Inject constructor(
-    private val localRepository: LocalRepository
+    private val cityRepository: CityRepository
 ) {
     suspend operator fun invoke(): String =
-        localRepository.getCurrentCity()
+        cityRepository.getCurrentCity()
 }

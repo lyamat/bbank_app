@@ -18,7 +18,7 @@ internal class SharedPreferencesLocalImpl @Inject constructor(
     override suspend fun getCurrencyValues(): List<Pair<String, String>> {
         val gson = Gson()
         val currencyValues = sharedPreferences.getString("currencyValues", "") ?: ""
-        return if (currencyValues.isEmpty()) {
+        return if (currencyValues.isEmpty() || currencyValues == "[]") {
             listOf(Pair("byn", ""), Pair("usd", ""))
         } else {
             val type = object : TypeToken<List<Pair<String, String>>>() {}.type

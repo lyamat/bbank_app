@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,9 @@ import com.example.bbank.R
 import com.example.bbank.databinding.FragmentConverterBinding
 import com.example.bbank.domain.models.ConversionRate
 import com.example.bbank.presentation.adapters.CurrencyAdapter
+import com.example.bbank.presentation.departments.DepartmentsUiState
+import com.example.bbank.presentation.departments.DepartmentsViewModel
+import com.example.bbank.presentation.utils.UiText
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +28,7 @@ import java.util.Locale
 internal class ConverterFragment : Fragment() {
     private lateinit var binding: FragmentConverterBinding
     private val converterViewModel by viewModels<ConverterViewModel>()
+    private val departmentsViewModel by activityViewModels<DepartmentsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,24 +41,45 @@ internal class ConverterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setBtnAddCurrencyOnClickListener()
+        setOnClickListeners()
         setChipsOnClickListeners()
-        observeConverterEvent()
+        observeDepartmentsUiState()
+        observeConverterUiState()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setDataForConverterAdapter()
+    override fun onPause() {
+        super.onPause()
+        converterViewModel.saveCurrencyValues((binding.currencyRecyclerView.adapter as CurrencyAdapter).getCurrencyValues())
     }
 
-    private fun setDataForConverterAdapter() = converterViewModel.getDataForConverterAdapter()
-
-    private fun setBtnAddCurrencyOnClickListener() =
+    private fun setOnClickListeners() =
         binding.apply {
             btnAddCurrency.setOnClickListener {
-                converterViewModel.getCurrencyValues()
+                converterViewModel.startAddingCurrencyInConverter()
+            }
+            tvSuggestionToGetData.setOnClickListener {
+                departmentsViewModel.fetchRemoteDepartmentsByCity("")
             }
         }
+
+    private fun observeDepartmentsUiState() =
+        viewLifecycleOwner.lifecycleScope.launch {
+            departmentsViewModel.departmentsUiState.collectLatest {
+                handleDepartmentsUiState(it)
+            }
+        }
+
+    private fun handleDepartmentsUiState(departmentsUiState: DepartmentsUiState) {
+        if (departmentsUiState.departments.isNotEmpty()) {
+            converterViewModel.getDataForConverterAdapter()
+        }
+        departmentsUiState.error?.let {
+            handleConverterError(it)
+        }
+        if (departmentsUiState.isLoading)
+            showLoading()
+        else hideLoading()
+    }
 
     private fun setChipsOnClickListeners() =
         binding.apply {
@@ -77,59 +103,58 @@ internal class ConverterFragment : Fragment() {
                 currencyValues,
                 conversionRates,
                 messageCallback = { message ->
-                    handleError(message)
+                    handleConverterError(message)
                 }
             )
         }
 
+    private fun observeConverterUiState() =
+        viewLifecycleOwner.lifecycleScope.launch {
+            converterViewModel.converterUiState.collectLatest {
+                handleConverterUiState(it)
+            }
+        }
 
-    override fun onPause() {
-        super.onPause()
-        binding.apply {
-            val currencyValues =
-                (currencyRecyclerView.adapter as CurrencyAdapter).getCurrencyValues()
-            converterViewModel.setCurrencyValues(currencyValues)
+    private fun handleConverterUiState(converterUiState: ConverterUiState) {
+        if (converterUiState.isCurrencyAdding) {
+            openDialogForCurrencyAdding()
+        }
+        else {
+            populateConverterRecyclerView(
+                converterUiState.currencyValues,
+                converterUiState.conversionRates
+            )
+            if (converterUiState.conversionRates.isEmpty()) {
+                hideConverter()
+            } else showConverter()
+            converterUiState.error?.let {
+                handleConverterError(it)
+            }
+            if (converterUiState.isLoading)
+                showLoading()
+            else hideLoading()
         }
     }
 
-    private fun observeConverterEvent() =
-        viewLifecycleOwner.lifecycleScope.launch {
-            converterViewModel.converterFlow().collectLatest {
-                processConverterEvent(it)
-            }
+    private fun hideConverter() {
+        binding.apply {
+            chipsConverter.visibility = View.GONE
+            btnAddCurrency.visibility = View.GONE
+            currencyRecyclerView.visibility = View.GONE
         }
+    }
 
-    private fun processConverterEvent(currenciesEvent: ConverterViewModel.ConverterEvent) =
-        when (currenciesEvent) {
-            is ConverterViewModel.ConverterEvent.AdapterDataSuccess -> {
-                handleAdapterDataSuccess(
-                    currenciesEvent.currencyValues,
-                    currenciesEvent.conversionRates
-                )
-                hideLoading()
-            }
-
-            is ConverterViewModel.ConverterEvent.CurrencyValuesSuccess -> {
-                handleCurrencyValuesSuccess(currenciesEvent.currencyValues)
-                hideLoading()
-            }
-
-            is ConverterViewModel.ConverterEvent.Loading -> {
-                showLoading()
-            }
-
-            is ConverterViewModel.ConverterEvent.Error -> {
-                handleError(currenciesEvent.message)
-            }
-
-            else -> Unit
+    private fun showConverter() {
+        binding.apply {
+            tvSuggestionToGetData.visibility = View.GONE
+            tvNoData.visibility = View.GONE
+            chipsConverter.visibility = View.VISIBLE
+            btnAddCurrency.visibility = View.VISIBLE
+            currencyRecyclerView.visibility = View.VISIBLE
         }
+    }
 
-    private fun handleAdapterDataSuccess(
-        currencyValues: List<Pair<String, String>>, conversionRates: List<ConversionRate>
-    ) = populateConverterRecyclerView(currencyValues, conversionRates)
-
-    private fun handleCurrencyValuesSuccess(currencyValues: List<Pair<String, String>>) {
+    private fun openDialogForCurrencyAdding() {
         binding.apply {
             val checkBoxBuilder = AlertDialog.Builder(context)
             checkBoxBuilder.setTitle(getString(R.string.choose_currencies))
@@ -138,7 +163,9 @@ internal class ConverterFragment : Fragment() {
                 .bufferedReader().use { it.readText() }
                 .let { Gson().fromJson(it, Array<String>::class.java).toList() }
 
-            val selectedCurrencies = currencyValues.map { it.first }
+            val currentCurrencyValues = (binding.currencyRecyclerView.adapter as CurrencyAdapter).getCurrencyValues()
+
+            val selectedCurrencies = currentCurrencyValues.map { it.first }
             val currencyList =
                 currencyCodes.map { CurrencyModel(it, it in selectedCurrencies) }
             val onlyCurrencyNameList =
@@ -157,15 +184,18 @@ internal class ConverterFragment : Fragment() {
                 val checkedCurrenciesList =
                     currencyList.filter { it.isChecked }.map { it.name }
                 val updatedCurrencyValues = checkedCurrenciesList.map { currencyCode ->
-                    currencyValues.find { it.first == currencyCode }
+                    currentCurrencyValues.find { it.first == currencyCode }
                         ?: Pair(currencyCode, "")
                 }
+                converterViewModel.endAddingCurrencyInConverter()
                 (binding.currencyRecyclerView.adapter as CurrencyAdapter).updateCurrencyValues(
                     updatedCurrencyValues
                 )
             }
 
-            checkBoxBuilder.setNegativeButton(getString(R.string.cancel), null)
+            checkBoxBuilder.setNegativeButton(getString(R.string.cancel)) { _, _ ->
+                converterViewModel.endAddingCurrencyInConverter()
+            }
             val dialog = checkBoxBuilder.create()
             dialog.show()
         }
@@ -176,8 +206,8 @@ internal class ConverterFragment : Fragment() {
         var isChecked: Boolean = false,
     )
 
-    private fun handleError(error: String) =
-        Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
+    private fun handleConverterError(error: UiText) =
+        Snackbar.make(requireView(), error.asString(requireContext()), Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()
 

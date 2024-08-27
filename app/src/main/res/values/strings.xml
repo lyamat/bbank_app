@@ -36,5 +36,8 @@
     <string name="error_serialization">Error during serialization</string>
     <string name="unknown_error">Unknown error</string>
     <string name="error_disk_full">Disk is full</string>
+    <string name="currency_not_available">Currency not available</string>
+    <string name="empty_currency_rates">Empty currency rates.\nLoad it first.</string>
+    <string name="get_data_for_converter"><u>Get data</u></string>
 
 </resources>
