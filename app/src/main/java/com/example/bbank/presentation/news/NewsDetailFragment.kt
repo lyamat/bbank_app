@@ -8,28 +8,21 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.bbank.R
 import com.example.bbank.databinding.DialogNewsDetailBinding
 import com.example.bbank.domain.models.News
+import com.example.bbank.presentation.departments.DepartmentDetailsFragmentArgs
 
 internal class NewsDetailDialog : DialogFragment() {
-    private lateinit var chosenNews: News
+    private val args by navArgs<NewsDetailDialogArgs>()
+
     private lateinit var binding: DialogNewsDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val dialog = dialog
-        if (dialog != null) {
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            dialog.window!!.setLayout(width, height)
-            dialog.window!!.setWindowAnimations(R.style.AppTheme_Slide)
-        }
     }
 
     override fun onCreateView(
@@ -49,7 +42,7 @@ internal class NewsDetailDialog : DialogFragment() {
 
     private fun setOnBackPressedButton() =
         binding.tbNewsDetail.setNavigationOnClickListener {
-            dialog?.cancel()
+            findNavController().
         }
 
     private fun setupWebView() =
@@ -59,20 +52,10 @@ internal class NewsDetailDialog : DialogFragment() {
             webView.webViewClient = WebViewClient()
             webView.loadDataWithBaseURL(
                 null,
-                getString(R.string.html_image_style) + chosenNews.htmlRu,
+                getString(R.string.html_image_style) + args.news.htmlRu,
                 getString(R.string.text_html),
                 getString(R.string.utf_8),
                 null
             )
         }
-
-    internal companion object {
-        private const val TAG = "NewsDetailDialog"
-        fun display(fragmentManager: FragmentManager?, chosenNews: News): NewsDetailDialog {
-            val exampleDialog = NewsDetailDialog()
-            exampleDialog.chosenNews = chosenNews
-            exampleDialog.show(fragmentManager!!, TAG)
-            return exampleDialog
-        }
-    }
 }
