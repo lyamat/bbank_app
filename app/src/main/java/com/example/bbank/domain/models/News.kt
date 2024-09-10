@@ -1,14 +1,17 @@
 package com.example.bbank.domain.models
 
+import android.os.Parcelable
 import com.example.bbank.data.local.news.NewsEntity
+import kotlinx.parcelize.Parcelize
 
-internal data class News(
+@Parcelize
+data class News(
     val nameRu: String,
     val htmlRu: String,
     val img: String,
     val startDate: String,
     val link: String
-) {
+) : Parcelable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

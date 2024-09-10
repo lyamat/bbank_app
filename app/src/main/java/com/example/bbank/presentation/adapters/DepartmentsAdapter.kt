@@ -66,6 +66,7 @@ internal class DepartmentsAdapter(
             onClick(departments[position])
         }
 
+    // TODO: refactor!
     private fun getColorForDepartment(department: Department): Int {
         if (isDepartmentOpen(department.infoWorktime)) {
             return R.color.lime_green

@@ -22,12 +22,6 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
-    <style name="DialogTheme" parent="AppTheme">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowIsFloating">false</item>
-    </style>
-
     <style name="BottomNavigationTheme" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="android:background">@color/white</item>
         <item name="itemIconTint">@color/bottom_nav_color_state</item>
@@ -35,4 +29,5 @@
         <item name="itemTextAppearanceActive">@drawable/bottom_nav_text_appearance</item>
         <item name="itemTextAppearanceInactive">@drawable/bottom_nav_text_appearance</item>
     </style>
+
 </resources>

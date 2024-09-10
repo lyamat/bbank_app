@@ -35,7 +35,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToInt
 
-
 @AndroidEntryPoint
 internal class DepartmentDetailsFragment : Fragment() {
     private lateinit var binding: FragmentDepartmentDetailsBinding
@@ -173,9 +172,9 @@ internal class DepartmentDetailsFragment : Fragment() {
     }
 
     override fun onStop() {
+        super.onStop()
         binding.mapView.onStop()
         MapKitFactory.getInstance().onStop()
-        super.onStop()
     }
 
     @SuppressLint("ClickableViewAccessibility")

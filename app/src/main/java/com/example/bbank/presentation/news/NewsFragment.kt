@@ -7,8 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.bbank.R
+import com.example.bbank.data.worker.MyWorker
 import com.example.bbank.databinding.FragmentNewsBinding
 import com.example.bbank.domain.models.News
 import com.example.bbank.presentation.adapters.NewsAdapter
@@ -58,7 +65,32 @@ internal class NewsFragment : Fragment() {
     private fun setupViewListeners() =
         binding.btnGetRemoteNews.setOnClickListener {
             newsViewModel.fetchRemoteNews()
+//            addDatePeriodicWorker()
         }
+
+//    private fun addDatePeriodicWorker() {
+//        WorkManager.getInstance(requireContext()).cancelAllWork()
+//
+//        val workRequest = OneTimeWorkRequestBuilder<MyWorker>()
+//            .setConstraints(
+//                Constraints.Builder()
+//                    .setRequiredNetworkType(NetworkType.CONNECTED)
+//                    .setRequiresBatteryNotLow(true)
+//                    .build()
+//            ).build()
+//
+//        WorkManager.getInstance(requireContext()).enqueueUniqueWork(
+//            "MyWorker",
+//            ExistingWorkPolicy.KEEP,
+//            workRequest
+//        )
+//
+////        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+////            "MyWorker",
+////            ExistingPeriodicWorkPolicy.KEEP,
+////            workRequest
+////        )
+//    }
 
     private fun handleNewsUiState(newsUiState: NewsUiState) {
         if (newsUiState.news.isNotEmpty())
@@ -72,8 +104,12 @@ internal class NewsFragment : Fragment() {
         else hideLoading()
     }
 
-    private fun openNewsDetailDialog(news: News) =
-        NewsDetailDialog.display(parentFragmentManager, news)
+    private fun openNewsDetailDialog(news: News) {
+        val b = Bundle().apply { putParcelable("news", news) }
+        findNavController().navigate(
+            R.id.action_newsFragment_to_newsDetailFragment, b
+        )
+    }
 
     private fun handleError(messageError: UiText) =
         Snackbar.make(requireView(), messageError.asString(requireContext()), Snackbar.LENGTH_SHORT)

@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/shopping_graph"
     app:startDestination="@id/newsFragment">
-
     <fragment
         android:id="@+id/newsFragment"
         android:name="com.example.bbank.presentation.news.NewsFragment"
         android:label="NewsFragment"
-        tools:layout="@layout/fragment_news" />
+        tools:layout="@layout/fragment_news">
+        <action
+            android:id="@+id/action_newsFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/departmentsFragment"
         android:name="com.example.bbank.presentation.departments.DepartmentsFragment"
@@ -32,5 +35,14 @@
         <argument
             android:name="department"
             app:argType="com.example.bbank.domain.models.Department" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.example.bbank.presentation.news.NewsDetailFragment"
+        android:label="NewsDetailFragment"
+        tools:layout="@layout/fragment_news_detail">
+        <argument
+            android:name="news"
+            app:argType="com.example.bbank.domain.models.News" />
     </fragment>
 </navigation>

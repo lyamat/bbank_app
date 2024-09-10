@@ -4,33 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.bbank.R
-import com.example.bbank.databinding.DialogNewsDetailBinding
-import com.example.bbank.domain.models.News
-import com.example.bbank.presentation.departments.DepartmentDetailsFragmentArgs
+import com.example.bbank.databinding.FragmentNewsDetailBinding
 
-internal class NewsDetailDialog : DialogFragment() {
-    private val args by navArgs<NewsDetailDialogArgs>()
-
-    private lateinit var binding: DialogNewsDetailBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog)
-    }
+internal class NewsDetailFragment : Fragment() {
+    private val args by navArgs<NewsDetailFragmentArgs>()
+    private lateinit var binding: FragmentNewsDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DialogNewsDetailBinding.inflate(inflater, container, false)
+        binding = FragmentNewsDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,15 +32,15 @@ internal class NewsDetailDialog : DialogFragment() {
 
     private fun setOnBackPressedButton() =
         binding.tbNewsDetail.setNavigationOnClickListener {
-            findNavController().
+            findNavController().popBackStack()
         }
 
     private fun setupWebView() =
-        binding.apply {
-            val webView: WebView = binding.newsDetailsWebView
-            webView.settings.javaScriptEnabled = false
-            webView.webViewClient = WebViewClient()
-            webView.loadDataWithBaseURL(
+        binding.newsDetailsWebView.apply {
+            this.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+            settings.javaScriptEnabled = false
+            webViewClient = WebViewClient()
+            loadDataWithBaseURL(
                 null,
                 getString(R.string.html_image_style) + args.news.htmlRu,
                 getString(R.string.text_html),
