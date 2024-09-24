@@ -157,3 +157,7 @@ internal fun Department.toCurrencyRatesToByn() = listOf(
     Triple("CZK", Pair(czkIn, czkOut), "100 чешских крон"),
     Triple("NOK", Pair(nokIn, nokOut), "10 норвежских крон")
 )
+
+internal fun Department.getFullAddress(): String {
+    return "$nameType $name, $streetType $street, $homeNumber, $filialsText"
+}

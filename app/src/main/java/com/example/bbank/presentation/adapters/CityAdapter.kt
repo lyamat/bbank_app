@@ -15,7 +15,8 @@ internal class CityAdapter(
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
-    inner class CityViewHolder(binding: ItemCityRvBinding) : RecyclerView.ViewHolder(binding.root) {
+    internal inner class CityViewHolder(binding: ItemCityRvBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val tvCity: TextView = binding.tvCity
         val rbChosenCity: RadioButton = binding.rbChosenCity
         val cityCardView: CardView = binding.cityCardView

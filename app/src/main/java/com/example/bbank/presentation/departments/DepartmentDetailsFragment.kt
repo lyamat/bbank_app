@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentDetailsBinding
 import com.example.bbank.domain.models.Department
+import com.example.bbank.presentation.activity.MainActivity
 import com.example.bbank.presentation.adapters.CurrencyRatesAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.yandex.mapkit.MapKitFactory
@@ -34,7 +35,6 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToInt
-
 
 @AndroidEntryPoint
 internal class DepartmentDetailsFragment : Fragment() {
@@ -75,6 +75,7 @@ internal class DepartmentDetailsFragment : Fragment() {
             tvDepartmentAddress.text = address
             tvDepartmentName.text = getString(R.string.oao_belarusbank, department.filialsText)
             tvUpdateTime.text = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
+            (activity as MainActivity).supportActionBar?.title = department.filialsText
         }
 
     private fun setupMapDisplay() =
@@ -173,9 +174,9 @@ internal class DepartmentDetailsFragment : Fragment() {
     }
 
     override fun onStop() {
+        super.onStop()
         binding.mapView.onStop()
         MapKitFactory.getInstance().onStop()
-        super.onStop()
     }
 
     @SuppressLint("ClickableViewAccessibility")

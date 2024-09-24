@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentNewsBinding
@@ -36,7 +37,6 @@ internal class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupNewsRecyclerView()
         observeNewsUiState()
-        setupViewListeners()
     }
 
     private fun setupNewsRecyclerView() =
@@ -55,11 +55,6 @@ internal class NewsFragment : Fragment() {
             }
         }
 
-    private fun setupViewListeners() =
-        binding.btnGetRemoteNews.setOnClickListener {
-            newsViewModel.fetchRemoteNews()
-        }
-
     private fun handleNewsUiState(newsUiState: NewsUiState) {
         if (newsUiState.news.isNotEmpty())
             (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(newsUiState.news)
@@ -72,8 +67,12 @@ internal class NewsFragment : Fragment() {
         else hideLoading()
     }
 
-    private fun openNewsDetailDialog(news: News) =
-        NewsDetailDialog.display(parentFragmentManager, news)
+    private fun openNewsDetailDialog(news: News) {
+        val b = Bundle().apply { putParcelable("news", news) }
+        findNavController().navigate(
+            R.id.action_newsFragment_to_newsDetailFragment, b
+        )
+    }
 
     private fun handleError(messageError: UiText) =
         Snackbar.make(requireView(), messageError.asString(requireContext()), Snackbar.LENGTH_SHORT)

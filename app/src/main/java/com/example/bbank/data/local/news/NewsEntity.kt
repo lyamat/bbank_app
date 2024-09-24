@@ -20,8 +20,8 @@ internal data class NewsEntity(
     @ColumnInfo(name = "link")
     val link: String?
 ) {
-    companion object {
-        fun empty(): NewsEntity =
+    internal companion object {
+        internal fun empty(): NewsEntity =
             NewsEntity(
                 nameRu = "",
                 htmlRu = "",
@@ -39,4 +39,13 @@ internal fun NewsEntity.toNews() =
         img = img ?: "",
         startDate = startDate ?: "",
         link = link ?: "",
+    )
+
+internal fun News.toNewsEntity() =
+    NewsEntity(
+        nameRu = nameRu,
+        htmlRu = htmlRu,
+        img = img,
+        startDate = startDate,
+        link = link,
     )

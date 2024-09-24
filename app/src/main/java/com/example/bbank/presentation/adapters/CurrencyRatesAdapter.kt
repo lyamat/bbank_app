@@ -16,7 +16,7 @@ internal class CurrencyRatesAdapter(
     private val currencyRatesToByn: List<Triple<String, Pair<String, String>, String>> =
         department.toCurrencyRatesToByn()
 
-    inner class CurrencyRatesViewHolder(binding: ItemCurrencyRateRvBinding) :
+    internal inner class CurrencyRatesViewHolder(binding: ItemCurrencyRateRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tvCurrencyCode: TextView = binding.tvCurrencyCode
         val tvCurrencyExchangeDescription: TextView =
