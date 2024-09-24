@@ -1,75 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/newsCardView"
+    android:id="@+id/newsElement"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:background="@color/material_on_surface_stroke"
-    app:cardCornerRadius="20dp">
+    android:layout_marginTop="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/ivThumbnail"
+        android:layout_width="250dp"
+        android:layout_height="165dp"
+        app:layout_constraintEnd_toStartOf="@+id/rightGuideLine96Vertical"
+        app:layout_constraintStart_toEndOf="@+id/leftGuideLine4Vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/belarusbank_logo" />
+
+    <TextView
+        android:id="@+id/tvNewsTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/news_title"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/rightGuideLine96Vertical"
+        app:layout_constraintStart_toEndOf="@+id/leftGuideLine4Vertical"
+        app:layout_constraintTop_toBottomOf="@+id/ivThumbnail" />
+
+    <ImageView
+        android:id="@+id/constBelarusbankLogo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/belarusbank_logo"
+        app:layout_constraintBottom_toTopOf="@+id/materialDivider"
+        app:layout_constraintStart_toEndOf="@+id/leftGuideLine4Vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tvNewsTitle" />
+
+    <TextView
+        android:id="@+id/tvNewsLink"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/news_link"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/constBelarusbankLogo"
+        app:layout_constraintStart_toEndOf="@id/constBelarusbankLogo"
+        app:layout_constraintTop_toTopOf="@id/constBelarusbankLogo" />
+
+    <TextView
+        android:id="@+id/tvTimeSincePublication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:text="@string/news_date"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNewsLink"
+        app:layout_constraintStart_toEndOf="@+id/tvNewsLink"
+        app:layout_constraintTop_toTopOf="@+id/tvNewsLink" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuideLine96Vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:background="@color/material_on_surface_stroke"
-        android:elevation="3dp">
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
 
-        <ImageView
-            android:id="@+id/ivThumbnail"
-            android:layout_width="250dp"
-            android:layout_height="165dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/belarusbank_logo" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuideLine4Vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
 
-        <TextView
-            android:id="@+id/tvNewsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/news_title"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivThumbnail" />
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:dividerColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/tvNewsLink"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/news_link"
-            app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvNewsTitle" />
+    </com.google.android.material.divider.MaterialDivider>
 
-        <TextView
-            android:id="@+id/tvNewsDate"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:padding="8dp"
-            android:text="@string/news_date"
-            android:textAlignment="textEnd"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvNewsLink"
-            app:layout_constraintTop_toBottomOf="@+id/tvNewsTitle" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.60" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

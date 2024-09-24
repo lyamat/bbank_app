@@ -6,13 +6,13 @@ import com.example.bbank.R
 import com.example.bbank.domain.networking.DataError
 import com.example.bbank.domain.networking.Result
 
-sealed class UiText {
-    data class DynamicString(val value: String) : UiText()
-    class StringResource(
+internal sealed class UiText {
+    internal data class DynamicString(val value: String) : UiText()
+    internal class StringResource(
         @StringRes val id: Int, val args: Array<Any> = arrayOf()
     ) : UiText()
 
-    fun asString(context: Context): String {
+    internal fun asString(context: Context): String {
         return when (this) {
             is DynamicString -> value
             is StringResource -> context.getString(id, *args)
@@ -27,7 +27,7 @@ internal fun DataError.asUiText(): UiText {
         )
 
         DataError.Network.TOO_MANY_REQUESTS -> UiText.StringResource(
-            R.string.youve_hit_your_rate_limit
+            R.string.you_ve_hit_your_rate_limit
         )
 
         DataError.Network.NO_INTERNET -> UiText.StringResource(

@@ -78,6 +78,7 @@ internal class CurrencyAdapter(
                 updateCurrencyValues(currencyValues.map { Pair(it.first, "0") })
             } else if (it.toString() != ".") {
                 val newValue = when {
+                    it.toString() == "0" -> "0"
                     it.toString() == "0." -> "0."
                     it.toString().startsWith("0.") -> it.toString()
                     it.toString().startsWith("0") -> it.toString().substring(1)

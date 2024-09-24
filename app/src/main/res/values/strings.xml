@@ -1,42 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- General -->
     <string name="app_name">BBank</string>
-    <string name="get_remote_news">Новости с API</string>
-    <string name="news_title">Заголовок новости</string>
-    <string name="news_link">www.belarusbank.by/news/123</string>
-    <string name="news_date">33.13.2024</string>
-    <string name="city">Город</string>
-    <string name="city_selection_dialog">Выберите город</string>
-    <string name="converter">Конвертер</string>
-    <string name="bank_buy">Банк покупает</string>
-    <string name="bank_sale">Банк продает</string>
-    <string name="add_currency">Добавить валюту</string>
-    <string name="empty_department_list">Пустой список отделений.\nЗапросите их с сервера.</string>
-    <string name="oao_belarusbank">%1$s ОАО \"АСБ Беларусбанк\"</string>
-    <string name="address_example">г. Париж, ул.Сильвьенто, 14</string>
-    <string name="department_number_example">Отделение №666–666 ОАО \'АСБ Беларусбанк\'</string>
-    <string name="currency_exchange_rates_at_dep">Курсы валют в отделении</string>
-    <string name="currency">Валюта</string>
-    <string name="buying">Покупка</string>
-    <string name="selling">Продажа</string>
-    <string name="department_address">%1$s %2$s, %3$s %4$s %5$s</string>
-    <string name="deps_in">Отделения в %1$s\n%2$s</string>
-    <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>
-    <string name="news">Новости</string>
-    <string name="departments">Отделения</string>
+    <string name="converter">Converter</string>
+    <string name="news">News</string>
+    <string name="departments">Departments</string>
+    <string name="city">City</string>
+    <string name="city_selection_dialog">Select a city</string>
+    <string name="bank_buy">Bank buys</string>
+    <string name="bank_sale">Bank sells</string>
+    <string name="choose_currencies">Choose currencies</string>
     <string name="text_html">text/html</string>
     <string name="utf_8">UTF-8</string>
-    <string name="ok">Ок</string>
-    <string name="cancel">Отмена</string>
-    <string name="choose_currencies">Выберите валюты</string>
-    <string name="the_request_timed_out">Запрос отложен</string>
-    <string name="youve_hit_your_rate_limit">Вы исчерпали свой лимит запросов.</string>
-    <string name="no_internet">Нет подключения к Интернету</string>
-    <string name="file_too_large">Файл слишком большой</string>
-    <string name="server_error">Ошибка сервера</string>
-    <string name="error_serialization">Ошибка при сериализации</string>
-    <string name="unknown_error">Неизвестная ошибка</string>
-    <string name="error_disk_full">Диск заполнен</string>
-    <string name="currency_not_available">Валюта недоступна</string>
-    <string name="empty_currency_rates">Пустые курсы валют.\nСначала загрузите их.</string>
-    <string name="get_data_for_converter"><u>Запросить данные с сервера</u></string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="settings">Settings</string>
+    <string name="notifications">Notifications</string>
+    <string name="news_notifications">News notifications</string>
+    <string name="news_notifications_summary">Get last news notification every 24h</string>
+
+    <!-- News -->
+    <string name="get_remote_news">News from API</string>
+    <string name="news_title">News title</string>
+    <string name="news_link">Belarusbank.by ·\ </string>
+    <string name="news_date">10.11.2024</string>
+    <string name="news_of">News of %1$s</string>
+    <string name="days_since">%1$d d</string>
+    <string name="weeks_since">%1$d w</string>
+    <string name="months_since">%1$d m</string>
+    <string name="years_since">%1$d y</string>
+
+    <!-- Department -->
+    <string name="empty_department_list">Empty department list.\nRequest it from the server.</string>
+    <string name="department_number_example">Department No.666–666 OJSC \'ASB Belarusbank\'</string>
+    <string name="address_example">Paris, Silvient Street, 14</string>
+    <string name="department_address">%1$s %2$s, %3$s %4$s %5$s</string>
+    <string name="departments_in">Departments in %1$s\n%2$s</string>
+
+    <!-- Currency Conversion -->
+    <string name="currency_exchange_rates_at_dep">Currency exchange rates at the department</string>
+    <string name="currency">Currency</string>
+    <string name="buying">Buying</string>
+    <string name="selling">Selling</string>
+    <string name="add_currency">Add currency</string>
+    <string name="empty_currency_rates">Empty currency rates.\nLoad them first.</string>
+    <string name="get_data_for_converter"><u>Request data from the server</u></string>
+
+    <!-- Errors -->
+    <string name="the_request_timed_out">Request timed out</string>
+    <string name="you_ve_hit_your_rate_limit">You’ve hit your rate limit.</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="file_too_large">File too large</string>
+    <string name="server_error">Server error</string>
+    <string name="error_serialization">Serialization error</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="error_disk_full">Disk full</string>
+    <string name="currency_not_available">Currency unavailable</string>
+
+    <!-- Notification Channels -->
+    <string name="oao_belarusbank">%1$s OJSC "ASB Belarusbank"</string>
+    <string name="for_showing_last_news">For showing last news</string>
+
+    <!-- HTML -->
+    <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>
+
+    <!-- Currency Codes -->
+    <string name="usd_uppercase">USD</string>
+    <string name="eur_uppercase">EUR</string>
+    <string name="rub_uppercase">RUB</string>
+    <string name="gbp_uppercase">GBP</string>
+    <string name="cad_uppercase">CAD</string>
+    <string name="pln_uppercase">PLN</string>
+    <string name="sek_uppercase">SEK</string>
+    <string name="chf_uppercase">CHF</string>
+    <string name="jpy_uppercase">JPY</string>
+    <string name="cny_uppercase">CNY</string>
+    <string name="czk_uppercase">CZK</string>
+    <string name="nok_uppercase">NOK</string>
+
+    <!-- Currency Descriptions -->
+    <string name="one_us_dollar">1 US Dollar</string>
+    <string name="one_euro">1 Euro</string>
+    <string name="one_hundred_russian_rubles">100 Russian Rubles</string>
+    <string name="one_pound_sterling">1 Pound Sterling</string>
+    <string name="one_canadian_dollar">1 Canadian Dollar</string>
+    <string name="ten_polish_zloty">10 Polish Zloty</string>
+    <string name="ten_swedish_kronor">10 Swedish Kronor</string>
+    <string name="one_swiss_franc">1 Swiss Franc</string>
+    <string name="one_hundred_japanese_yen">100 Japanese Yen</string>
+    <string name="ten_chinese_yuan">10 Chinese Yuan</string>
+    <string name="one_hundred_czech_krona">100 Czech Koruna</string>
+    <string name="ten_norwegian_kroner">10 Norwegian Krone</string>
+    <string name="today">0d</string>
+
 </resources>

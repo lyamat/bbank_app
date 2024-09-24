@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="newsNotifications"
+        android:summary="@string/news_notifications_summary"
+        android:title="@string/news_notifications" />
+
+</PreferenceScreen>

@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentNewsDetailBinding
+import com.example.bbank.presentation.activity.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 internal class NewsDetailFragment : Fragment() {
     private val args by navArgs<NewsDetailFragmentArgs>()
     private lateinit var binding: FragmentNewsDetailBinding
@@ -27,13 +29,8 @@ internal class NewsDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupWebView()
-        setOnBackPressedButton()
+        setToolbarTitle()
     }
-
-    private fun setOnBackPressedButton() =
-        binding.tbNewsDetail.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
 
     private fun setupWebView() =
         binding.newsDetailsWebView.apply {
@@ -48,4 +45,9 @@ internal class NewsDetailFragment : Fragment() {
                 null
             )
         }
+
+    private fun setToolbarTitle() {
+        (activity as MainActivity).supportActionBar?.title =
+            getString(R.string.news_of, args.news.startDate)
+    }
 }

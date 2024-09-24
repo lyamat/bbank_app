@@ -1,15 +1,13 @@
-package com.example.bbank.presentation.utils
+package com.example.bbank.data.notifications.news
 
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import com.example.bbank.R
 import com.example.bbank.domain.models.News
-import com.example.bbank.presentation.activity.MainActivity
+import com.example.bbank.domain.notifications.NotificationService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -27,23 +25,15 @@ internal class NewsNotificationService @Inject constructor(
     override fun showNotification(data: News) {
         val deepLinkIntent = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_graph)
-            .setDestination(R.id.newsFragment)
-            .setArguments(bundleOf("newsId" to data.link))
+            .setDestination(R.id.newsDetailFragment)
+            .setArguments(bundleOf("news" to data))
             .createPendingIntent()
-
-        val activityIntent = Intent(context, MainActivity::class.java)
-        val activityPendingIntent = PendingIntent.getActivity(
-            context,
-            1,
-            activityIntent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
 
         val notification = NotificationCompat.Builder(context, NEWS_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_news)
-            .setContentTitle("News of ${data.startDate}")
+            .setContentTitle(context.getString(R.string.news_of, data.startDate))
             .setContentText(data.nameRu)
-            .setContentIntent(activityPendingIntent)
+            .setContentIntent(deepLinkIntent)
             .setAutoCancel(true)
             .build()
 

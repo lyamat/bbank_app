@@ -9,13 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.Constraints
-import androidx.work.ExistingWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.example.bbank.R
-import com.example.bbank.data.worker.MyWorker
 import com.example.bbank.databinding.FragmentNewsBinding
 import com.example.bbank.domain.models.News
 import com.example.bbank.presentation.adapters.NewsAdapter
@@ -43,7 +37,6 @@ internal class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupNewsRecyclerView()
         observeNewsUiState()
-        setupViewListeners()
     }
 
     private fun setupNewsRecyclerView() =
@@ -61,36 +54,6 @@ internal class NewsFragment : Fragment() {
                 handleNewsUiState(it)
             }
         }
-
-    private fun setupViewListeners() =
-        binding.btnGetRemoteNews.setOnClickListener {
-            newsViewModel.fetchRemoteNews()
-//            addDatePeriodicWorker()
-        }
-
-//    private fun addDatePeriodicWorker() {
-//        WorkManager.getInstance(requireContext()).cancelAllWork()
-//
-//        val workRequest = OneTimeWorkRequestBuilder<MyWorker>()
-//            .setConstraints(
-//                Constraints.Builder()
-//                    .setRequiredNetworkType(NetworkType.CONNECTED)
-//                    .setRequiresBatteryNotLow(true)
-//                    .build()
-//            ).build()
-//
-//        WorkManager.getInstance(requireContext()).enqueueUniqueWork(
-//            "MyWorker",
-//            ExistingWorkPolicy.KEEP,
-//            workRequest
-//        )
-//
-////        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
-////            "MyWorker",
-////            ExistingPeriodicWorkPolicy.KEEP,
-////            workRequest
-////        )
-//    }
 
     private fun handleNewsUiState(newsUiState: NewsUiState) {
         if (newsUiState.news.isNotEmpty())

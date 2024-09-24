@@ -89,7 +89,7 @@ internal class DepartmentsFragment : Fragment() {
         val currentCity = departmentsUiState.currentCity
         binding.apply {
             chipCity.text = currentCity
-            tvDepartmentsCity.text = getString(R.string.deps_in, currentCity, currentTime)
+            tvDepartmentsCity.text = getString(R.string.departments_in, currentCity, currentTime)
             (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(departmentsUiState.departments)
         }
         departmentsUiState.error?.let {

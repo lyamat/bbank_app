@@ -1,7 +1,6 @@
 package com.example.bbank.domain.models
 
 import android.os.Parcelable
-import com.example.bbank.data.local.news.NewsEntity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -36,12 +35,3 @@ data class News(
         return result
     }
 }
-
-internal fun News.toNewsEntity() =
-    NewsEntity(
-        nameRu = nameRu,
-        htmlRu = htmlRu,
-        img = img,
-        startDate = startDate,
-        link = link,
-    )
