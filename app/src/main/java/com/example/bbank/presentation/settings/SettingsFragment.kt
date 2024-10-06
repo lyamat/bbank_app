@@ -20,15 +20,16 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         monitorPreferences()
     }
 
-    private fun monitorPreferences() {
+    private fun monitorPreferences() =
         findPreference<SwitchPreferenceCompat>("newsNotifications")
             ?.setOnPreferenceChangeListener { _, newValue ->
-                if (newValue as Boolean) startNewsNotificationWorker() else cancelWorkByTag(
-                    NEWS_UNIQUE_WORK_NAME
-                )
+                if (newValue as Boolean) {
+                    startNewsNotificationWorker()
+                } else {
+                    cancelUniqueWorkByName(uniqueWorkName = NEWS_UNIQUE_WORK_NAME)
+                }
                 true
             }
-    }
 
     private fun startNewsNotificationWorker() {
         val newsGettingPeriodicWork =
@@ -49,9 +50,8 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         )
     }
 
-    private fun cancelWorkByTag(tag: String) {
-        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(tag)
-    }
+    private fun cancelUniqueWorkByName(uniqueWorkName: String) =
+        WorkManager.getInstance(requireContext()).cancelUniqueWork(uniqueWorkName)
 
     private companion object {
         const val NEWS_UNIQUE_WORK_NAME = "NewsNotificationWorker"
