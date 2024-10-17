@@ -1,17 +1,12 @@
 package com.example.bbank.presentation.settings
 
+//import com.example.bbank.data.worker.NewsNotificationWorker
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.bbank.R
-import com.example.bbank.data.worker.NewsNotificationWorker
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 internal class SettingsFragment : PreferenceFragmentCompat() {
@@ -24,31 +19,31 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<SwitchPreferenceCompat>("newsNotifications")
             ?.setOnPreferenceChangeListener { _, newValue ->
                 if (newValue as Boolean) {
-                    startNewsNotificationWorker()
+//                    startNewsNotificationWorker()
                 } else {
                     cancelUniqueWorkByName(uniqueWorkName = NEWS_UNIQUE_WORK_NAME)
                 }
                 true
             }
 
-    private fun startNewsNotificationWorker() {
-        val newsGettingPeriodicWork =
-            PeriodicWorkRequestBuilder<NewsNotificationWorker>(15, TimeUnit.MINUTES)
-                .setConstraints(
-                    Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .setRequiresBatteryNotLow(true)
-                        .build()
-                )
-                .setInitialDelay(5, TimeUnit.SECONDS)
-                .build()
-
-        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
-            NEWS_UNIQUE_WORK_NAME,
-            ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
-            newsGettingPeriodicWork
-        )
-    }
+//    private fun startNewsNotificationWorker() {
+//        val newsGettingPeriodicWork =
+//            PeriodicWorkRequestBuilder<NewsNotificationWorker>(15, TimeUnit.MINUTES)
+//                .setConstraints(
+//                    Constraints.Builder()
+//                        .setRequiredNetworkType(NetworkType.CONNECTED)
+//                        .setRequiresBatteryNotLow(true)
+//                        .build()
+//                )
+//                .setInitialDelay(5, TimeUnit.SECONDS)
+//                .build()
+//
+//        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+//            NEWS_UNIQUE_WORK_NAME,
+//            ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
+//            newsGettingPeriodicWork
+//        )
+//    }
 
     private fun cancelUniqueWorkByName(uniqueWorkName: String) =
         WorkManager.getInstance(requireContext()).cancelUniqueWork(uniqueWorkName)

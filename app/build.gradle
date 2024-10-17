@@ -4,8 +4,8 @@ plugins {
 }
 
 apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-parcelize'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
@@ -32,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '21'
     }
     buildFeatures {
         viewBinding true
@@ -45,35 +45,34 @@ android {
 }
 
 dependencies {
-    // Core
+    implementation project(':domain')
+    implementation project(':data')
+
+    implementation project(':news:data')
+    implementation project(':news:network')
+
+    implementation project(':core:domain')
+    implementation project(':core:database')
+    implementation project(":core:data")
+    implementation project(':core:presentation:ui')
+
+    // Androidx
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.androidx.constraintlayout
-    implementation libs.material
     implementation libs.androidx.activity
     implementation libs.androidx.preference.ktx
-
-    // Navigation
     implementation libs.androidx.navigation.fragment.ktx
     implementation libs.androidx.navigation.ui.ktx
-    implementation libs.androidx.navigation.compose
 
-    // Networking
-    implementation libs.retrofit
-    implementation libs.converter.gson
-    implementation libs.okhttp
-    implementation libs.logging.interceptor
+    // Material
+    implementation libs.material
 
     // Gson
     implementation libs.gson
 
-    // Room
-    implementation libs.androidx.room.runtime
-    kapt libs.androidx.room.compiler
-    implementation libs.androidx.room.ktx
-
-    // WorkManager
-    implementation libs.androidx.work.runtime.ktx
+//    // WorkManager
+//    implementation libs.androidx.work.runtime.ktx
 
     // Hilt
     implementation libs.hilt.android
@@ -85,5 +84,5 @@ dependencies {
     implementation libs.glide
 
     // Yandex Maps
-    implementation libs.maps.mobile
+    implementation libs.yandex.maps
 }

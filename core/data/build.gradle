@@ -1,0 +1,44 @@
+plugins {
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.jetbrainsKotlinAndroid)
+}
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    namespace 'com.example.core.data'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+    kotlinOptions {
+        jvmTarget = '21'
+    }
+}
+
+dependencies {
+
+    // Hilt
+    implementation libs.hilt.android
+    kapt libs.hilt.android.compiler
+    implementation libs.androidx.hilt.work
+    kapt libs.androidx.hilt.compiler
+
+    implementation(libs.bundles.ktor)
+    implementation project(':core:domain')
+}

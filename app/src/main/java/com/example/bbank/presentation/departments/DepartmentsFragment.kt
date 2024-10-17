@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentsBinding
+import com.example.bbank.domain.models.Department
 import com.example.bbank.presentation.adapters.DepartmentsAdapter
-import com.example.bbank.presentation.utils.UiText
+import com.example.core.presentation.ui.UiText
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -65,14 +66,22 @@ internal class DepartmentsFragment : Fragment() {
                 LinearLayoutManager(requireContext())
             adapter = DepartmentsAdapter(
                 departments = emptyList(),
-                onClick = { department ->
-                    val b = Bundle().apply { putParcelable("department", department) }
-                    findNavController().navigate(
-                        R.id.action_departmentsFragment_to_departmentDetails, b
-                    )
-                }
+                onClick = { department -> openDepartmentDetailFragment(department) }
             )
         }
+
+    private fun openDepartmentDetailFragment(department: Department) =
+        Bundle().apply {
+            putParcelable(
+                "departmentParcelable",
+                department.toDepartmentParcelable()
+            )
+        }
+            .also {
+                findNavController().navigate(
+                    R.id.action_departmentsFragment_to_departmentDetails, it
+                )
+            }
 
     private fun showCitySelectionDialog() =
         CitySelectionDialog.display(getParentFragmentManager(), requireContext())

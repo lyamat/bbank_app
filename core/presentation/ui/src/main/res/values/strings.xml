@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_disk_full">Failed to save the item because your disk is full.</string>
+    <string name="error_request_timeout">The request timed out.</string>
+    <string name="error_too_many_requests">You have hit your rate limit.</string>
+    <string name="error_no_internet">No internet connection, please check it.</string>
+    <string name="error_payload_too_large">The file you are trying to upload is too large.</string>
+    <string name="error_server">Ops! Something went wrong</string>
+    <string name="error_serialization">Ops! Couldn\'t parse data.</string>
+    <string name="error_unknown">Ops! An unknown error occurred</string>
+    <string name="error_conflict">A conflict with the current state of a resource</string>
+    <string name="unauthorized">Proper authentication credentials are missing or invalid credentials have been provided</string>
+    <string name="not_found">Entity not found</string>
+</resources>

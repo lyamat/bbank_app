@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 internal class NewsDetailFragment : Fragment() {
     private val args by navArgs<NewsDetailFragmentArgs>()
     private lateinit var binding: FragmentNewsDetailBinding
+    private val news by lazy { args.newsParcelable.toNews() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +40,7 @@ internal class NewsDetailFragment : Fragment() {
             webViewClient = WebViewClient()
             loadDataWithBaseURL(
                 null,
-                getString(R.string.html_image_style) + args.news.htmlRu,
+                getString(R.string.html_image_style) + news.htmlRu,
                 getString(R.string.text_html),
                 getString(R.string.utf_8),
                 null
@@ -48,6 +49,6 @@ internal class NewsDetailFragment : Fragment() {
 
     private fun setToolbarTitle() {
         (activity as MainActivity).supportActionBar?.title =
-            getString(R.string.news_of, args.news.startDate)
+            getString(R.string.news_of, news.startDate)
     }
 }

@@ -14,7 +14,7 @@ import com.example.bbank.R
 import com.example.bbank.databinding.ItemCurrencyRvBinding
 import com.example.bbank.domain.models.ConversionRate
 import com.example.bbank.presentation.utils.DecimalDigitsInputFilter
-import com.example.bbank.presentation.utils.UiText
+import com.example.core.presentation.ui.UiText
 import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 

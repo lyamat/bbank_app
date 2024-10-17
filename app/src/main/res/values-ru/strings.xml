@@ -22,6 +22,7 @@
     <string name="weeks_since">%1$dнед</string>
     <string name="months_since">%1$dмес</string>
     <string name="years_since">%1$dг</string>
+    <string name="today">0дн</string>
 
 
     <!-- Department -->
@@ -49,14 +50,14 @@
     <string name="notifications">Уведомления</string>
 
     <!-- Errors -->
-    <string name="the_request_timed_out">Запрос отложен</string>
-    <string name="you_ve_hit_your_rate_limit">Вы исчерпали свой лимит запросов.</string>
-    <string name="no_internet">Нет подключения к Интернету</string>
-    <string name="file_too_large">Файл слишком большой</string>
-    <string name="server_error">Ошибка сервера</string>
-    <string name="error_serialization">Ошибка при сериализации</string>
-    <string name="unknown_error">Неизвестная ошибка</string>
-    <string name="error_disk_full">Диск заполнен</string>
+    <!--    <string name="the_request_timed_out">Запрос отложен</string>-->
+    <!--    <string name="you_ve_hit_your_rate_limit">Вы исчерпали свой лимит запросов.</string>-->
+    <!--    <string name="no_internet">Нет подключения к Интернету</string>-->
+    <!--    <string name="file_too_large">Файл слишком большой</string>-->
+    <!--    <string name="server_error">Ошибка сервера</string>-->
+    <!--    <string name="error_serialization">Ошибка при сериализации</string>-->
+    <!--    <string name="unknown_error">Неизвестная ошибка</string>-->
+    <!--    <string name="error_disk_full">Диск заполнен</string>-->
     <string name="currency_not_available">Валюта недоступна</string>
 
     <!-- Notification Channels -->

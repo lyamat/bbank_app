@@ -41,6 +41,7 @@ internal class DepartmentDetailsFragment : Fragment() {
     private lateinit var binding: FragmentDepartmentDetailsBinding
     private val args by navArgs<DepartmentDetailsFragmentArgs>()
     private lateinit var mapView: MapView
+    private val department by lazy { args.departmentParcelable.toDepartment() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,13 +65,12 @@ internal class DepartmentDetailsFragment : Fragment() {
         binding.rvCurrencyBuySale.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = CurrencyRatesAdapter(
-                department = args.department
+                department = department
             )
         }
 
     private fun setupFragmentViews() =
         binding.apply {
-            val department = args.department
             val address = getDepartmentAddress(department)
             tvDepartmentAddress.text = address
             tvDepartmentName.text = getString(R.string.oao_belarusbank, department.filialsText)
@@ -125,7 +125,7 @@ internal class DepartmentDetailsFragment : Fragment() {
         mapView = binding.mapView
         val geocoder = Geocoder(requireContext())
         try {
-            val coordinates = geocoder.getAddressCoordinates(getDepartmentAddress(args.department))
+            val coordinates = geocoder.getAddressCoordinates(getDepartmentAddress(department))
             if (coordinates != null) {
                 mapView.mapWindow.map.move(
                     CameraPosition(

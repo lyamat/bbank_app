@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bbank.R
 import com.example.bbank.databinding.ItemNewsRvBinding
-import com.example.bbank.domain.models.News
+import com.example.core.domain.news.News
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

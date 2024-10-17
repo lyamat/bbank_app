@@ -11,9 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentNewsBinding
-import com.example.bbank.domain.models.News
 import com.example.bbank.presentation.adapters.NewsAdapter
-import com.example.bbank.presentation.utils.UiText
+import com.example.core.domain.news.News
+import com.example.core.presentation.ui.UiText
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -44,35 +44,35 @@ internal class NewsFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = NewsAdapter(
                 news = emptyList(),
-                onClick = { news -> openNewsDetailDialog(news) }
+                onClick = { news -> openNewsDetailFragment(news) }
             )
         }
 
     private fun observeNewsUiState() =
         viewLifecycleOwner.lifecycleScope.launch {
-            newsViewModel.newsUiState.collectLatest {
-                handleNewsUiState(it)
+            newsViewModel.state.collectLatest {
+                handleNewsState(it)
             }
         }
 
-    private fun handleNewsUiState(newsUiState: NewsUiState) {
-        if (newsUiState.news.isNotEmpty())
-            (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(newsUiState.news)
-        if (newsUiState.error != null) {
-            handleError(newsUiState.error)
+    private fun handleNewsState(newsState: NewsState) {
+        if (newsState.news.isNotEmpty())
+            (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(newsState.news)
+        if (newsState.error != null) {
+            handleError(newsState.error)
             newsViewModel.clearNewsStateError()
         }
-        if (newsUiState.isLoading)
+        if (newsState.isLoading)
             showLoading()
         else hideLoading()
     }
 
-    private fun openNewsDetailDialog(news: News) {
-        val b = Bundle().apply { putParcelable("news", news) }
-        findNavController().navigate(
-            R.id.action_newsFragment_to_newsDetailFragment, b
-        )
-    }
+    private fun openNewsDetailFragment(news: News) =
+        Bundle().apply { putParcelable("newsParcelable", news.toNewsParcelable()) }.also {
+            findNavController().navigate(
+                R.id.action_newsFragment_to_newsDetailFragment, it
+            )
+        }
 
     private fun handleError(messageError: UiText) =
         Snackbar.make(requireView(), messageError.asString(requireContext()), Snackbar.LENGTH_SHORT)

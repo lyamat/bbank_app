@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.databinding.ItemCurrencyRateRvBinding
 import com.example.bbank.domain.models.Department
-import com.example.bbank.domain.models.toCurrencyRatesToByn
+import com.example.bbank.presentation.utils.PresentationUtils.toCurrencyRatesToByn
 import com.google.android.material.imageview.ShapeableImageView
 
 internal class CurrencyRatesAdapter(
@@ -20,7 +20,7 @@ internal class CurrencyRatesAdapter(
         RecyclerView.ViewHolder(binding.root) {
         val tvCurrencyCode: TextView = binding.tvCurrencyCode
         val tvCurrencyExchangeDescription: TextView =
-            binding.tvCurrencyExchangeDescription // TODO: add
+            binding.tvCurrencyExchangeDescription // TODO: add (maybe already implemented, check it)
         val tvBuyRate: TextView = binding.tvBuyRate
         val tvSaleRate: TextView = binding.tvSaleRate
         val ivCurrencyImage: ShapeableImageView = binding.ivCurrencyImage

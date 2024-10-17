@@ -3,17 +3,14 @@ package com.example.bbank.presentation.departments
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bbank.domain.models.Department
-import com.example.bbank.domain.networking.Result
-import com.example.bbank.domain.use_cases.local.DeleteAllCurrencyRatesUseCase
-import com.example.bbank.domain.use_cases.local.DeleteAllLocalDepartmentsUseCase
-import com.example.bbank.domain.use_cases.local.GetCurrentCityUseCase
-import com.example.bbank.domain.use_cases.local.GetLocalDepartmentsByCityUseCase
-import com.example.bbank.domain.use_cases.local.SaveCurrentCityUseCase
-import com.example.bbank.domain.use_cases.local.SaveToLocalCurrencyRatesUseCase
-import com.example.bbank.domain.use_cases.local.SaveToLocalDepartmentsUseCase
-import com.example.bbank.domain.use_cases.remote.GetRemoteDepartmentsByCityUseCase
-import com.example.bbank.presentation.utils.UiText
-import com.example.bbank.presentation.utils.asUiText
+import com.example.bbank.domain.usecase.local.DeleteAllCurrencyRatesUseCase
+import com.example.bbank.domain.usecase.local.DeleteAllLocalDepartmentsUseCase
+import com.example.bbank.domain.usecase.local.GetCurrentCityUseCase
+import com.example.bbank.domain.usecase.local.GetLocalDepartmentsByCityUseCase
+import com.example.bbank.domain.usecase.local.SaveCurrentCityUseCase
+import com.example.bbank.domain.usecase.local.SaveToLocalCurrencyRatesUseCase
+import com.example.bbank.domain.usecase.local.SaveToLocalDepartmentsUseCase
+import com.example.core.presentation.ui.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +25,7 @@ internal class DepartmentsViewModel @Inject constructor(
     private val getLocalDepartmentsByCityUseCase: GetLocalDepartmentsByCityUseCase,
     private val deleteAllCurrencyRatesUseCase: DeleteAllCurrencyRatesUseCase,
     private val saveToLocalCurrencyRatesUseCase: SaveToLocalCurrencyRatesUseCase,
-    private val getRemoteDepartmentsByCityUseCase: GetRemoteDepartmentsByCityUseCase,
+//    private val getRemoteDepartmentsByCityUseCase: GetRemoteDepartmentsByCityUseCase,
     private val deleteAllLocalDepartmentsUseCase: DeleteAllLocalDepartmentsUseCase,
     private val saveToLocalDepartmentsUseCase: SaveToLocalDepartmentsUseCase,
     private val saveCurrentCityUseCase: SaveCurrentCityUseCase
@@ -44,15 +41,15 @@ internal class DepartmentsViewModel @Inject constructor(
     private var getRemoteDepartmentsJob: Job? = null
 
     internal fun fetchRemoteDepartmentsByCity() {
-        if (getRemoteDepartmentsJob != null) return
-        getRemoteDepartmentsJob = viewModelScope.launch {
-            _departmentsUiState.update { it.copy(isLoading = true) }
-            when (val result = getRemoteDepartmentsByCityUseCase()) {
-                is Result.Success -> handleSuccessfulDepartmentsFetch(result.data)
-                is Result.Error -> updateDepartmentsStateWithError(result.error.asUiText())
-            }
-            getRemoteDepartmentsJob = null
-        }
+//        if (getRemoteDepartmentsJob != null) return
+//        getRemoteDepartmentsJob = viewModelScope.launch {
+//            _departmentsUiState.update { it.copy(isLoading = true) }
+//            when (val result = getRemoteDepartmentsByCityUseCase()) {
+//                is Result.Success -> handleSuccessfulDepartmentsFetch(result.data)
+//                is Result.Error -> updateDepartmentsStateWithError(result.error.asUiText())
+//            }
+//            getRemoteDepartmentsJob = null
+//        }
     }
 
     private suspend fun handleSuccessfulDepartmentsFetch(departments: List<Department>) {
@@ -61,7 +58,7 @@ internal class DepartmentsViewModel @Inject constructor(
             saveToLocalDepartmentsUseCase(departments)
             _departmentsUiState.update { DepartmentsUiState(departments = departments) }
             deleteAllCurrencyRatesUseCase()
-            saveToLocalCurrencyRatesUseCase(departments)
+            saveToLocalCurrencyRatesUseCase(departments.first())
         }
     }
 

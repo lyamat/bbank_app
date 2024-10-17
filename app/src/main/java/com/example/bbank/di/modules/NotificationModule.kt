@@ -16,7 +16,6 @@ internal class NotificationModule {
     @Singleton
     internal fun provideNotificationManager(
         @ApplicationContext context: Context
-    ): NotificationManager {
-        return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
+    ): NotificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 }

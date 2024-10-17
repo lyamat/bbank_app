@@ -29,6 +29,7 @@
     <string name="weeks_since">%1$d w</string>
     <string name="months_since">%1$d m</string>
     <string name="years_since">%1$d y</string>
+    <string name="today">0d</string>
 
     <!-- Department -->
     <string name="empty_department_list">Empty department list.\nRequest it from the server.</string>
@@ -47,14 +48,14 @@
     <string name="get_data_for_converter"><u>Request data from the server</u></string>
 
     <!-- Errors -->
-    <string name="the_request_timed_out">Request timed out</string>
-    <string name="you_ve_hit_your_rate_limit">You’ve hit your rate limit.</string>
-    <string name="no_internet">No internet connection</string>
-    <string name="file_too_large">File too large</string>
-    <string name="server_error">Server error</string>
-    <string name="error_serialization">Serialization error</string>
-    <string name="unknown_error">Unknown error</string>
-    <string name="error_disk_full">Disk full</string>
+    <!--    <string name="the_request_timed_out">Request timed out</string>-->
+    <!--    <string name="you_ve_hit_your_rate_limit">You’ve hit your rate limit.</string>-->
+    <!--    <string name="no_internet">No internet connection</string>-->
+    <!--    <string name="file_too_large">File too large</string>-->
+    <!--    <string name="server_error">Server error</string>-->
+    <!--    <string name="error_serialization">Serialization error</string>-->
+    <!--    <string name="unknown_error">Unknown error</string>-->
+    <!--    <string name="error_disk_full">Disk full</string>-->
     <string name="currency_not_available">Currency unavailable</string>
 
     <!-- Notification Channels -->
@@ -91,6 +92,5 @@
     <string name="ten_chinese_yuan">10 Chinese Yuan</string>
     <string name="one_hundred_czech_krona">100 Czech Koruna</string>
     <string name="ten_norwegian_kroner">10 Norwegian Krone</string>
-    <string name="today">0d</string>
 
 </resources>

@@ -1,24 +1,15 @@
 package com.example.bbank.di.modules
 
-import com.example.bbank.domain.repositories.CityRepository
-import com.example.bbank.domain.repositories.CurrencyRepository
-import com.example.bbank.domain.repositories.DepartmentRepository
-import com.example.bbank.domain.repositories.NewsRepository
-import com.example.bbank.domain.use_cases.local.DeleteAllCurrencyRatesUseCase
-import com.example.bbank.domain.use_cases.local.DeleteAllLocalDepartmentsUseCase
-import com.example.bbank.domain.use_cases.local.DeleteAllLocalNewsUseCase
-import com.example.bbank.domain.use_cases.local.GetCurrencyValuesUseCase
-import com.example.bbank.domain.use_cases.local.GetCurrentCityUseCase
-import com.example.bbank.domain.use_cases.local.GetLocalCurrencyRatesUseCase
-import com.example.bbank.domain.use_cases.local.GetLocalDepartmentsByCityUseCase
-import com.example.bbank.domain.use_cases.local.GetLocalNewsUseCase
-import com.example.bbank.domain.use_cases.local.SaveCurrentCityUseCase
-import com.example.bbank.domain.use_cases.local.SaveToLocalCurrencyRatesUseCase
-import com.example.bbank.domain.use_cases.local.SaveToLocalDepartmentsUseCase
-import com.example.bbank.domain.use_cases.local.SaveToLocalNewsUseCase
-import com.example.bbank.domain.use_cases.local.SetCurrencyValuesUseCase
-import com.example.bbank.domain.use_cases.remote.GetRemoteDepartmentsByCityUseCase
-import com.example.bbank.domain.use_cases.remote.GetRemoteNewsUseCase
+import com.example.bbank.domain.usecase.local.DeleteAllCurrencyRatesUseCase
+import com.example.bbank.domain.usecase.local.DeleteAllLocalDepartmentsUseCase
+import com.example.bbank.domain.usecase.local.GetCurrencyValuesUseCase
+import com.example.bbank.domain.usecase.local.GetCurrentCityUseCase
+import com.example.bbank.domain.usecase.local.GetLocalCurrencyRatesUseCase
+import com.example.bbank.domain.usecase.local.GetLocalDepartmentsByCityUseCase
+import com.example.bbank.domain.usecase.local.SaveCurrentCityUseCase
+import com.example.bbank.domain.usecase.local.SaveToLocalCurrencyRatesUseCase
+import com.example.bbank.domain.usecase.local.SaveToLocalDepartmentsUseCase
+import com.example.bbank.domain.usecase.local.SetCurrencyValuesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,77 +21,51 @@ import javax.inject.Singleton
 internal class UseCasesModule {
     @Singleton
     @Provides
-    internal fun provideGetRemoteDepartmentsByCityUseCase(departmentRepository: DepartmentRepository) =
-        GetRemoteDepartmentsByCityUseCase(departmentRepository)
+    internal fun provideGetLocalDepartmentsByCityUseCase() =
+        GetLocalDepartmentsByCityUseCase()
 
     @Singleton
     @Provides
-    internal fun provideGetLocalDepartmentsByCityUseCase(departmentRepository: DepartmentRepository) =
-        GetLocalDepartmentsByCityUseCase(departmentRepository)
+    internal fun provideSaveToLocalDepartmentsUseCase() =
+        SaveToLocalDepartmentsUseCase()
 
     @Singleton
     @Provides
-    internal fun provideSaveToLocalDepartmentsUseCase(departmentRepository: DepartmentRepository) =
-        SaveToLocalDepartmentsUseCase(departmentRepository)
+    internal fun provideDeleteAllLocalDepartmentsUseCase() =
+        DeleteAllLocalDepartmentsUseCase()
 
     @Singleton
     @Provides
-    internal fun provideDeleteAllLocalDepartmentsUseCase(departmentRepository: DepartmentRepository) =
-        DeleteAllLocalDepartmentsUseCase(departmentRepository)
+    internal fun provideGetLocalCurrencyRatesUseCase() =
+        GetLocalCurrencyRatesUseCase()
 
     @Singleton
     @Provides
-    internal fun provideGetRemoteNewsUseCase(newsRepository: NewsRepository) =
-        GetRemoteNewsUseCase(newsRepository)
+    internal fun provideSaveToLocalCurrencyRatesUseCase() =
+        SaveToLocalCurrencyRatesUseCase()
 
     @Singleton
     @Provides
-    internal fun provideGetLocalNewsUseCase(newsRepository: NewsRepository) =
-        GetLocalNewsUseCase(newsRepository)
+    internal fun provideDeleteAllCurrencyRatesUseCase() =
+        DeleteAllCurrencyRatesUseCase()
 
     @Singleton
     @Provides
-    internal fun provideSaveToLocalNewsUseCase(newsRepository: NewsRepository) =
-        SaveToLocalNewsUseCase(newsRepository)
+    internal fun provideGetCurrencyValuesUseCase() =
+        GetCurrencyValuesUseCase()
 
     @Singleton
     @Provides
-    internal fun provideDeleteAllLocalNewsUseCase(newsRepository: NewsRepository) =
-        DeleteAllLocalNewsUseCase(newsRepository)
+    internal fun provideSetCurrencyValuesUseCase() =
+        SetCurrencyValuesUseCase()
 
     @Singleton
     @Provides
-    internal fun provideGetLocalCurrencyRatesUseCase(currencyRepository: CurrencyRepository) =
-        GetLocalCurrencyRatesUseCase(currencyRepository)
+    internal fun provideGetCurrentCityUseCase() =
+        GetCurrentCityUseCase()
 
     @Singleton
     @Provides
-    internal fun provideSaveToLocalCurrencyRatesUseCase(currencyRepository: CurrencyRepository) =
-        SaveToLocalCurrencyRatesUseCase(currencyRepository)
-
-    @Singleton
-    @Provides
-    internal fun provideDeleteAllCurrencyRatesUseCase(currencyRepository: CurrencyRepository) =
-        DeleteAllCurrencyRatesUseCase(currencyRepository)
-
-
-    @Singleton
-    @Provides
-    internal fun provideGetCurrencyValuesUseCase(currencyRepository: CurrencyRepository) =
-        GetCurrencyValuesUseCase(currencyRepository)
-
-    @Singleton
-    @Provides
-    internal fun provideSetCurrencyValuesUseCase(currencyRepository: CurrencyRepository) =
-        SetCurrencyValuesUseCase(currencyRepository)
-
-    @Singleton
-    @Provides
-    internal fun provideGetCurrentCityUseCase(cityRepository: CityRepository) =
-        GetCurrentCityUseCase(cityRepository)
-
-    @Singleton
-    @Provides
-    internal fun provideSaveCurrentCityUseCase(cityRepository: CityRepository) =
-        SaveCurrentCityUseCase(cityRepository)
+    internal fun provideSaveCurrentCityUseCase() =
+        SaveCurrentCityUseCase()
 }

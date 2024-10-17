@@ -16,7 +16,7 @@ import com.example.bbank.domain.models.ConversionRate
 import com.example.bbank.presentation.adapters.CurrencyAdapter
 import com.example.bbank.presentation.departments.DepartmentsUiState
 import com.example.bbank.presentation.departments.DepartmentsViewModel
-import com.example.bbank.presentation.utils.UiText
+import com.example.core.presentation.ui.UiText
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -158,6 +158,7 @@ internal class ConverterFragment : Fragment() {
             val checkBoxBuilder = AlertDialog.Builder(context)
             checkBoxBuilder.setTitle(getString(R.string.choose_currencies))
 
+            // TODO: (4) remove currency_codes from resourses and remake logic of taking cities
             val currencyCodes = resources.openRawResource(R.raw.currency_codes)
                 .bufferedReader().use { it.readText() }
                 .let { Gson().fromJson(it, Array<String>::class.java).toList() }

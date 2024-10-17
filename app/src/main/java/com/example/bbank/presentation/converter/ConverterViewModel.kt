@@ -3,11 +3,11 @@ package com.example.bbank.presentation.converter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bbank.R
-import com.example.bbank.domain.models.getConversionRates
-import com.example.bbank.domain.use_cases.local.GetCurrencyValuesUseCase
-import com.example.bbank.domain.use_cases.local.GetLocalCurrencyRatesUseCase
-import com.example.bbank.domain.use_cases.local.SetCurrencyValuesUseCase
-import com.example.bbank.presentation.utils.UiText
+import com.example.bbank.domain.usecase.local.GetCurrencyValuesUseCase
+import com.example.bbank.domain.usecase.local.GetLocalCurrencyRatesUseCase
+import com.example.bbank.domain.usecase.local.SetCurrencyValuesUseCase
+import com.example.bbank.presentation.utils.PresentationUtils.getConversionRates
+import com.example.core.presentation.ui.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -34,7 +34,7 @@ internal class ConverterViewModel @Inject constructor(
             try {
                 val currencyRates = getLocalCurrencyRatesUseCase()
                 if (currencyRates.isNotEmpty()) {
-                    val conversionRates = currencyRates[0].getConversionRates()
+                    val conversionRates = currencyRates.first().getConversionRates()
                     val currencyValues = getCurrencyValuesUseCase()
                     _converterUiState.update {
                         ConverterUiState(

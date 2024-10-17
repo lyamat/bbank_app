@@ -39,8 +39,8 @@
         android:label="DepartmentDetailsFragment"
         tools:layout="@layout/fragment_department_details">
         <argument
-            android:name="department"
-            app:argType="com.example.bbank.domain.models.Department" />
+            android:name="departmentParcelable"
+            app:argType="com.example.bbank.presentation.departments.DepartmentParcelable" />
     </fragment>
     <fragment
         android:id="@+id/newsDetailFragment"
@@ -48,7 +48,7 @@
         android:label="NewsDetailFragment"
         tools:layout="@layout/fragment_news_detail">
         <argument
-            android:name="news"
-            app:argType="com.example.bbank.domain.models.News" />
+            android:name="newsParcelable"
+            app:argType="com.example.bbank.presentation.news.NewsParcelable" />
     </fragment>
 </navigation>

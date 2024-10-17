@@ -3,9 +3,11 @@
 ## Features
 
 - Modern Android development using [Kotlin](https://kotlinlang.org/) and Android Jetpack libraries.
-- [Clean Architecture](https://developer.android.com/topic/architecture) with a multi-layered approach.
+- [Clean Architecture](https://developer.android.com/topic/architecture) with a multi-layered
+  approach.
 - Dependency Injection with [Hilt](https://dagger.dev/hilt/).
-- Reactive programming with [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) and [Flow](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/).
+- Reactive programming with [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
+  and [Flow](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/).
 - [MVVM](https://developer.android.com/topic/libraries/architecture/viewmodel) architecture.
 
 <img src="https://github.com/lyamat/bbank_app/assets/65541361/ae062ad0-097f-4eab-ba13-a3fc297d4b16" alt="bbank_images" style="width:100%;height:100%;">

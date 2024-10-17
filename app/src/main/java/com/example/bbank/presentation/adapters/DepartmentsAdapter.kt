@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
 import com.example.bbank.databinding.ItemDepartmentRvBinding
 import com.example.bbank.domain.models.Department
-import com.example.bbank.domain.models.getFullAddress
+import com.example.bbank.presentation.utils.PresentationUtils.getFullAddress
 import com.example.bbank.presentation.utils.TimeUtils
 import java.text.SimpleDateFormat
 import java.util.Calendar

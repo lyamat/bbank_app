@@ -1,7 +1,7 @@
 package com.example.bbank.presentation.converter
 
 import com.example.bbank.domain.models.ConversionRate
-import com.example.bbank.presentation.utils.UiText
+import com.example.core.presentation.ui.UiText
 
 internal data class ConverterUiState(
     val currencyValues: List<Pair<String, String>> = emptyList(),
