@@ -1,6 +1,7 @@
-package com.example.bbank.domain.models
+package com.example.core.domain.department
 
 data class Department(
+    val id: String?,
     val usdIn: String,
     val usdOut: String,
     val eurIn: String,

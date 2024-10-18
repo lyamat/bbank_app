@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
 import com.example.bbank.databinding.ItemDepartmentRvBinding
-import com.example.bbank.domain.models.Department
 import com.example.bbank.presentation.utils.PresentationUtils.getFullAddress
 import com.example.bbank.presentation.utils.TimeUtils
+import com.example.core.domain.department.Department
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -57,17 +57,21 @@ internal class DepartmentsAdapter(
     }
 
     private fun isDepartmentOpen(infoWorkTime: String): Boolean {
-        val workTimeParts = getTodayWorkTime(infoWorkTime) ?: return false
-        val openTime = TimeUtils.parseTime(workTimeParts[0], workTimeParts[1])
-        val closeTime = TimeUtils.parseTime(workTimeParts[2], workTimeParts[3])
+        return try {
+            val workTimeParts = getTodayWorkTime(infoWorkTime) ?: return false
+            val openTime = TimeUtils.parseTime(workTimeParts[0], workTimeParts[1])
+            val closeTime = TimeUtils.parseTime(workTimeParts[2], workTimeParts[3])
 
-        return TimeUtils.isTimeInRange(
-            currentTime,
-            openTime,
-            closeTime,
-            workTimeParts.getOrNull(4)?.toIntOrNull(),
-            workTimeParts.getOrNull(6)?.toIntOrNull()
-        )
+            TimeUtils.isTimeInRange(
+                currentTime,
+                openTime,
+                closeTime,
+                workTimeParts.getOrNull(4)?.toIntOrNull(),
+                workTimeParts.getOrNull(6)?.toIntOrNull()
+            )
+        } catch (e: Exception) {
+            return false
+        }
     }
 
     private fun getTodayWorkTime(infoWorkTime: String): List<String>? {

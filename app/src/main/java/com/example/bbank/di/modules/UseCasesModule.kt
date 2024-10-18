@@ -5,10 +5,7 @@ import com.example.bbank.domain.usecase.local.DeleteAllLocalDepartmentsUseCase
 import com.example.bbank.domain.usecase.local.GetCurrencyValuesUseCase
 import com.example.bbank.domain.usecase.local.GetCurrentCityUseCase
 import com.example.bbank.domain.usecase.local.GetLocalCurrencyRatesUseCase
-import com.example.bbank.domain.usecase.local.GetLocalDepartmentsByCityUseCase
 import com.example.bbank.domain.usecase.local.SaveCurrentCityUseCase
-import com.example.bbank.domain.usecase.local.SaveToLocalCurrencyRatesUseCase
-import com.example.bbank.domain.usecase.local.SaveToLocalDepartmentsUseCase
 import com.example.bbank.domain.usecase.local.SetCurrencyValuesUseCase
 import dagger.Module
 import dagger.Provides
@@ -21,16 +18,6 @@ import javax.inject.Singleton
 internal class UseCasesModule {
     @Singleton
     @Provides
-    internal fun provideGetLocalDepartmentsByCityUseCase() =
-        GetLocalDepartmentsByCityUseCase()
-
-    @Singleton
-    @Provides
-    internal fun provideSaveToLocalDepartmentsUseCase() =
-        SaveToLocalDepartmentsUseCase()
-
-    @Singleton
-    @Provides
     internal fun provideDeleteAllLocalDepartmentsUseCase() =
         DeleteAllLocalDepartmentsUseCase()
 
@@ -38,11 +25,6 @@ internal class UseCasesModule {
     @Provides
     internal fun provideGetLocalCurrencyRatesUseCase() =
         GetLocalCurrencyRatesUseCase()
-
-    @Singleton
-    @Provides
-    internal fun provideSaveToLocalCurrencyRatesUseCase() =
-        SaveToLocalCurrencyRatesUseCase()
 
     @Singleton
     @Provides

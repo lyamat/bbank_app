@@ -35,7 +35,7 @@ internal class NewsViewModel @Inject constructor(
         }
 
         newsRepository.getNews().onEach { news ->
-            _state.update { it.copy(news = news) }
+            _state.update { it.copy(news = news.shuffled().take(5)) }
         }.launchIn(viewModelScope)
 
         viewModelScope.launch {

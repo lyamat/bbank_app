@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentsBinding
-import com.example.bbank.domain.models.Department
 import com.example.bbank.presentation.adapters.DepartmentsAdapter
+import com.example.core.domain.department.Department
 import com.example.core.presentation.ui.UiText
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +46,7 @@ internal class DepartmentsFragment : Fragment() {
     private fun setupViewListeners() =
         binding.apply {
             btnGetRemoteDepartments.setOnClickListener {
-                departmentsViewModel.fetchRemoteDepartmentsByCity()
+                departmentsViewModel.fetchRemoteDepartments()
             }
             chipCity.setOnClickListener {
                 showCitySelectionDialog()
@@ -88,23 +88,23 @@ internal class DepartmentsFragment : Fragment() {
 
     private fun observeDepartmentsUiState() =
         viewLifecycleOwner.lifecycleScope.launch {
-            departmentsViewModel.departmentsUiState.collectLatest {
-                handleDepartmentsUiState(it)
+            departmentsViewModel.state.collectLatest {
+                onStateChanged(it)
             }
         }
 
-    private fun handleDepartmentsUiState(departmentsUiState: DepartmentsUiState) {
+    private fun onStateChanged(departmentsState: DepartmentsState) {
         val currentTime = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
-        val currentCity = departmentsUiState.currentCity
+        val currentCity = departmentsState.currentCity
         binding.apply {
             chipCity.text = currentCity
             tvDepartmentsCity.text = getString(R.string.departments_in, currentCity, currentTime)
-            (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(departmentsUiState.departments)
+            (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(departmentsState.departments)
         }
-        departmentsUiState.error?.let {
+        departmentsState.error?.let {
             handleDepartmentsError(it)
         }
-        if (departmentsUiState.isLoading)
+        if (departmentsState.isLoading)
             showLoading()
         else hideLoading()
     }

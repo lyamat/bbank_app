@@ -15,9 +15,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentDetailsBinding
-import com.example.bbank.domain.models.Department
 import com.example.bbank.presentation.activity.MainActivity
 import com.example.bbank.presentation.adapters.CurrencyRatesAdapter
+import com.example.core.domain.department.Department
 import com.google.android.material.snackbar.Snackbar
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point

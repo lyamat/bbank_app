@@ -51,6 +51,8 @@ dependencies {
     implementation project(':news:data')
     implementation project(':news:network')
 
+    implementation project(':department:network')
+
     implementation project(':core:domain')
     implementation project(':core:database')
     implementation project(":core:data")

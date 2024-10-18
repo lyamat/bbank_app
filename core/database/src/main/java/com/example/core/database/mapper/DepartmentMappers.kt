@@ -1,59 +1,12 @@
-package com.example.bbank.presentation.departments
+package com.example.core.database.mapper
 
+import com.example.core.database.entity.DepartmentEntity
 import com.example.core.domain.department.Department
+import org.bson.types.ObjectId
 
-internal fun Department.toDepartmentParcelable() =
-    DepartmentParcelable(
-        id = id ?: "",
-        usdIn = usdIn,
-        usdOut = usdOut,
-        eurIn = eurIn,
-        eurOut = eurOut,
-        rubIn = rubIn,
-        rubOut = rubOut,
-        gbpIn = gbpIn,
-        gbpOut = gbpOut,
-        cadIn = cadIn,
-        cadOut = cadOut,
-        plnIn = plnIn,
-        plnOut = plnOut,
-        sekIn = sekIn,
-        sekOut = sekOut,
-        chfIn = chfIn,
-        chfOut = chfOut,
-        usdEurIn = usdEurIn,
-        usdEurOut = usdEurOut,
-        usdRubIn = usdRubIn,
-        usdRubOut = usdRubOut,
-        rubEurIn = rubEurIn,
-        rubEurOut = rubEurOut,
-        jpyIn = jpyIn,
-        jpyOut = jpyOut,
-        cnyIn = cnyIn,
-        cnyOut = cnyOut,
-        cnyEurIn = cnyEurIn,
-        cnyEurOut = cnyEurOut,
-        cnyUsdIn = cnyUsdIn,
-        cnyUsdOut = cnyUsdOut,
-        cnyRubIn = cnyRubIn,
-        cnyRubOut = cnyRubOut,
-        czkIn = czkIn,
-        czkOut = czkOut,
-        nokIn = nokIn,
-        nokOut = nokOut,
-        filialId = filialId,
-        sapId = sapId,
-        infoWorktime = infoWorktime,
-        streetType = streetType,
-        street = street,
-        filialsText = filialsText,
-        homeNumber = homeNumber,
-        name = name,
-        nameType = nameType
-    )
 
-internal fun DepartmentParcelable.toDepartment() =
-    Department(
+fun DepartmentEntity.toDepartment(): Department {
+    return Department(
         id = id,
         usdIn = usdIn,
         usdOut = usdOut,
@@ -101,3 +54,55 @@ internal fun DepartmentParcelable.toDepartment() =
         name = name,
         nameType = nameType
     )
+}
+
+fun Department.toDepartmentEntity(): DepartmentEntity {
+    return DepartmentEntity(
+        id = id ?: ObjectId().toHexString(),
+        usdIn = usdIn,
+        usdOut = usdOut,
+        eurIn = eurIn,
+        eurOut = eurOut,
+        rubIn = rubIn,
+        rubOut = rubOut,
+        gbpIn = gbpIn,
+        gbpOut = gbpOut,
+        cadIn = cadIn,
+        cadOut = cadOut,
+        plnIn = plnIn,
+        plnOut = plnOut,
+        sekIn = sekIn,
+        sekOut = sekOut,
+        chfIn = chfIn,
+        chfOut = chfOut,
+        usdEurIn = usdEurIn,
+        usdEurOut = usdEurOut,
+        usdRubIn = usdRubIn,
+        usdRubOut = usdRubOut,
+        rubEurIn = rubEurIn,
+        rubEurOut = rubEurOut,
+        jpyIn = jpyIn,
+        jpyOut = jpyOut,
+        cnyIn = cnyIn,
+        cnyOut = cnyOut,
+        cnyEurIn = cnyEurIn,
+        cnyEurOut = cnyEurOut,
+        cnyUsdIn = cnyUsdIn,
+        cnyUsdOut = cnyUsdOut,
+        cnyRubIn = cnyRubIn,
+        cnyRubOut = cnyRubOut,
+        czkIn = czkIn,
+        czkOut = czkOut,
+        nokIn = nokIn,
+        nokOut = nokOut,
+        filialId = filialId,
+        sapId = sapId,
+        infoWorktime = infoWorktime,
+        streetType = streetType,
+        street = street,
+        filialsText = filialsText,
+        homeNumber = homeNumber,
+        name = name,
+        nameType = nameType
+    )
+}

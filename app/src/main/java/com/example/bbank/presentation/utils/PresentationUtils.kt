@@ -2,7 +2,7 @@ package com.example.bbank.presentation.utils
 
 import com.example.bbank.domain.models.ConversionRate
 import com.example.bbank.domain.models.CurrencyRates
-import com.example.bbank.domain.models.Department
+import com.example.core.domain.department.Department
 import java.util.Locale
 
 internal object PresentationUtils {

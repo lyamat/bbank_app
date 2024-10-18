@@ -9,13 +9,6 @@ import dagger.hilt.components.SingletonComponent
 internal class RepositoryModule {
 //    @Singleton
 //    @Provides
-//    internal fun provideDepartmentRepository(
-//        departmentLocal: DepartmentLocal,
-//        departmentRemote: DepartmentRemote
-//    ): DepartmentRepository = DepartmentRepositoryImpl(departmentLocal, departmentRemote)
-
-//    @Singleton
-//    @Provides
 //    internal fun provideCurrencyRepository(
 //        currencyRatesLocal: CurrencyRatesLocal,
 //        sharedPreferencesLocal: SharedPreferencesLocal
@@ -27,18 +20,6 @@ internal class RepositoryModule {
 //        sharedPreferencesLocal: SharedPreferencesLocal
 //    ): CityRepository = CityRepositoryImpl(sharedPreferencesLocal)
 
-
-//    @Singleton
-//    @Provides
-//    internal fun provideDepartmentsRemote(
-//        belarusBankApi: BelarusBankApi
-//    ): DepartmentRemote = DepartmentRemoteImpl(belarusBankApi)
-//
-//    @Singleton
-//    @Provides
-//    internal fun provideDepartmentsLocal(
-//        departmentDao: DepartmentDao
-//    ): DepartmentLocal = DepartmentLocalImpl(departmentDao)
 
 //    @Singleton
 //    @Provides

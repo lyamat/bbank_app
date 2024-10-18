@@ -1,11 +1,13 @@
-package com.example.bbank.presentation.departments
+package com.example.core.database.entity
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import org.bson.types.ObjectId
 
-@Parcelize
-data class DepartmentParcelable(
-    val id: String,
+@Entity
+data class DepartmentEntity(
+    @PrimaryKey(autoGenerate = false)
+    val id: String = ObjectId().toHexString(),
     val usdIn: String,
     val usdOut: String,
     val eurIn: String,
@@ -51,4 +53,4 @@ data class DepartmentParcelable(
     val homeNumber: String,
     val name: String,
     val nameType: String
-) : Parcelable
+)

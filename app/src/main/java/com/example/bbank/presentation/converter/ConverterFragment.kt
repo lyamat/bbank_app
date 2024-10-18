@@ -14,7 +14,7 @@ import com.example.bbank.R
 import com.example.bbank.databinding.FragmentConverterBinding
 import com.example.bbank.domain.models.ConversionRate
 import com.example.bbank.presentation.adapters.CurrencyAdapter
-import com.example.bbank.presentation.departments.DepartmentsUiState
+import com.example.bbank.presentation.departments.DepartmentsState
 import com.example.bbank.presentation.departments.DepartmentsViewModel
 import com.example.core.presentation.ui.UiText
 import com.google.android.material.snackbar.Snackbar
@@ -58,25 +58,25 @@ internal class ConverterFragment : Fragment() {
                 converterViewModel.startAddingCurrencyInConverter()
             }
             tvSuggestionToGetData.setOnClickListener {
-                departmentsViewModel.fetchRemoteDepartmentsByCity()
+                departmentsViewModel.fetchRemoteDepartments()
             }
         }
 
     private fun observeDepartmentsUiState() =
         viewLifecycleOwner.lifecycleScope.launch {
-            departmentsViewModel.departmentsUiState.collectLatest {
+            departmentsViewModel.state.collectLatest {
                 handleDepartmentsUiState(it)
             }
         }
 
-    private fun handleDepartmentsUiState(departmentsUiState: DepartmentsUiState) {
-        if (departmentsUiState.departments.isNotEmpty()) {
+    private fun handleDepartmentsUiState(departmentsState: DepartmentsState) {
+        if (departmentsState.departments.isNotEmpty()) {
             converterViewModel.getDataForConverterAdapter()
         }
-        departmentsUiState.error?.let {
+        departmentsState.error?.let {
             handleConverterError(it)
         }
-        if (departmentsUiState.isLoading)
+        if (departmentsState.isLoading)
             showLoading()
         else hideLoading()
     }

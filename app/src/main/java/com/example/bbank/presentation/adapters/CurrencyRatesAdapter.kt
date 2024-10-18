@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.databinding.ItemCurrencyRateRvBinding
-import com.example.bbank.domain.models.Department
 import com.example.bbank.presentation.utils.PresentationUtils.toCurrencyRatesToByn
+import com.example.core.domain.department.Department
 import com.google.android.material.imageview.ShapeableImageView
 
 internal class CurrencyRatesAdapter(
