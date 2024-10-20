@@ -1,13 +1,17 @@
 package com.example.core.data.di
 
+import com.example.core.data.converter.ConverterRepositoryImpl
 import com.example.core.data.department.DepartmentRepositoryImpl
 import com.example.core.data.news.NewsRepositoryImpl
+import com.example.core.domain.converter.ConverterRepository
+import com.example.core.domain.converter.LocalConverterDataSource
 import com.example.core.domain.department.DepartmentRepository
 import com.example.core.domain.department.LocalDepartmentDataSource
 import com.example.core.domain.department.RemoteDepartmentDataSource
 import com.example.core.domain.news.LocalNewsDataSource
 import com.example.core.domain.news.NewsRepository
 import com.example.core.domain.news.RemoteNewsDataSource
+import com.example.core.domain.shared_preferences.SharedPreferencesLocal
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,9 +53,9 @@ object CoreDataModule {
             engine {
                 requestTimeout = 60_000
                 endpoint {
-                    connectTimeout = 15_000 // 15 секунд на установление соединения
-                    connectAttempts = 5 // Количество попыток повторного подключения
-                    keepAliveTime = 5000L  // Максимальное время "жизни" соединения
+                    connectTimeout = 15_000
+                    connectAttempts = 5
+                    keepAliveTime = 5000L
                 }
             }
         }
@@ -69,12 +73,16 @@ object CoreDataModule {
     @Provides
     fun provideDepartmentRepository(
         localDepartmentDataSource: LocalDepartmentDataSource,
-        remoteDepartmentDataSource: RemoteDepartmentDataSource,
-        applicationScope: CoroutineScope
+        remoteDepartmentDataSource: RemoteDepartmentDataSource
     ): DepartmentRepository =
-        DepartmentRepositoryImpl(
-            localDepartmentDataSource,
-            remoteDepartmentDataSource,
-            applicationScope
-        )
+        DepartmentRepositoryImpl(localDepartmentDataSource, remoteDepartmentDataSource)
+
+    @Singleton
+    @Provides
+    fun provideConverterRepository(
+        localConverterDataSource: LocalConverterDataSource,
+        sharedPreferencesLocal: SharedPreferencesLocal,
+        applicationScope: CoroutineScope
+    ): ConverterRepository =
+        ConverterRepositoryImpl(localConverterDataSource, sharedPreferencesLocal, applicationScope)
 }

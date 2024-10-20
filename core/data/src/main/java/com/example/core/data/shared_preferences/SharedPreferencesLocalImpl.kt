@@ -1,7 +1,8 @@
-package com.example.bbank.data.repositories.local
+package com.example.core.data.shared_preferences
 
 import android.content.SharedPreferences
-import com.google.gson.Gson
+import com.example.core.domain.shared_preferences.SharedPreferencesLocal
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import javax.inject.Inject
 
@@ -16,19 +17,21 @@ class SharedPreferencesLocalImpl @Inject constructor(
     }
 
     override suspend fun getCurrencyValues(): List<Pair<String, String>> {
-        val gson = Gson()
-        val currencyValues = sharedPreferences.getString("currencyValues", "") ?: ""
-        return if (currencyValues.isEmpty() || currencyValues == "[]") {
-            listOf(Pair("byn", ""), Pair("usd", ""))
+        val gson = GsonBuilder().create()
+        val currencyValuesJson = sharedPreferences.getString("currencyValues", "") ?: ""
+
+        return if (currencyValuesJson.isEmpty() || currencyValuesJson == "[]") {
+            listOf(Pair("BYN", ""), Pair("USD", ""))
         } else {
-            val type = object : TypeToken<List<Pair<String, String>>>() {}.type
-            gson.fromJson(currencyValues, type)
+            val typeToken = object : TypeToken<List<Pair<String, String>>>() {}.type
+            gson.fromJson(currencyValuesJson, typeToken)
         }
     }
 
     override suspend fun setCurrencyValues(currencyValues: List<Pair<String, String>>) {
-        val gson = Gson()
+        val gson = GsonBuilder().create()
         val currencyValuesJson = gson.toJson(currencyValues)
+
         with(sharedPreferences.edit()) {
             putString("currencyValues", currencyValuesJson)
             apply()

@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +38,7 @@ internal class NewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupNewsRecyclerView()
-        observeNewsUiState()
+        observeNewsState()
     }
 
     private fun setupNewsRecyclerView() =
@@ -48,21 +50,24 @@ internal class NewsFragment : Fragment() {
             )
         }
 
-    private fun observeNewsUiState() =
+    private fun observeNewsState() =
         viewLifecycleOwner.lifecycleScope.launch {
-            newsViewModel.state.collectLatest {
-                handleNewsState(it)
-            }
+            newsViewModel.state
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    handleNewsState(it)
+                }
         }
 
-    private fun handleNewsState(newsState: NewsState) {
-        if (newsState.news.isNotEmpty())
-            (binding.rvNews.adapter as NewsAdapter).updateNewsAdapterData(newsState.news)
-        if (newsState.error != null) {
-            handleError(newsState.error)
-            newsViewModel.clearNewsStateError()
+    private fun handleNewsState(state: NewsState) {
+        if (state.news.isNotEmpty())
+            (binding.rvNews.adapter as NewsAdapter).updateNews(state.news)
+
+        state.error?.let {
+            showError(state.error)
         }
-        if (newsState.isLoading)
+
+        if (state.isLoading)
             showLoading()
         else hideLoading()
     }
@@ -74,7 +79,7 @@ internal class NewsFragment : Fragment() {
             )
         }
 
-    private fun handleError(messageError: UiText) =
+    private fun showError(messageError: UiText) =
         Snackbar.make(requireView(), messageError.asString(requireContext()), Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()

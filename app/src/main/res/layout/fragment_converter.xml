@@ -75,7 +75,7 @@
         </HorizontalScrollView>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/currencyRecyclerView"
+            android:id="@+id/rv_converter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -96,7 +96,7 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideLine96Vertical"
             app:layout_constraintStart_toStartOf="@+id/leftGuideLine4Vertical"
-            app:layout_constraintTop_toBottomOf="@+id/currencyRecyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_converter" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/rightGuideLine96Vertical"

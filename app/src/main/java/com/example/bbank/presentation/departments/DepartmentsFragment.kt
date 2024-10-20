@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,12 +40,12 @@ internal class DepartmentsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViewListeners()
+        setViewsClickListeners()
         setupDepartmentsRecyclerView()
-        observeDepartmentsUiState()
+        observeDepartmentsState()
     }
 
-    private fun setupViewListeners() =
+    private fun setViewsClickListeners() =
         binding.apply {
             btnGetRemoteDepartments.setOnClickListener {
                 departmentsViewModel.fetchRemoteDepartments()
@@ -86,31 +88,32 @@ internal class DepartmentsFragment : Fragment() {
     private fun showCitySelectionDialog() =
         CitySelectionDialog.display(getParentFragmentManager(), requireContext())
 
-    private fun observeDepartmentsUiState() =
+    private fun observeDepartmentsState() =
         viewLifecycleOwner.lifecycleScope.launch {
-            departmentsViewModel.state.collectLatest {
-                onStateChanged(it)
-            }
+            departmentsViewModel.state
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    handleDepartmentState(it)
+                }
         }
 
-    private fun onStateChanged(departmentsState: DepartmentsState) {
+    private fun handleDepartmentState(state: DepartmentsState) {
         val currentTime = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
-        val currentCity = departmentsState.currentCity
+        val currentCity = state.currentCity
         binding.apply {
             chipCity.text = currentCity
             tvDepartmentsCity.text = getString(R.string.departments_in, currentCity, currentTime)
-            (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(departmentsState.departments)
+            (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(state.departments)
         }
-        departmentsState.error?.let {
-            handleDepartmentsError(it)
+        state.error?.let {
+            showDepartmentsError(it)
         }
-        if (departmentsState.isLoading)
+        if (state.isLoading)
             showLoading()
         else hideLoading()
     }
 
-    private fun handleDepartmentsError(messageError: UiText) {
-        departmentsViewModel.clearDepartmentsError()
+    private fun showDepartmentsError(messageError: UiText) {
         Snackbar.make(requireView(), messageError.asString(requireContext()), Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()

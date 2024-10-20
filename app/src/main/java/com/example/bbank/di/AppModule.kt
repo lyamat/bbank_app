@@ -2,8 +2,8 @@ package com.example.bbank.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.bbank.data.repositories.local.SharedPreferencesLocal
-import com.example.bbank.data.repositories.local.SharedPreferencesLocalImpl
+import com.example.core.data.shared_preferences.SharedPreferencesLocalImpl
+import com.example.core.domain.shared_preferences.SharedPreferencesLocal
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +30,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    // TODO: remove local
     fun provideSharedPreferencesLocal(
         sharedPreferences: SharedPreferences
     ): SharedPreferencesLocal = SharedPreferencesLocalImpl(sharedPreferences)

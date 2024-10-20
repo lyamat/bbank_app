@@ -1,7 +1,7 @@
 package com.example.core.domain.department
 
 import com.example.core.domain.util.DataError
-import com.example.core.domain.util.EmptyResult
+import com.example.core.domain.util.Result
 import kotlinx.coroutines.flow.Flow
 
 interface DepartmentRepository {
@@ -11,5 +11,5 @@ interface DepartmentRepository {
     suspend fun upsertDepartments(departments: List<Department>)
     suspend fun deleteAllDepartments()
 
-    suspend fun fetchDepartments(): EmptyResult<DataError>
+    suspend fun fetchDepartments(): Result<List<Department>, DataError.Network>
 }

@@ -1,4 +1,4 @@
-package com.example.bbank.data.repositories.local
+package com.example.core.domain.shared_preferences
 
 interface SharedPreferencesLocal {
     suspend fun getCurrentCity(): String

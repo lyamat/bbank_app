@@ -5,11 +5,7 @@ import com.example.core.domain.department.DepartmentRepository
 import com.example.core.domain.department.LocalDepartmentDataSource
 import com.example.core.domain.department.RemoteDepartmentDataSource
 import com.example.core.domain.util.DataError
-import com.example.core.domain.util.EmptyResult
 import com.example.core.domain.util.Result
-import com.example.core.domain.util.asEmptyDataResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,8 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class DepartmentRepositoryImpl @Inject constructor(
     private val localDepartmentDataSource: LocalDepartmentDataSource,
-    private val remoteDepartmentDataSource: RemoteDepartmentDataSource,
-    private val applicationScope: CoroutineScope
+    private val remoteDepartmentDataSource: RemoteDepartmentDataSource
 ) : DepartmentRepository {
     override fun getDepartments(): Flow<List<Department>> {
         return localDepartmentDataSource.getDepartments()
@@ -40,14 +35,7 @@ class DepartmentRepositoryImpl @Inject constructor(
         localDepartmentDataSource.deleteAllDepartments()
     }
 
-    override suspend fun fetchDepartments(): EmptyResult<DataError> {
-        return when (val result = remoteDepartmentDataSource.getDepartments()) {
-            is Result.Error -> result.asEmptyDataResult()
-            is Result.Success -> {
-                applicationScope.async {
-                    localDepartmentDataSource.upsertDepartments(result.data).asEmptyDataResult()
-                }.await()
-            }
-        }
+    override suspend fun fetchDepartments(): Result<List<Department>, DataError.Network> {
+        return remoteDepartmentDataSource.getDepartments()
     }
 }

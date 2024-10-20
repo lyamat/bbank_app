@@ -58,11 +58,9 @@ internal class NewsAdapter(
             onClick(news[position])
         }
 
-    internal fun updateNewsAdapterData(newNews: List<News>) {
-        if (news != newNews) {
-            news = newNews
-            notifyDataSetChanged()
-        }
+    internal fun updateNews(newNews: List<News>) {
+        news = newNews
+        notifyDataSetChanged()
     }
 
     private fun getTimeSincePublication(startDate: String): String {
