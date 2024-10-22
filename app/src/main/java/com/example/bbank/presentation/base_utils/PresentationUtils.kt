@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.utils
+package com.example.bbank.presentation.base_utils
 
 import com.example.core.domain.department.Department
 

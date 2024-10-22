@@ -88,7 +88,7 @@ suspend inline fun <reified T> responseToResult(response: HttpResponse): Result<
 }
 
 fun constructRoute(route: String): String {
-    // TODO: move to anywhere
+    // TODO: move BASE_URL to anywhere (core:domain Const?)
     val BASE_URL = "https://belarusbank.by/api/"
     return when {
         route.contains(BASE_URL) -> route

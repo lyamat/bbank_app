@@ -1,50 +1,58 @@
-package com.example.bbank.presentation.adapters
+package com.example.bbank.presentation.departments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bbank.databinding.ItemCurrencyRateRvBinding
-import com.example.bbank.presentation.utils.PresentationUtils.toCurrencyRatesToByn
+import com.example.bbank.databinding.ItemDepartmentCurrencyRateRvBinding
+import com.example.bbank.presentation.base_utils.PresentationUtils.toCurrencyRatesToByn
 import com.example.core.domain.department.Department
 import com.google.android.material.imageview.ShapeableImageView
 
-internal class CurrencyRatesAdapter(
+internal class DepartmentCurrencyRatesAdapter(
     department: Department,
-) : RecyclerView.Adapter<CurrencyRatesAdapter.CurrencyRatesViewHolder>() {
+) : RecyclerView.Adapter<DepartmentCurrencyRatesAdapter.DepartmentCurrencyRatesViewHolder>() {
 
+    // TODO: remake this shit.. 
     private val currencyRatesToByn: List<Triple<String, Pair<String, String>, String>> =
         department.toCurrencyRatesToByn()
 
-    internal inner class CurrencyRatesViewHolder(binding: ItemCurrencyRateRvBinding) :
+    internal inner class DepartmentCurrencyRatesViewHolder(binding: ItemDepartmentCurrencyRateRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tvCurrencyCode: TextView = binding.tvCurrencyCode
         val tvCurrencyExchangeDescription: TextView =
-            binding.tvCurrencyExchangeDescription // TODO: add (maybe already implemented, check it)
-        val tvBuyRate: TextView = binding.tvBuyRate
-        val tvSaleRate: TextView = binding.tvSaleRate
+            binding.tvCurrencyExchangeDescription
+        val tvCurrencyBuyRate: TextView = binding.tvCurrencyBuyRate
+        val tvCurrencySaleRate: TextView = binding.tvCurrencySaleRate
         val ivCurrencyImage: ShapeableImageView = binding.ivCurrencyImage
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyRatesViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): DepartmentCurrencyRatesViewHolder {
         val binding =
-            ItemCurrencyRateRvBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CurrencyRatesViewHolder(binding)
+            ItemDepartmentCurrencyRateRvBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        return DepartmentCurrencyRatesViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CurrencyRatesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DepartmentCurrencyRatesViewHolder, position: Int) {
         val currencyRate = currencyRatesToByn[position]
         with(holder) {
             tvCurrencyCode.text = currencyRate.first
-            tvBuyRate.text = currencyRate.second.first
-            tvSaleRate.text = currencyRate.second.second
+            tvCurrencyBuyRate.text = currencyRate.second.first
+            tvCurrencySaleRate.text = currencyRate.second.second
             tvCurrencyExchangeDescription.text = currencyRate.third
             ivCurrencyImage.setImageResource(setResourceId(holder, currencyRate))
         }
     }
 
     private fun setResourceId(
-        holder: CurrencyRatesViewHolder,
+        holder: DepartmentCurrencyRatesViewHolder,
         currencyRate: Triple<String, Pair<String, String>, String>
     ): Int =
         holder.ivCurrencyImage.context.resources.getIdentifier(

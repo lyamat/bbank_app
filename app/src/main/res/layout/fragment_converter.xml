@@ -11,35 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvNoData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="There is no data for converter"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </TextView>
-
-        <TextView
-            android:id="@+id/tvSuggestionToGetData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="@string/get_data_for_converter"
-            android:textColor="@color/green"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNoData">
-
-        </TextView>
-
         <HorizontalScrollView
             android:id="@+id/chipsConverter"
             android:layout_width="0dp"
@@ -61,14 +32,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/bank_buy" />
+                    android:text="@string/main_converter_bank_buys" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipBankSale"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bank_sale" />
+                    android:text="@string/main_converter_bank_sells" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -84,7 +55,7 @@
             app:layout_constraintStart_toStartOf="@id/leftGuideLine4Vertical"
             app:layout_constraintTop_toBottomOf="@id/chipsConverter"
             tools:itemCount="2"
-            tools:listitem="@layout/item_currency_rv" />
+            tools:listitem="@layout/item_converter_currency_rv" />
 
         <Button
             android:id="@+id/btnAddCurrency"

@@ -1,13 +1,16 @@
 package com.example.bbank.presentation.news
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.core.domain.news.NewsRepository
 import com.example.core.domain.news.SyncNewsScheduler
 import com.example.core.domain.util.Result
 import com.example.core.presentation.ui.UiText
 import com.example.core.presentation.ui.asUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -15,6 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.time.Duration.Companion.hours
 
 @HiltViewModel
@@ -22,40 +26,64 @@ internal class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository,
     private val syncNewsScheduler: SyncNewsScheduler
 ) : ViewModel() {
+    private val viewModelJob = SupervisorJob()
+    private val viewModelScope = CoroutineScope(Dispatchers.Main.immediate + viewModelJob)
 
     private val _state = MutableStateFlow(NewsState())
     val state: StateFlow<NewsState> get() = _state
 
     init {
-        viewModelScope.launch {
-            syncNewsScheduler.scheduleSync(
-                type = SyncNewsScheduler.SyncType.FetchNews(24.hours)
-            )
-        }
         newsRepository.getNews().onEach { news ->
             if (news.isEmpty()) {
                 fetchNews()
             } else {
-                _state.update { it.copy(news = news.take(5)) }
+                _state.update { NewsState(news = news.take(5)) }
             }
         }.launchIn(viewModelScope)
+
+        viewModelScope.launch {
+            syncNewsScheduler.scheduleSync(
+                SyncNewsScheduler.SyncType.FetchNews(24.hours)
+            )
+        }
     }
 
-    private suspend fun fetchNews() {
-        _state.update { it.copy(isLoading = true) }
-        when (val result = newsRepository.fetchNews()) {
-            is Result.Success -> Unit
-            is Result.Error -> updateNewsStateWithError(result.error.asUiText())
+    private fun fetchNews() {
+        viewModelScope.launch {
+            try {
+                setNewsStateIsLoading(true)
+                when (val result = newsRepository.fetchNews()) {
+                    is Result.Error -> {
+                        setNewsStateError(result.error.asUiText())
+                    }
+
+                    is Result.Success -> {
+                        Unit
+                    }
+                }
+            } catch (e: CancellationException) {
+                setNewsIsFetchCanceled(true)
+            } finally {
+                setNewsStateIsLoading(false)
+            }
         }
-        _state.update { it.copy(isLoading = false) }
     }
 
-    private fun updateNewsStateWithError(uiText: UiText) =
-        _state.update {
-            it.copy(error = uiText)
-        }
+    fun setNewsIsFetchCanceled(isFetchCanceled: Boolean) =
+        _state.update { it.copy(isFetchCanceled = isFetchCanceled) }
 
-    internal fun clearNewsStateError() {
-        _state.value = _state.value.copy(error = null)
+    fun setNewsStateError(uiText: UiText?) =
+        _state.update { it.copy(error = uiText) }
+
+    private fun setNewsStateIsLoading(isLoading: Boolean) =
+        _state.update { it.copy(isLoading = isLoading) }
+
+    fun cancelCurrentFetching() {
+        viewModelJob.cancelChildren()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

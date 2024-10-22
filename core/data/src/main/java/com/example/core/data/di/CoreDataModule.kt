@@ -51,7 +51,7 @@ object CoreDataModule {
                 contentType(ContentType.Application.Json)
             }
             engine {
-                requestTimeout = 60_000
+                requestTimeout = 30_000
                 endpoint {
                     connectTimeout = 15_000
                     connectAttempts = 5
@@ -73,16 +73,17 @@ object CoreDataModule {
     @Provides
     fun provideDepartmentRepository(
         localDepartmentDataSource: LocalDepartmentDataSource,
-        remoteDepartmentDataSource: RemoteDepartmentDataSource
+        remoteDepartmentDataSource: RemoteDepartmentDataSource,
+        localConverterDataSource: LocalConverterDataSource,
+        applicationScope: CoroutineScope
     ): DepartmentRepository =
-        DepartmentRepositoryImpl(localDepartmentDataSource, remoteDepartmentDataSource)
+        DepartmentRepositoryImpl(localDepartmentDataSource, remoteDepartmentDataSource, localConverterDataSource, applicationScope)
 
     @Singleton
     @Provides
     fun provideConverterRepository(
         localConverterDataSource: LocalConverterDataSource,
-        sharedPreferencesLocal: SharedPreferencesLocal,
-        applicationScope: CoroutineScope
+        sharedPreferencesLocal: SharedPreferencesLocal
     ): ConverterRepository =
-        ConverterRepositoryImpl(localConverterDataSource, sharedPreferencesLocal, applicationScope)
+        ConverterRepositoryImpl(localConverterDataSource, sharedPreferencesLocal)
 }

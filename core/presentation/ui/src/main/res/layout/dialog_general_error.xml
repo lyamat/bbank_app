@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_40"
+        app:cardCornerRadius="@dimen/dp_10"
+        app:cardElevation="@dimen/dp_8">
+
+        <LinearLayout
+            android:id="@+id/dialog_general"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:minWidth="@dimen/dp_300"
+            android:padding="@dimen/dp_24">
+
+            <ImageView
+                android:id="@+id/iv_icon_dialog_with_action"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_100"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_info" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_title_common_dialog_single_button"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp_20"
+                tools:text="Messages title" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_content_common_dialog_single_button"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp_16"
+                tools:text="Messages description" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_action_primary_common_dialog"
+                style="@style/Widget.Material3.FloatingActionButton.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="Try Again" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_action_secondary_common_dialog"
+                style="@style/Widget.Material3.FloatingActionButton.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="Close"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

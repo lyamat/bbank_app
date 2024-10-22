@@ -57,23 +57,25 @@ internal class CitySelectionDialog : DialogFragment() {
         setupCitiesRecyclerView()
     }
 
-    private fun setupCitySelectionDialog() = binding.apply {
-        tbCitySelection.setNavigationOnClickListener { dismiss() }
-        tbCitySelection.setTitle(getString(R.string.city_selection_dialog))
-        tbCitySelection.setOnMenuItemClickListener {
-            dismiss()
-            true
+    private fun setupCitySelectionDialog() =
+        binding.apply {
+            tbCitySelection.setNavigationOnClickListener { dismiss() }
+            tbCitySelection.setTitle(getString(R.string.city_selection_dialog))
+            tbCitySelection.setOnMenuItemClickListener {
+                dismiss()
+                true
+            }
         }
-    }
 
-    private fun setupCitiesRecyclerView() = binding.rvCities.apply {
-        layoutManager = LinearLayoutManager(context)
-        adapter = CityAdapter(
-            cities = cities,
-            currentCity = currentCity,
-            onClick = { cityName -> processCityClick(cityName) }
-        )
-    }
+    private fun setupCitiesRecyclerView() =
+        binding.rvCities.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = CityAdapter(
+                cities = cities,
+                currentCity = currentCity,
+                onClick = { cityName -> processCityClick(cityName) }
+            )
+        }
 
     private fun processCityClick(cityName: String) {
         departmentsViewModel.saveCity(cityName)

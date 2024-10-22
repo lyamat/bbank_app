@@ -7,5 +7,6 @@ internal data class DepartmentsState(
     val departments: List<Department> = emptyList(),
     val currentCity: String = "",
     val isLoading: Boolean = false,
-    val error: UiText? = null
+    val error: UiText? = null,
+    val isFetchCanceled: Boolean = false
 )

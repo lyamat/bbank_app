@@ -1,7 +1,7 @@
-package com.example.bbank.presentation.utils
+package com.example.bbank.presentation.base_utils
 
 internal object TimeUtils {
-    internal fun parseTime(hours: String, minutes: String): Int =
+    internal fun getTimeInMinutes(hours: String, minutes: String): Int =
         hours.toInt() * 60 + minutes.toInt()
 
     internal fun isTimeInRange(

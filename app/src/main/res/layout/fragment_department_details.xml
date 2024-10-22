@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@id/rightGuideLine96Vertical"
+        app:layout_constraintStart_toStartOf="@id/leftGuideLine4Vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:id="@+id/mapLayout"
@@ -26,7 +29,9 @@
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></com.yandex.mapkit.mapview.MapView>
+                app:layout_constraintTop_toTopOf="parent">
+
+            </com.yandex.mapkit.mapview.MapView>
 
             <ImageView
                 android:id="@+id/transparent_image"
@@ -41,9 +46,7 @@
             android:id="@+id/ivIncreaseMapView"
             android:layout_width="50dp"
             android:layout_height="50dp"
-
             android:src="@drawable/ic_increase"
-
             app:layout_constraintBottom_toBottomOf="@+id/mapLayout"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -53,10 +56,8 @@
             android:id="@+id/ivDecreaseMapView"
             android:layout_width="50dp"
             android:layout_height="50dp"
-
             android:src="@drawable/ic_decrease"
             android:visibility="invisible"
-
             app:layout_constraintBottom_toBottomOf="@+id/mapLayout"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -143,62 +144,6 @@
         </TextView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clExchanges"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvUpdateTime">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/converterChipGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:singleLine="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipBankBuy"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bank_buy" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipIsWorking"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bank_sale" />
-
-            </com.google.android.material.chip.ChipGroup>
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/converterChipGroup"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/converterChipGroup" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvConverterTwo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-
-                app:layout_constraintTop_toBottomOf="@id/converterChipGroup"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_currency_rv">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -206,10 +151,9 @@
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clExchanges">
+            app:layout_constraintTop_toBottomOf="@+id/tvUpdateTime">
 
             <TextView
-                android:id="@+id/tvDepartmentsCity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/currency"
@@ -224,7 +168,6 @@
             </TextView>
 
             <TextView
-                android:id="@+id/tvBuyRate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/buying"
@@ -238,7 +181,6 @@
             </TextView>
 
             <TextView
-                android:id="@+id/tvSaleRate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/selling"
@@ -250,7 +192,6 @@
                 app:layout_constraintTop_toTopOf="parent">
 
             </TextView>
-
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline50Vertical"
@@ -269,19 +210,37 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCurrencyBuySale"
+            android:id="@+id/rvDepartmentCurrencyRate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:fadeScrollbars="true"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@color/lavender"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clInfo"
             tools:itemCount="3"
-            tools:listitem="@layout/item_currency_rate_rv">
+            tools:listitem="@layout/item_department_currency_rate_rv">
 
         </androidx.recyclerview.widget.RecyclerView>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.core.widget.NestedScrollView>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuideLine96Vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuideLine4Vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

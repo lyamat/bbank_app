@@ -1,10 +1,6 @@
 package com.example.bbank.presentation.departments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -13,10 +9,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentsBinding
-import com.example.bbank.presentation.adapters.DepartmentsAdapter
 import com.example.core.domain.department.Department
 import com.example.core.presentation.ui.UiText
-import com.google.android.material.snackbar.Snackbar
+import com.example.core.presentation.ui.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,31 +20,22 @@ import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
-internal class DepartmentsFragment : Fragment() {
-    private lateinit var binding: FragmentDepartmentsBinding
+internal class DepartmentsFragment :
+    BaseFragment<FragmentDepartmentsBinding>(FragmentDepartmentsBinding::inflate) {
+
     private val departmentsViewModel by activityViewModels<DepartmentsViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentDepartmentsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupView() {
         setViewsClickListeners()
         setupDepartmentsRecyclerView()
         observeDepartmentsState()
     }
 
+    override fun onClickButtonCancel() =
+        departmentsViewModel.cancelCurrentFetching()
+
     private fun setViewsClickListeners() =
         binding.apply {
-            btnGetRemoteDepartments.setOnClickListener {
-                departmentsViewModel.fetchRemoteDepartments()
-            }
             chipCity.setOnClickListener {
                 showCitySelectionDialog()
             }
@@ -59,6 +45,9 @@ internal class DepartmentsFragment : Fragment() {
                 } else {
                     (rvDepartments.adapter as DepartmentsAdapter).showAllDepartments()
                 }
+            }
+            btnGetRemoteDepartments.setOnClickListener {
+                departmentsViewModel.fetchDepartments()
             }
         }
 
@@ -75,6 +64,7 @@ internal class DepartmentsFragment : Fragment() {
     private fun openDepartmentDetailFragment(department: Department) =
         Bundle().apply {
             putParcelable(
+                // TODO: remake to throw id
                 "departmentParcelable",
                 department.toDepartmentParcelable()
             )
@@ -100,32 +90,33 @@ internal class DepartmentsFragment : Fragment() {
     private fun handleDepartmentState(state: DepartmentsState) {
         val currentTime = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
         val currentCity = state.currentCity
-        binding.apply {
-            chipCity.text = currentCity
-            tvDepartmentsCity.text = getString(R.string.departments_in, currentCity, currentTime)
-            (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(state.departments)
+        if (state.departments.isNotEmpty()) {
+            binding.apply {
+                chipCity.text = currentCity
+                tvDepartmentsCity.text =
+                    getString(R.string.departments_in, currentCity, currentTime)
+                (rvDepartments.adapter as DepartmentsAdapter).updateDepartments(state.departments)
+            }
         }
-        state.error?.let {
-            showDepartmentsError(it)
+        if (state.isLoading) {
+            showDialogProgressBar()
+        } else hideDialogProgressBar()
+
+        if (state.isFetchCanceled) {
+            showDialogGeneralError(
+                getString(R.string.error_occurred),
+                UiText.DynamicString(getString(R.string.request_was_canceled))
+            )
+            departmentsViewModel.setDepartmentsIsFetchCanceled(false)
+            return
         }
-        if (state.isLoading)
-            showLoading()
-        else hideLoading()
-    }
-
-    private fun showDepartmentsError(messageError: UiText) {
-        Snackbar.make(requireView(), messageError.asString(requireContext()), Snackbar.LENGTH_SHORT)
-            .setAnchorView(R.id.bottomNavigation)
-            .show()
-    }
-
-    private fun hideLoading() {
-        binding.btnGetRemoteDepartments.visibility = View.VISIBLE
-        binding.progressIndicatorDepartments.visibility = View.GONE
-    }
-
-    private fun showLoading() {
-        binding.btnGetRemoteDepartments.visibility = View.GONE
-        binding.progressIndicatorDepartments.visibility = View.VISIBLE
+        if (state.error != null) {
+            showDialogGeneralError(
+                getString(R.string.error_occurred),
+                UiText.DynamicString(state.error.asString(requireContext()))
+            )
+            departmentsViewModel.setDepartmentsStateError(null)
+            return
+        }
     }
 }

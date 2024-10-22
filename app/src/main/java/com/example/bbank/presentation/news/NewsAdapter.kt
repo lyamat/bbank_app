@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.adapters
+package com.example.bbank.presentation.news
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -39,12 +39,12 @@ internal class NewsAdapter(
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        val chosenNews = news[position]
+        val newsItem = news[position]
         with(holder) {
-            tvTimeSincePublication.text = getTimeSincePublication(chosenNews.startDate)
-            tvNewsTitle.text = chosenNews.nameRu
+            tvTimeSincePublication.text = getTimeSincePublication(newsItem.startDate)
+            tvNewsTitle.text = newsItem.nameRu
             newsSetOnClickListener(newsCardView, position)
-            loadImageIntoView(ivThumbnail, chosenNews.img)
+            loadImageIntoView(ivThumbnail, newsItem.img)
         }
     }
 

@@ -27,10 +27,15 @@ android {
     kotlinOptions {
         jvmTarget = '21'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
     implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
 
     implementation project(':core:domain')
 }

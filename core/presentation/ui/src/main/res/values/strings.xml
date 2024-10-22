@@ -9,6 +9,11 @@
     <string name="error_serialization">Ops! Couldn\'t parse data.</string>
     <string name="error_unknown">Ops! An unknown error occurred</string>
     <string name="error_conflict">A conflict with the current state of a resource</string>
+
     <string name="unauthorized">Proper authentication credentials are missing or invalid credentials have been provided</string>
     <string name="not_found">Entity not found</string>
+    <string name="close_app">Close the app</string>
+    <string name="ok">OK</string>
+    <string name="fetching_data">Fetching data…</string>
+    <string name="cancel">Cancel</string>
 </resources>

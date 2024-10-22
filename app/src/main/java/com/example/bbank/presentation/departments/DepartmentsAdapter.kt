@@ -1,12 +1,15 @@
-package com.example.bbank.presentation.adapters
+package com.example.bbank.presentation.departments
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
 import com.example.bbank.databinding.ItemDepartmentRvBinding
-import com.example.bbank.presentation.utils.PresentationUtils.getFullAddress
-import com.example.bbank.presentation.utils.TimeUtils
+import com.example.bbank.presentation.base_utils.PresentationUtils.getFullAddress
+import com.example.bbank.presentation.base_utils.TimeUtils
 import com.example.core.domain.department.Department
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -26,18 +29,13 @@ internal class DepartmentsAdapter(
         setCurrentTimeProperties()
     }
 
-    internal inner class DepartmentsViewHolder(private val binding: ItemDepartmentRvBinding) :
+    internal inner class DepartmentsViewHolder(binding: ItemDepartmentRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        internal fun bind(department: Department) {
-            binding.apply {
-                tvDepartmentAddress.text = department.getFullAddress()
-                tvBuyRate.text = department.usdOut
-                tvSaleRate.text = department.usdIn
-                departmentAccessibility.setBackgroundResource(getColorForDepartment(department))
-                clDepartmentItem.setOnClickListener { onClick(department) }
-            }
-        }
+        val tvDepartmentAddress: TextView = binding.tvDepartmentAddress
+        val tvDepartmentCurrencyBuyRate: TextView = binding.tvDepartmentCurrencyBuyRate
+        val tvDepartmentCurrencySaleRate: TextView = binding.tvDepartmentCurrencySaleRate
+        val viewDepartmentAccessibility: View = binding.departmentAccessibility
+        val clDepartmentItem: ConstraintLayout = binding.clDepartmentItem
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DepartmentsViewHolder {
@@ -47,7 +45,14 @@ internal class DepartmentsAdapter(
     }
 
     override fun onBindViewHolder(holder: DepartmentsViewHolder, position: Int) {
-        holder.bind(departments[position])
+        val department = departments[position]
+        with(holder) {
+            tvDepartmentAddress.text = department.getFullAddress()
+            tvDepartmentCurrencyBuyRate.text = department.usdOut
+            tvDepartmentCurrencySaleRate.text = department.usdIn
+            viewDepartmentAccessibility.setBackgroundResource(getColorForDepartment(department))
+            clDepartmentItem.setOnClickListener { onClick(department) }
+        }
     }
 
     override fun getItemCount(): Int = departments.size
@@ -59,8 +64,8 @@ internal class DepartmentsAdapter(
     private fun isDepartmentOpen(infoWorkTime: String): Boolean {
         return try {
             val workTimeParts = getTodayWorkTime(infoWorkTime) ?: return false
-            val openTime = TimeUtils.parseTime(workTimeParts[0], workTimeParts[1])
-            val closeTime = TimeUtils.parseTime(workTimeParts[2], workTimeParts[3])
+            val openTime = TimeUtils.getTimeInMinutes(workTimeParts[0], workTimeParts[1])
+            val closeTime = TimeUtils.getTimeInMinutes(workTimeParts[2], workTimeParts[3])
 
             TimeUtils.isTimeInRange(
                 currentTime,
@@ -91,7 +96,7 @@ internal class DepartmentsAdapter(
             calendar.get(Calendar.DAY_OF_WEEK).let { if (it == Calendar.SUNDAY) 7 else it - 1 }
         val currentTimeParts =
             SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendar.time).split(":")
-        currentTime = currentTimeParts[0].toInt() * 60 + currentTimeParts[1].toInt()
+        currentTime = TimeUtils.getTimeInMinutes(currentTimeParts[0], currentTimeParts[1])
     }
 
     internal fun updateDepartments(newDepartments: List<Department>) {

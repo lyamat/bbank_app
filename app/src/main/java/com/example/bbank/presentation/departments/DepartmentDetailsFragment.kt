@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentDetailsBinding
 import com.example.bbank.presentation.activity.MainActivity
-import com.example.bbank.presentation.adapters.CurrencyRatesAdapter
 import com.example.core.domain.department.Department
 import com.google.android.material.snackbar.Snackbar
 import com.yandex.mapkit.MapKitFactory
@@ -62,9 +61,9 @@ internal class DepartmentDetailsFragment : Fragment() {
     }
 
     private fun setupCurrencyRatesRecyclerView() =
-        binding.rvCurrencyBuySale.apply {
+        binding.rvDepartmentCurrencyRate.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = CurrencyRatesAdapter(
+            adapter = DepartmentCurrencyRatesAdapter(
                 department = department
             )
         }

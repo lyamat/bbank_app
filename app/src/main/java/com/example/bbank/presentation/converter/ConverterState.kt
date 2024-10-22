@@ -10,6 +10,7 @@ data class ConverterState(
     val currencyValues: List<Pair<CurrencyCode, CurrencyValue>> = emptyList(),
     val conversionRates: List<ConversionRate> = emptyList(),
     val conversionMode: ConversionMode = ConversionMode.IN,
+    val availableCurrencies: List<CurrencyCode> = emptyList(),
     val error: UiText? = null
 )
 

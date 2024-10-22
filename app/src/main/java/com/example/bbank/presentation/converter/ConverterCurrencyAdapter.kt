@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.adapters
+package com.example.bbank.presentation.converter
 
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -11,50 +11,53 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
-import com.example.bbank.databinding.ItemCurrencyRvBinding
-import com.example.bbank.presentation.converter.ConverterEvent
-import com.example.bbank.presentation.utils.DecimalDigitsInputFilter
+import com.example.bbank.databinding.ItemConverterCurrencyRvBinding
+import com.example.bbank.presentation.base_utils.DecimalDigitsInputFilter
 import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 
-class ConverterAdapter(
+class ConverterCurrencyAdapter(
     private var currencyValues: List<Pair<String, String>>,
     private val onConverterEvent: (ConverterEvent) -> Unit
-) : RecyclerView.Adapter<ConverterAdapter.ConverterViewHolder>() {
+) : RecyclerView.Adapter<ConverterCurrencyAdapter.ConverterCurrencyViewHolder>() {
 
     private var savedPosition = -1
 
-    inner class ConverterViewHolder(binding: ItemCurrencyRvBinding) :
+    inner class ConverterCurrencyViewHolder(binding: ItemConverterCurrencyRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val etCurrencyValue: EditText = binding.etCurrencyValue
-        val ivCurrency: ImageView = binding.ivCurrency
+        val ivCurrencyImage: ImageView = binding.ivCurrencyImage
         val tvCurrencyCode: TextView = binding.tvCurrencyCode
         val cvCurrency: MaterialCardView = binding.cvCurrency
-        val btnClear: ImageView = binding.btnClear
+        val btnClearCurrency: ImageView = binding.btnClearCurrency
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConverterViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConverterCurrencyViewHolder {
         val binding =
-            ItemCurrencyRvBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ConverterViewHolder(binding)
+            ItemConverterCurrencyRvBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        return ConverterCurrencyViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ConverterViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ConverterCurrencyViewHolder, position: Int) {
         val currency = currencyValues[position]
         with(holder) {
             setIsRecyclable(false)
             etCurrencyValue.setText(currency.second)
             tvCurrencyCode.text = currency.first.uppercase(Locale.ROOT)
             etCurrencyValue.filters = arrayOf<InputFilter>(DecimalDigitsInputFilter())
-            ivCurrency.setImageResource(setResourceId(holder, currency))
+            ivCurrencyImage.setImageResource(setResourceId(holder, currency))
             setupItem(holder, position)
             setCurrencyValueTextChangedListener(etCurrencyValue, position)
             setCurrencyValueOnFocusChangeListener(holder)
-            setBtnClearOnClickListener(holder.btnClear, position)
+            setBtnClearOnClickListener(holder.btnClearCurrency, position)
         }
     }
 
-    private fun setupItem(holder: ConverterViewHolder, position: Int) {
+    private fun setupItem(holder: ConverterCurrencyViewHolder, position: Int) {
         with(holder) {
             if (position == savedPosition) {
                 etCurrencyValue.requestFocus()
@@ -69,7 +72,7 @@ class ConverterAdapter(
     private fun setCurrencyValueTextChangedListener(etCurrencyValue: EditText, position: Int) {
         etCurrencyValue.doAfterTextChanged { it ->
             if (it.toString().isEmpty()) {
-                onConverterEvent(ConverterEvent.ClearAllValues)
+                onConverterEvent(ConverterEvent.ClearCurrencyValues)
             } else if (it.toString() != ".") {
                 val newValue = when {
                     it.toString() == "0" -> "0"
@@ -79,7 +82,7 @@ class ConverterAdapter(
                     else -> it.toString()
                 }
                 onConverterEvent(
-                    ConverterEvent.ValuesChanged(
+                    ConverterEvent.ConverterValueChanged(
                         currencyValues[position].first,
                         newValue
                     )
@@ -89,7 +92,7 @@ class ConverterAdapter(
         }
     }
 
-    private fun setCurrencyValueOnFocusChangeListener(holder: ConverterViewHolder) {
+    private fun setCurrencyValueOnFocusChangeListener(holder: ConverterCurrencyViewHolder) {
         with(holder) {
             etCurrencyValue.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
@@ -102,7 +105,7 @@ class ConverterAdapter(
     }
 
     private fun setCurrencyViewAppearance(
-        holder: ConverterViewHolder,
+        holder: ConverterCurrencyViewHolder,
         strokeColor: Int,
         strokeWidth: Int,
         btnClearVisibility: Int
@@ -110,14 +113,14 @@ class ConverterAdapter(
         with(holder) {
             cvCurrency.strokeColor = ContextCompat.getColor(holder.cvCurrency.context, strokeColor)
             cvCurrency.strokeWidth = strokeWidth
-            btnClear.visibility = btnClearVisibility
+            btnClearCurrency.visibility = btnClearVisibility
         }
     }
 
     private fun setBtnClearOnClickListener(btnClear: ImageView, position: Int) {
         btnClear.setOnClickListener {
             savedPosition = position
-            onConverterEvent(ConverterEvent.ClearAllValues)
+            onConverterEvent(ConverterEvent.ClearCurrencyValues)
         }
     }
 
@@ -126,11 +129,14 @@ class ConverterAdapter(
         notifyDataSetChanged()
     }
 
-    private fun setResourceId(holder: ConverterViewHolder, currency: Pair<String, String>): Int =
-        holder.ivCurrency.context.resources.getIdentifier(
+    private fun setResourceId(
+        holder: ConverterCurrencyViewHolder,
+        currency: Pair<String, String>
+    ): Int =
+        holder.ivCurrencyImage.context.resources.getIdentifier(
             "ic_${currency.first}",
             "drawable",
-            holder.ivCurrency.context.packageName
+            holder.ivCurrencyImage.context.packageName
         )
 
     override fun getItemCount() = currencyValues.size

@@ -45,22 +45,22 @@
             android:padding="8dp"
             android:singleLine="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnClear"
+            app:layout_constraintEnd_toStartOf="@+id/btn_clear_currency"
             app:layout_constraintStart_toEndOf="@+id/tvCurrencyCode"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/btnClear"
+            android:id="@+id/btn_clear_currency"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="3dp"
             android:src="@drawable/ic_close"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ivCurrency"
+            app:layout_constraintEnd_toStartOf="@+id/iv_currency_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ivCurrency"
+            android:id="@+id/iv_currency_image"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="8dp"

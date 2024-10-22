@@ -6,5 +6,6 @@ import com.example.core.presentation.ui.UiText
 internal data class NewsState(
     val news: List<News> = emptyList(),
     val isLoading: Boolean = false,
-    val error: UiText? = null
+    val error: UiText? = null,
+    val isFetchCanceled: Boolean = false
 )

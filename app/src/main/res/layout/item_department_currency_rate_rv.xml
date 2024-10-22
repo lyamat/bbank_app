@@ -32,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:text="CHF"
+                android:text="@string/currency_code_example"
                 android:textAlignment="textStart"
                 android:textSize="17sp"
                 android:textStyle="bold"
@@ -45,7 +45,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:text="100 франков"
+                android:text="@string/currency_scale_example"
                 android:textAlignment="textStart"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -57,10 +57,10 @@
 
 
             <TextView
-                android:id="@+id/tvBuyRate"
+                android:id="@+id/tvCurrencyBuyRate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="3.29"
+                android:text="@string/currency_rate_example"
                 android:textAlignment="center"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -71,10 +71,10 @@
             </TextView>
 
             <TextView
-                android:id="@+id/tvSaleRate"
+                android:id="@+id/tvCurrencySaleRate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="2.46"
+                android:text="@string/currency_rate_example"
                 android:textAlignment="center"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"

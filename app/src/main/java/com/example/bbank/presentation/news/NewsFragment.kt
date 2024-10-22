@@ -1,11 +1,7 @@
 package com.example.bbank.presentation.news
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,40 +9,41 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentNewsBinding
-import com.example.bbank.presentation.adapters.NewsAdapter
 import com.example.core.domain.news.News
 import com.example.core.presentation.ui.UiText
-import com.google.android.material.snackbar.Snackbar
+import com.example.core.presentation.ui.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-internal class NewsFragment : Fragment() {
-    private lateinit var binding: FragmentNewsBinding
-    private val newsViewModel: NewsViewModel by viewModels()
+internal class NewsFragment : BaseFragment<FragmentNewsBinding>(FragmentNewsBinding::inflate) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentNewsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val newsViewModel by activityViewModels<NewsViewModel>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupView() {
         setupNewsRecyclerView()
         observeNewsState()
     }
 
+    override fun onClickButtonCancel() =
+        newsViewModel.cancelCurrentFetching()
+
     private fun setupNewsRecyclerView() =
         binding.rvNews.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(requireContext())
             adapter = NewsAdapter(
                 news = emptyList(),
                 onClick = { news -> openNewsDetailFragment(news) }
+            )
+        }
+
+    private fun openNewsDetailFragment(news: News) =
+        Bundle().apply {
+            putParcelable("newsParcelable", news.toNewsParcelable())
+        }.also {
+            findNavController().navigate(
+                R.id.action_newsFragment_to_newsDetailFragment, it
             )
         }
 
@@ -54,45 +51,40 @@ internal class NewsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             newsViewModel.state
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                .collectLatest {
-                    handleNewsState(it)
+                .collectLatest { state ->
+                    handleNewsState(state)
                 }
         }
 
     private fun handleNewsState(state: NewsState) {
-        if (state.news.isNotEmpty())
-            (binding.rvNews.adapter as NewsAdapter).updateNews(state.news)
+        if (state.news.isNotEmpty()) {
+            binding.rvNews.adapter?.let { adapter ->
+                if (adapter is NewsAdapter) {
+                    adapter.updateNews(state.news)
+                }
+            }
+        }
+
+        if (state.isLoading) {
+            showDialogProgressBar()
+        } else {
+            hideDialogProgressBar()
+        }
+
+        if (state.isFetchCanceled) {
+            showDialogGeneralError(
+                title = getString(R.string.what_happened),
+                UiText.DynamicString(getString(R.string.request_was_canceled))
+            )
+            newsViewModel.setNewsIsFetchCanceled(false)
+        }
 
         state.error?.let {
-            showError(state.error)
-        }
-
-        if (state.isLoading)
-            showLoading()
-        else hideLoading()
-    }
-
-    private fun openNewsDetailFragment(news: News) =
-        Bundle().apply { putParcelable("newsParcelable", news.toNewsParcelable()) }.also {
-            findNavController().navigate(
-                R.id.action_newsFragment_to_newsDetailFragment, it
+            showDialogGeneralError(
+                title = getString(R.string.error_occurred),
+                UiText.DynamicString(state.error.asString(requireContext()))
             )
-        }
-
-    private fun showError(messageError: UiText) =
-        Snackbar.make(requireView(), messageError.asString(requireContext()), Snackbar.LENGTH_SHORT)
-            .setAnchorView(R.id.bottomNavigation)
-            .show()
-
-    private fun hideLoading() {
-        binding.apply {
-            progressIndicatorNews.visibility = View.GONE
-        }
-    }
-
-    private fun showLoading() {
-        binding.apply {
-            progressIndicatorNews.visibility = View.VISIBLE
+            newsViewModel.setNewsStateError(null)
         }
     }
 }

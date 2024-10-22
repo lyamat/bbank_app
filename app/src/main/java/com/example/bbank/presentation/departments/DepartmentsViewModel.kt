@@ -1,14 +1,17 @@
 package com.example.bbank.presentation.departments
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.core.data.converter.toCurrencyRates
 import com.example.core.domain.converter.ConverterRepository
 import com.example.core.domain.department.DepartmentRepository
 import com.example.core.domain.util.Result
 import com.example.core.presentation.ui.UiText
 import com.example.core.presentation.ui.asUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -22,6 +25,8 @@ internal class DepartmentsViewModel @Inject constructor(
     private val departmentRepository: DepartmentRepository,
     private val converterRepository: ConverterRepository
 ) : ViewModel() {
+    private val viewModelJob = SupervisorJob()
+    private val viewModelScope = CoroutineScope(Dispatchers.Main.immediate + viewModelJob)
 
     private val _state = MutableStateFlow(DepartmentsState())
     val state: StateFlow<DepartmentsState> get() = _state
@@ -29,45 +34,55 @@ internal class DepartmentsViewModel @Inject constructor(
     init {
         departmentRepository.getDepartments().onEach { departments ->
             if (departments.isEmpty()) {
-                _state.update { it.copy(isLoading = true) }
-                fetchRemoteDepartments()
+                fetchDepartments()
             } else {
-                _state.update { it.copy(departments = departments, isLoading = false) }
+                _state.update { DepartmentsState(departments) }
             }
         }.launchIn(viewModelScope)
     }
 
-    private fun updateDepartmentsStateWithError(uiText: UiText) =
-        _state.update {
-            it.copy(error = uiText)
-        }
-
-    internal fun saveCity(cityName: String) =
+    fun fetchDepartments() {
         viewModelScope.launch {
             try {
-//                saveCurrentCityUseCase(cityName)
-//                fetchLocalDepartmentsByCity()
-            } catch (e: Exception) {
-//                updateDepartmentsStateWithError(e)
+                setDepartmentsStateIsLoading(true)
+                when (val result = departmentRepository.fetchDepartments()) {
+                    is Result.Error -> {
+                        setDepartmentsStateError(result.error.asUiText())
+                    }
+
+                    is Result.Success -> {
+                        Unit
+                    }
+                }
+            } catch (e: CancellationException) {
+                setDepartmentsIsFetchCanceled(true)
+            } finally {
+                setDepartmentsStateIsLoading(false)
             }
         }
-
-    internal fun clearDepartmentsError() {
-        _state.value = _state.value.copy(error = null)
     }
 
-    fun fetchRemoteDepartments() {
-        viewModelScope.launch {
-            when (val result = departmentRepository.fetchDepartments()) {
-                is Result.Error -> {
-                    updateDepartmentsStateWithError(result.error.asUiText())
-                }
+    fun setDepartmentsIsFetchCanceled(isFetchCanceled: Boolean) =
+        _state.update { it.copy(isFetchCanceled = isFetchCanceled) }
 
-                is Result.Success -> {
-                    departmentRepository.upsertDepartments(result.data)
-                    converterRepository.upsertCurrencyRates(result.data.map { department -> department.toCurrencyRates() })
-                }
-            }
+    fun setDepartmentsStateError(uiText: UiText?) =
+        _state.update { it.copy(error = uiText) }
+
+    private fun setDepartmentsStateIsLoading(isLoading: Boolean) =
+        _state.update { it.copy(isLoading = isLoading) }
+
+    fun saveCity(cityName: String) =
+        viewModelScope.launch {
+//            saveCurrentCityUseCase(cityName)
+//            fetchLocalDepartmentsByCity()
         }
+
+    fun cancelCurrentFetching() {
+        viewModelJob.cancelChildren()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

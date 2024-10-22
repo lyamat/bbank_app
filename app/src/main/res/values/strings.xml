@@ -5,11 +5,6 @@
     <string name="converter">Converter</string>
     <string name="news">News</string>
     <string name="departments">Departments</string>
-    <string name="city">City</string>
-    <string name="city_selection_dialog">Select a city</string>
-    <string name="bank_buy">Bank buys</string>
-    <string name="bank_sale">Bank sells</string>
-    <string name="choose_currencies">Choose currencies</string>
     <string name="text_html">text/html</string>
     <string name="utf_8">UTF-8</string>
     <string name="ok">OK</string>
@@ -18,25 +13,34 @@
     <string name="notifications">Notifications</string>
     <string name="news_notifications">News notifications</string>
     <string name="news_notifications_summary">Get last news notification every 24h</string>
+    <string name="error_occurred">Error occurred</string>
+    <string name="request_was_canceled">Request was canceled</string>
+    <string name="what_happened">What happened:</string>
 
     <!-- News -->
-    <string name="get_remote_news">News from API</string>
     <string name="news_title">News title</string>
     <string name="news_link">Belarusbank.by ·\ </string>
-    <string name="news_date">10.11.2024</string>
+    <string name="time_since_publication_example">4w</string>
     <string name="news_of">News of %1$s</string>
     <string name="days_since">%1$d d</string>
     <string name="weeks_since">%1$d w</string>
     <string name="months_since">%1$d m</string>
     <string name="years_since">%1$d y</string>
-    <string name="today">0d</string>
+    <string name="today">Today</string>
 
     <!-- Department -->
-    <string name="empty_department_list">Empty department list.\nRequest it from the server.</string>
     <string name="department_number_example">Department No.666–666 OJSC \'ASB Belarusbank\'</string>
     <string name="address_example">Paris, Silvient Street, 14</string>
     <string name="department_address">%1$s %2$s, %3$s %4$s %5$s</string>
     <string name="departments_in">Departments in %1$s\n%2$s</string>
+    <string name="open_now">Open now</string>
+    <string name="city">City</string>
+    <string name="city_selection_dialog">Select a city</string>
+    <string name="main_converter_bank_buys">Bank buys</string>
+    <string name="main_converter_bank_sells">Bank sells</string>
+    <string name="currency_rates_bank_buys">Bank\nbuys</string>
+    <string name="currency_rates_bank_sells">Bank\nsells</string>
+    <string name="choose_available_currencies">Choose available currencies</string>
 
     <!-- Currency Conversion -->
     <string name="currency_exchange_rates_at_dep">Currency exchange rates at the department</string>
@@ -45,18 +49,7 @@
     <string name="selling">Selling</string>
     <string name="add_currency">Add currency</string>
     <string name="empty_currency_rates">Empty currency rates.\nLoad them first.</string>
-    <string name="get_data_for_converter"><u>Request data from the server</u></string>
-
-    <!-- Errors -->
-    <!--    <string name="the_request_timed_out">Request timed out</string>-->
-    <!--    <string name="you_ve_hit_your_rate_limit">You’ve hit your rate limit.</string>-->
-    <!--    <string name="no_internet">No internet connection</string>-->
-    <!--    <string name="file_too_large">File too large</string>-->
-    <!--    <string name="server_error">Server error</string>-->
-    <!--    <string name="error_serialization">Serialization error</string>-->
-    <!--    <string name="unknown_error">Unknown error</string>-->
-    <!--    <string name="error_disk_full">Disk full</string>-->
-    <string name="currency_not_available">Currency unavailable</string>
+    <string name="fetch_initial_data">Fetch initial data</string>
 
     <!-- Notification Channels -->
     <string name="oao_belarusbank">%1$s OJSC "ASB Belarusbank"</string>
@@ -92,5 +85,9 @@
     <string name="ten_chinese_yuan">10 Chinese Yuan</string>
     <string name="one_hundred_czech_krona">100 Czech Koruna</string>
     <string name="ten_norwegian_kroner">10 Norwegian Krone</string>
+    <string name="currency_code_example">USD</string>
+    <string name="currency_scale_example">1 US Dollar</string>
+    <string name="currency_rate_example">3.29</string>
+    <string name="department_currency_rate_example">3.26</string>
 
 </resources>
