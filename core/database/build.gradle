@@ -32,7 +32,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.org.mongodb.bson)
 
     // Hilt
     implementation libs.hilt.android

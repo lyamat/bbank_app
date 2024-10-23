@@ -1,4 +1,4 @@
-package com.example.core.presentation.ui.common
+package com.example.core.presentation.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import com.example.core.presentation.ui.UiText
 import com.example.core.presentation.ui.dialog.base.BaseDataDialog
 import com.example.core.presentation.ui.dialog.base.BaseDataDialogGeneral
 import com.example.core.presentation.ui.dialog.common.DialogGeneralError
-import com.example.core.presentation.ui.dialog.common.DialogWithAction
 import com.example.core.presentation.ui.dialog.common.DialogProgressBar
+import com.example.core.presentation.ui.dialog.common.DialogWithAction
 import com.example.core.presentation.ui.util.showDialog
 
 abstract class BaseFragment<T : ViewBinding>(private val bindingInflater: (layoutInflater: LayoutInflater) -> T) :
@@ -26,7 +26,11 @@ abstract class BaseFragment<T : ViewBinding>(private val bindingInflater: (layou
     private var dialog: DialogProgressBar? = null
     private var dialogGeneralError: DialogGeneralError? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = bindingInflater.invoke(inflater)
         return binding.root
     }
@@ -50,12 +54,12 @@ abstract class BaseFragment<T : ViewBinding>(private val bindingInflater: (layou
         else childFragmentManager.showDialog(dialog)
     }
 
-    fun showDialogProgressBar() {
+    protected fun showDialogProgressBar() {
         dialog = DialogProgressBar { onClickButtonCancel() }
         dialog?.show(childFragmentManager, dialog?.tag)
     }
 
-    fun hideDialogProgressBar() {
+    protected fun hideDialogProgressBar() {
         dialog?.dismiss()
         dialog = null
     }
@@ -74,7 +78,7 @@ abstract class BaseFragment<T : ViewBinding>(private val bindingInflater: (layou
         dialogGeneralError?.show(childFragmentManager, tag)
     }
 
-    fun showDialogGeneralError(title: String, error: UiText) {
+    protected fun showDialogGeneralError(title: String, error: UiText) {
         showGeneralError(
             BaseDataDialogGeneral(
                 title = title,
@@ -96,16 +100,6 @@ abstract class BaseFragment<T : ViewBinding>(private val bindingInflater: (layou
     private fun dismissDialogGeneralError() {
         dialogGeneralError?.dismiss()
         dialogGeneralError = null
-    }
-
-//    private fun showErrorNoInternetConnection() {
-//        dialogNoInternet = DialogNoInternet()
-//        dialogNoInternet.show(childFragmentManager, dialogNoInternet.tag)
-//    }
-
-    override fun onResume() {
-        super.onResume()
-//        if (::dialogNoInternet.isInitialized && isConnectionAvailable) dialogNoInternet.dismiss()
     }
 
     override fun onDestroyView() {

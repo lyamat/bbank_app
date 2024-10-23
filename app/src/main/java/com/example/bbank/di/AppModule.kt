@@ -20,7 +20,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideCoroutineScope(): CoroutineScope =
-        CoroutineScope(SupervisorJob() + Dispatchers.Default)
+        CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     @Singleton
     @Provides

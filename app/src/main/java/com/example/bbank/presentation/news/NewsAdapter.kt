@@ -4,13 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bbank.R
 import com.example.bbank.databinding.ItemNewsRvBinding
 import com.example.core.domain.news.News
+import com.example.core.domain.news.NewsLink
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -18,7 +19,7 @@ import java.util.Locale
 
 internal class NewsAdapter(
     private var news: List<News>,
-    private val onClick: (News) -> Unit
+    private val onClick: (NewsLink) -> Unit
 ) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     private val currentDate: Date = Calendar.getInstance().time
@@ -29,7 +30,7 @@ internal class NewsAdapter(
         val tvTimeSincePublication: TextView = binding.tvTimeSincePublication
         val tvNewsTitle: TextView = binding.tvNewsTitle
         val ivThumbnail: ImageView = binding.ivThumbnail
-        val newsCardView: ConstraintLayout = binding.newsElement
+        val newsCardView: LinearLayout = binding.newsElement
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -43,7 +44,7 @@ internal class NewsAdapter(
         with(holder) {
             tvTimeSincePublication.text = getTimeSincePublication(newsItem.startDate)
             tvNewsTitle.text = newsItem.nameRu
-            newsSetOnClickListener(newsCardView, position)
+            newsCardView.setOnClickListener { onClick(news[position].link) }
             loadImageIntoView(ivThumbnail, newsItem.img)
         }
     }
@@ -52,11 +53,6 @@ internal class NewsAdapter(
         Glide.with(imageView.context)
             .load(imageUrl)
             .into(imageView)
-
-    private fun newsSetOnClickListener(newsCardView: ConstraintLayout, position: Int) =
-        newsCardView.setOnClickListener {
-            onClick(news[position])
-        }
 
     internal fun updateNews(newNews: List<News>) {
         news = newNews

@@ -1,7 +1,7 @@
 package com.example.bbank.presentation.departments
 
 import androidx.lifecycle.ViewModel
-import com.example.core.domain.converter.ConverterRepository
+import com.example.core.domain.department.Department
 import com.example.core.domain.department.DepartmentRepository
 import com.example.core.domain.util.Result
 import com.example.core.presentation.ui.UiText
@@ -22,11 +22,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class DepartmentsViewModel @Inject constructor(
-    private val departmentRepository: DepartmentRepository,
-    private val converterRepository: ConverterRepository
+    private val departmentRepository: DepartmentRepository
 ) : ViewModel() {
     private val viewModelJob = SupervisorJob()
-    private val viewModelScope = CoroutineScope(Dispatchers.Main.immediate + viewModelJob)
+    private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
     private val _state = MutableStateFlow(DepartmentsState())
     val state: StateFlow<DepartmentsState> get() = _state
@@ -44,10 +43,11 @@ internal class DepartmentsViewModel @Inject constructor(
     fun fetchDepartments() {
         viewModelScope.launch {
             try {
-                setDepartmentsStateIsLoading(true)
+                setStateIsLoading(true)
                 when (val result = departmentRepository.fetchDepartments()) {
                     is Result.Error -> {
-                        setDepartmentsStateError(result.error.asUiText())
+                        // TODO: dialog to retry
+                        setStateError(result.error.asUiText())
                     }
 
                     is Result.Success -> {
@@ -55,20 +55,29 @@ internal class DepartmentsViewModel @Inject constructor(
                     }
                 }
             } catch (e: CancellationException) {
-                setDepartmentsIsFetchCanceled(true)
+                setIsFetchCanceled(true)
             } finally {
-                setDepartmentsStateIsLoading(false)
+                setStateIsLoading(false)
             }
         }
     }
 
-    fun setDepartmentsIsFetchCanceled(isFetchCanceled: Boolean) =
+    fun getDepartmentById(departmentId: String) {
+        departmentRepository.getDepartmentById(departmentId).onEach {
+            setChosenDepartment(it)
+        }.launchIn(viewModelScope)
+    }
+
+    private fun setChosenDepartment(departmentResult: Department) =
+        _state.update { it.copy(chosenDepartment = departmentResult) }
+
+    fun setIsFetchCanceled(isFetchCanceled: Boolean) =
         _state.update { it.copy(isFetchCanceled = isFetchCanceled) }
 
-    fun setDepartmentsStateError(uiText: UiText?) =
+    fun setStateError(uiText: UiText?) =
         _state.update { it.copy(error = uiText) }
 
-    private fun setDepartmentsStateIsLoading(isLoading: Boolean) =
+    private fun setStateIsLoading(isLoading: Boolean) =
         _state.update { it.copy(isLoading = isLoading) }
 
     fun saveCity(cityName: String) =
@@ -82,7 +91,7 @@ internal class DepartmentsViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        super.onCleared()
         viewModelJob.cancel()
+        super.onCleared()
     }
 }

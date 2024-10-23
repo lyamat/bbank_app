@@ -33,10 +33,10 @@ class RoomLocalDepartmentDataSource(
             }
     }
 
-    override suspend fun upsertDepartments(departments: List<Department>): Result<List<DepartmentId>, DataError.Local> {
+    override suspend fun insertDepartments(departments: List<Department>): Result<List<DepartmentId>, DataError.Local> {
         return try {
             val entities = departments.map { it.toDepartmentEntity() }
-            departmentDao.upsertDepartments(entities)
+            departmentDao.insertDepartments(entities)
             Result.Success(entities.map { it.id })
         } catch (e: SQLiteFullException) {
             Result.Error(DataError.Local.DISK_FULL)

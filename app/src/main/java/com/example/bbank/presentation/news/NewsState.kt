@@ -7,5 +7,6 @@ internal data class NewsState(
     val news: List<News> = emptyList(),
     val isLoading: Boolean = false,
     val error: UiText? = null,
-    val isFetchCanceled: Boolean = false
+    val isFetchCanceled: Boolean = false,
+    val chosenNews: News? = null
 )

@@ -14,8 +14,8 @@ interface NewsDao {
     @Query("SELECT * FROM newsentity")
     fun getNews(): Flow<List<NewsEntity>>
 
-    @Query("SELECT * FROM newsentity WHERE id = :id")
-    fun getNewsById(id: String): Flow<NewsEntity>
+    @Query("SELECT * FROM newsentity WHERE link = :link")
+    fun getNewsByLink(link: String): Flow<NewsEntity>
 
     @Query("DELETE FROM newsentity")
     suspend fun deleteAllNews()

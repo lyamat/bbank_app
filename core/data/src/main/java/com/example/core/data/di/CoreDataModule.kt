@@ -77,7 +77,12 @@ object CoreDataModule {
         localConverterDataSource: LocalConverterDataSource,
         applicationScope: CoroutineScope
     ): DepartmentRepository =
-        DepartmentRepositoryImpl(localDepartmentDataSource, remoteDepartmentDataSource, localConverterDataSource, applicationScope)
+        DepartmentRepositoryImpl(
+            localDepartmentDataSource,
+            remoteDepartmentDataSource,
+            localConverterDataSource,
+            applicationScope
+        )
 
     @Singleton
     @Provides

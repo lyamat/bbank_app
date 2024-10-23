@@ -4,6 +4,7 @@ import com.example.core.domain.util.DataError
 import com.example.core.domain.util.Result
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
@@ -64,6 +65,9 @@ suspend inline fun <reified T> safeCall(execute: () -> HttpResponse): Result<T, 
     } catch (e: SerializationException) {
         e.printStackTrace()
         return Result.Error(DataError.Network.SERIALIZATION)
+    } catch (e: HttpRequestTimeoutException) {
+        e.printStackTrace()
+        return Result.Error(DataError.Network.REQUEST_TIMEOUT)
     } catch (e: Exception) {
         if (e is CancellationException) throw e
 

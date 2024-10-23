@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.example.core.presentation.ui.R
-import com.example.core.presentation.ui.dialog.base.BaseDataDialogGeneral
 import com.example.core.presentation.ui.databinding.DialogGeneralErrorBinding
+import com.example.core.presentation.ui.dialog.base.BaseDataDialogGeneral
 import com.example.core.presentation.ui.util.hide
 import com.example.core.presentation.ui.util.show
 
@@ -34,7 +34,10 @@ class DialogGeneralError(
         super.onStart()
         dialog?.setCancelable(false)
         dialog?.setCanceledOnTouchOutside(false)
-        dialog?.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+        dialog?.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.GRAY).apply { alpha = 150 })
     }
 

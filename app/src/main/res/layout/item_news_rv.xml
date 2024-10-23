@@ -1,86 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/newsElement"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/ivThumbnail"
         android:layout_width="250dp"
         android:layout_height="165dp"
-        app:layout_constraintEnd_toStartOf="@+id/rightGuideLine96Vertical"
-        app:layout_constraintStart_toEndOf="@+id/leftGuideLine4Vertical"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center"
         tools:src="@drawable/belarusbank_logo" />
 
     <TextView
         android:id="@+id/tvNewsTitle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:text="@string/news_title"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/rightGuideLine96Vertical"
-        app:layout_constraintStart_toEndOf="@+id/leftGuideLine4Vertical"
-        app:layout_constraintTop_toBottomOf="@+id/ivThumbnail" />
+        android:textSize="20sp" />
 
-    <ImageView
-        android:id="@+id/ivBelarusbankLogo"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_margin="10dp"
-        android:src="@drawable/belarusbank_logo"
-        app:layout_constraintBottom_toTopOf="@+id/materialDivider"
-        app:layout_constraintStart_toEndOf="@+id/leftGuideLine4Vertical"
-        app:layout_constraintTop_toBottomOf="@+id/tvNewsTitle" />
-
-    <TextView
-        android:id="@+id/tvNewsLink"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="@string/news_link"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivBelarusbankLogo"
-        app:layout_constraintStart_toEndOf="@id/ivBelarusbankLogo"
-        app:layout_constraintTop_toTopOf="@id/ivBelarusbankLogo" />
-
-    <TextView
-        android:id="@+id/tvTimeSincePublication"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:text="@string/time_since_publication_example"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvNewsLink"
-        app:layout_constraintStart_toEndOf="@+id/tvNewsLink"
-        app:layout_constraintTop_toTopOf="@+id/tvNewsLink" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/rightGuideLine96Vertical"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.96" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/leftGuideLine4Vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.04" />
+        <ImageView
+            android:id="@+id/ivBelarusbankLogo"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/belarusbank_logo" />
+
+        <TextView
+            android:id="@+id/tvNewsLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/news_link"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvTimeSincePublication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/time_since_publication_example"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/materialDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        app:dividerColor="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:dividerColor="@color/colorAccent">
 
     </com.google.android.material.divider.MaterialDivider>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

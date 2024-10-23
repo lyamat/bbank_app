@@ -24,8 +24,8 @@ class NewsRepositoryImpl @Inject constructor(
         return localNewsDataSource.getNews()
     }
 
-    override suspend fun getNewsById(id: String): Flow<News> {
-        return localNewsDataSource.getNewsById(id)
+    override fun getNewsByLink(link: String): Flow<News> {
+        return localNewsDataSource.getNewsByLink(link)
     }
 
     override suspend fun upsertNews(news: List<News>) {

@@ -9,9 +9,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentNewsBinding
-import com.example.core.domain.news.News
+import com.example.core.domain.news.NewsLink
 import com.example.core.presentation.ui.UiText
-import com.example.core.presentation.ui.common.BaseFragment
+import com.example.core.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -34,13 +34,13 @@ internal class NewsFragment : BaseFragment<FragmentNewsBinding>(FragmentNewsBind
             layoutManager = LinearLayoutManager(requireContext())
             adapter = NewsAdapter(
                 news = emptyList(),
-                onClick = { news -> openNewsDetailFragment(news) }
+                onClick = { newsLink -> openNewsDetailFragment(newsLink) }
             )
         }
 
-    private fun openNewsDetailFragment(news: News) =
+    private fun openNewsDetailFragment(newsLink: NewsLink) =
         Bundle().apply {
-            putParcelable("newsParcelable", news.toNewsParcelable())
+            putString("newsLink", newsLink)
         }.also {
             findNavController().navigate(
                 R.id.action_newsFragment_to_newsDetailFragment, it
@@ -76,7 +76,7 @@ internal class NewsFragment : BaseFragment<FragmentNewsBinding>(FragmentNewsBind
                 title = getString(R.string.what_happened),
                 UiText.DynamicString(getString(R.string.request_was_canceled))
             )
-            newsViewModel.setNewsIsFetchCanceled(false)
+            newsViewModel.setIsFetchCanceled(false)
         }
 
         state.error?.let {
@@ -84,7 +84,7 @@ internal class NewsFragment : BaseFragment<FragmentNewsBinding>(FragmentNewsBind
                 title = getString(R.string.error_occurred),
                 UiText.DynamicString(state.error.asString(requireContext()))
             )
-            newsViewModel.setNewsStateError(null)
+            newsViewModel.setStateError(null)
         }
     }
 }

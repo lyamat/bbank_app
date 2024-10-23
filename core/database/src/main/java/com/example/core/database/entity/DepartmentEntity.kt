@@ -2,12 +2,11 @@ package com.example.core.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import org.bson.types.ObjectId
 
 @Entity
 data class DepartmentEntity(
     @PrimaryKey(autoGenerate = false)
-    val id: String = ObjectId().toHexString(),
+    val id: String,
     val usdIn: String,
     val usdOut: String,
     val eurIn: String,

@@ -50,7 +50,6 @@ class ConverterViewModel @Inject constructor(
                     // TODO: move to data layer
                     // TODO: feature:news,departments...
                     // TODO: base_utils to converter:core,presentation...
-                    // TODO: add remaining binding's with viewBinding
                     val updatedValues = _state.value.currencyValues.map { pair ->
                         if (pair.first == event.currencyCode) {
                             event.currencyCode to event.newValue

@@ -10,6 +10,6 @@ interface LocalDepartmentDataSource {
     fun getDepartments(): Flow<List<Department>>
     fun getDepartmentById(id: String): Flow<Department>
     fun getDepartmentsByCity(cityName: String): Flow<List<Department>>
-    suspend fun upsertDepartments(departments: List<Department>): Result<List<DepartmentId>, DataError.Local>
+    suspend fun insertDepartments(departments: List<Department>): Result<List<DepartmentId>, DataError.Local>
     suspend fun deleteAllDepartments()
 }

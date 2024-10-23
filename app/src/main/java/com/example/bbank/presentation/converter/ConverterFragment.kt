@@ -1,8 +1,6 @@
 package com.example.bbank.presentation.converter
 
-import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,9 +8,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentConverterBinding
-import com.example.bbank.presentation.departments.DepartmentsViewModel
 import com.example.core.presentation.ui.UiText
-import com.example.core.presentation.ui.common.BaseFragment
+import com.example.core.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,16 +19,11 @@ internal class ConverterFragment :
     BaseFragment<FragmentConverterBinding>(FragmentConverterBinding::inflate) {
 
     private val converterViewModel by viewModels<ConverterViewModel>()
-    private val departmentsViewModel by activityViewModels<DepartmentsViewModel>()
 
     override fun setupView() {
         setViewsClickListeners()
         setupConverterRecyclerView()
         observeStates()
-    }
-
-    override fun onClickButtonCancel() {
-        // Ничего не нужно для отмены в данном случае
     }
 
     private fun setViewsClickListeners() =
@@ -50,7 +42,7 @@ internal class ConverterFragment :
     private fun setupConverterRecyclerView() =
         binding.rvConverter.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = ConverterCurrencyAdapter(
+            adapter = ConverterAdapter(
                 currencyValues = emptyList(),
                 onConverterEvent = { event ->
                     converterViewModel.handleConverterEvent(event)
@@ -71,8 +63,7 @@ internal class ConverterFragment :
 
     private fun handleConverterState(state: ConverterState) {
         if (state.currencyValues.isNotEmpty()) {
-            showConverter()
-            (binding.rvConverter.adapter as ConverterCurrencyAdapter).updateCurrencyValues(state.currencyValues)
+            (binding.rvConverter.adapter as ConverterAdapter).updateCurrencyValues(state.currencyValues)
         }
 
         state.error?.let {
@@ -81,14 +72,6 @@ internal class ConverterFragment :
                 UiText.DynamicString(it.asString(requireContext()))
             )
             converterViewModel.setConverterStateError(null)
-        }
-    }
-
-    private fun showConverter() {
-        binding.apply {
-            chipsConverter.visibility = View.VISIBLE
-            btnAddCurrency.visibility = View.VISIBLE
-            rvConverter.visibility = View.VISIBLE
         }
     }
 
@@ -133,4 +116,6 @@ internal class ConverterFragment :
             dialog.show()
         }
     }
+
+    override fun onClickButtonCancel() = Unit
 }

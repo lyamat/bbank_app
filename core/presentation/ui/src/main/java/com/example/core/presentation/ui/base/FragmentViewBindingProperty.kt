@@ -1,4 +1,4 @@
-package com.example.core.presentation.ui.common
+package com.example.core.presentation.ui.base
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver

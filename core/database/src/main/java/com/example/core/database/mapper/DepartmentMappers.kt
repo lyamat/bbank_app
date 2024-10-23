@@ -2,8 +2,6 @@ package com.example.core.database.mapper
 
 import com.example.core.database.entity.DepartmentEntity
 import com.example.core.domain.department.Department
-import org.bson.types.ObjectId
-
 
 fun DepartmentEntity.toDepartment(): Department {
     return Department(
@@ -58,7 +56,7 @@ fun DepartmentEntity.toDepartment(): Department {
 
 fun Department.toDepartmentEntity(): DepartmentEntity {
     return DepartmentEntity(
-        id = id ?: ObjectId().toHexString(),
+        id = id,
         usdIn = usdIn,
         usdOut = usdOut,
         eurIn = eurIn,

@@ -1,7 +1,7 @@
 package com.example.core.domain.department
 
 data class Department(
-    val id: String?,
+    val id: String,
     val usdIn: String,
     val usdOut: String,
     val eurIn: String,

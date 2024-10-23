@@ -62,7 +62,11 @@ fun View.hideKeyboard() {
 fun View.getString(@StringRes stringId: Int): String = context.getString(stringId)
 
 
-fun View.fadOutAnimation(duration: Long = 300, visibility: Int = View.INVISIBLE, completion: (() -> Unit)? = null) {
+fun View.fadOutAnimation(
+    duration: Long = 300,
+    visibility: Int = View.INVISIBLE,
+    completion: (() -> Unit)? = null
+) {
     animate()
         .alpha(0f)
         .setDuration(duration)

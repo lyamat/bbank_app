@@ -6,7 +6,7 @@ import com.example.core.database.mapper.toNews
 import com.example.core.database.mapper.toNewsEntity
 import com.example.core.domain.news.LocalNewsDataSource
 import com.example.core.domain.news.News
-import com.example.core.domain.news.NewsId
+import com.example.core.domain.news.NewsLink
 import com.example.core.domain.util.DataError
 import com.example.core.domain.util.Result
 import kotlinx.coroutines.flow.Flow
@@ -23,15 +23,15 @@ class RoomLocalNewsDataSource(
             }
     }
 
-    override fun getNewsById(id: String): Flow<News> {
-        return newsDao.getNewsById(id).map { it.toNews() }
+    override fun getNewsByLink(link: String): Flow<News> {
+        return newsDao.getNewsByLink(link).map { it.toNews() }
     }
 
-    override suspend fun upsertNews(news: List<News>): Result<List<NewsId>, DataError.Local> {
+    override suspend fun upsertNews(news: List<News>): Result<List<NewsLink>, DataError.Local> {
         return try {
             val entities = news.map { it.toNewsEntity() }
             newsDao.upsertNews(entities)
-            Result.Success(entities.map { it.id })
+            Result.Success(entities.map { it.link })
         } catch (e: SQLiteFullException) {
             Result.Error(DataError.Local.DISK_FULL)
         }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_disk_full">Память заполнена.</string>
+    <string name="error_request_timeout">Время ожидания запроса истекло.</string>
+    <string name="error_too_many_requests">Вы превысили лимит запросов.</string>
+    <string name="error_no_internet">Нет подключения к интернету, проверьте соединение.</string>
+    <string name="error_payload_too_large">Файл, который вы пытаетесь загрузить, слишком велик.</string>
+    <string name="error_server">Ой! Что-то пошло не так.</string>
+    <string name="error_serialization">Ой! Не удалось обработать данные.</string>
+    <string name="error_unknown">Ой! Произошла неизвестная ошибка.</string>
+    <string name="error_conflict">Конфликт с текущим состоянием ресурса.</string>
+
+    <string name="unauthorized">Отсутствуют необходимые учетные данные или предоставлены неверные учетные данные.</string>
+    <string name="not_found">Объект не найден.</string>
+    <string name="close_app">Закрыть приложение.</string>
+    <string name="ok">ОК</string>
+    <string name="fetching_data">Загрузка данных…</string>
+    <string name="cancel">Отмена</string>
+</resources>

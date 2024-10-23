@@ -1,6 +1,8 @@
 package com.example.bbank.presentation.news
 
 import androidx.lifecycle.ViewModel
+import com.example.core.domain.news.News
+import com.example.core.domain.news.NewsLink
 import com.example.core.domain.news.NewsRepository
 import com.example.core.domain.news.SyncNewsScheduler
 import com.example.core.domain.util.Result
@@ -27,7 +29,7 @@ internal class NewsViewModel @Inject constructor(
     private val syncNewsScheduler: SyncNewsScheduler
 ) : ViewModel() {
     private val viewModelJob = SupervisorJob()
-    private val viewModelScope = CoroutineScope(Dispatchers.Main.immediate + viewModelJob)
+    private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
     private val _state = MutableStateFlow(NewsState())
     val state: StateFlow<NewsState> get() = _state
@@ -51,10 +53,10 @@ internal class NewsViewModel @Inject constructor(
     private fun fetchNews() {
         viewModelScope.launch {
             try {
-                setNewsStateIsLoading(true)
+                setStateIsLoading(true)
                 when (val result = newsRepository.fetchNews()) {
                     is Result.Error -> {
-                        setNewsStateError(result.error.asUiText())
+                        setStateError(result.error.asUiText())
                     }
 
                     is Result.Success -> {
@@ -62,20 +64,29 @@ internal class NewsViewModel @Inject constructor(
                     }
                 }
             } catch (e: CancellationException) {
-                setNewsIsFetchCanceled(true)
+                setIsFetchCanceled(true)
             } finally {
-                setNewsStateIsLoading(false)
+                setStateIsLoading(false)
             }
         }
     }
 
-    fun setNewsIsFetchCanceled(isFetchCanceled: Boolean) =
+    fun getNewsByLink(newsLink: NewsLink) {
+        newsRepository.getNewsByLink(newsLink).onEach {
+            setChosenNews(it)
+        }.launchIn(viewModelScope)
+    }
+
+    private fun setChosenNews(newsResult: News) =
+        _state.update { it.copy(chosenNews = newsResult) }
+
+    fun setIsFetchCanceled(isFetchCanceled: Boolean) =
         _state.update { it.copy(isFetchCanceled = isFetchCanceled) }
 
-    fun setNewsStateError(uiText: UiText?) =
+    fun setStateError(uiText: UiText?) =
         _state.update { it.copy(error = uiText) }
 
-    private fun setNewsStateIsLoading(isLoading: Boolean) =
+    private fun setStateIsLoading(isLoading: Boolean) =
         _state.update { it.copy(isLoading = isLoading) }
 
     fun cancelCurrentFetching() {
@@ -83,7 +94,7 @@ internal class NewsViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        super.onCleared()
         viewModelJob.cancel()
+        super.onCleared()
     }
 }

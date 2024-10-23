@@ -14,7 +14,6 @@ import com.example.core.domain.util.asEmptyDataResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,8 +36,8 @@ class DepartmentRepositoryImpl @Inject constructor(
         return localDepartmentDataSource.getDepartmentsByCity(cityName)
     }
 
-    override suspend fun upsertDepartments(departments: List<Department>) {
-        localDepartmentDataSource.upsertDepartments(departments)
+    override suspend fun insertDepartments(departments: List<Department>) {
+        localDepartmentDataSource.insertDepartments(departments)
     }
 
     override suspend fun deleteAllDepartments() {
@@ -50,13 +49,15 @@ class DepartmentRepositoryImpl @Inject constructor(
             is Result.Error -> result.asEmptyDataResult()
             is Result.Success -> {
                 applicationScope.async {
-                    localDepartmentDataSource.upsertDepartments(result.data)
-                    val currencyRates = result.data.map { it.toCurrencyRates() }
+                    localDepartmentDataSource.insertDepartments(result.data)
+                    val currencyRates =
+                        result.data.map { it.toCurrencyRates() } // dont know where to do this...
                     localConverterDataSource.upsertCurrencyRates(currencyRates)
                     val currencyRatesOfAirport =
                         currencyRates.first { it.id == "1341" } // most representable of all
                     val conversionRates = currencyRatesOfAirport.getConversionRates()
-                    localConverterDataSource.upsertConversionRates(conversionRates).asEmptyDataResult()
+                    localConverterDataSource.upsertConversionRates(conversionRates)
+                        .asEmptyDataResult()
                 }.await()
             }
         }

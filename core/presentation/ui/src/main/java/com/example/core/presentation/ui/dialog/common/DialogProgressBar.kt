@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.example.core.presentation.ui.databinding.DialogProgressbarBinding
-import com.example.core.presentation.ui.databinding.FragmentDialogWithActionBinding
 
 class DialogProgressBar(
     private val onClickButtonCancel: () -> Unit

@@ -36,6 +36,7 @@
     <string name="main_converter_bank_sells">Банк продает</string>
     <string name="currency_rates_bank_buys">Банк\nпокупает</string>
     <string name="currency_rates_bank_sells">Банк\nпродает</string>
+    <string name="time_of_update_example">20:45</string>
 
     <!-- Currency Conversion -->
     <string name="currency_exchange_rates_at_dep">Курсы валют в отделении</string>
@@ -90,5 +91,7 @@
     <string name="currency_scale_example">1 доллар США</string>
     <string name="currency_rate_example">3.29</string>
     <string name="department_currency_rate_example">3.26</string>
+    <string name="department_details">Детали отделения</string>
+    <string name="news_details">Детали новости</string>
 
 </resources>

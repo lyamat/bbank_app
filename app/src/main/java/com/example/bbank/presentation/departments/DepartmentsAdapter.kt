@@ -11,13 +11,14 @@ import com.example.bbank.databinding.ItemDepartmentRvBinding
 import com.example.bbank.presentation.base_utils.PresentationUtils.getFullAddress
 import com.example.bbank.presentation.base_utils.TimeUtils
 import com.example.core.domain.department.Department
+import com.example.core.domain.department.DepartmentId
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 internal class DepartmentsAdapter(
     private var departments: List<Department>,
-    private val onClick: (Department) -> Unit
+    private val onClick: (DepartmentId) -> Unit
 ) : RecyclerView.Adapter<DepartmentsAdapter.DepartmentsViewHolder>() {
 
     private var dayOfWeek: Int = 0
@@ -51,7 +52,7 @@ internal class DepartmentsAdapter(
             tvDepartmentCurrencyBuyRate.text = department.usdOut
             tvDepartmentCurrencySaleRate.text = department.usdIn
             viewDepartmentAccessibility.setBackgroundResource(getColorForDepartment(department))
-            clDepartmentItem.setOnClickListener { onClick(department) }
+            clDepartmentItem.setOnClickListener { onClick(department.id) }
         }
     }
 

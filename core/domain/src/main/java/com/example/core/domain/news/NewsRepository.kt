@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
     fun getNews(): Flow<List<News>>
-    suspend fun getNewsById(id: String): Flow<News>
+    fun getNewsByLink(link: String): Flow<News>
     suspend fun upsertNews(news: List<News>)
     suspend fun deleteAllNews()
 

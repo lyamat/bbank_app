@@ -8,5 +8,6 @@ internal data class DepartmentsState(
     val currentCity: String = "",
     val isLoading: Boolean = false,
     val error: UiText? = null,
-    val isFetchCanceled: Boolean = false
+    val isFetchCanceled: Boolean = false,
+    val chosenDepartment: Department? = null
 )

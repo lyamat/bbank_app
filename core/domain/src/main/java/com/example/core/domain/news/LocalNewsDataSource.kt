@@ -4,11 +4,11 @@ import com.example.core.domain.util.DataError
 import com.example.core.domain.util.Result
 import kotlinx.coroutines.flow.Flow
 
-typealias NewsId = String
+typealias NewsLink = String
 
 interface LocalNewsDataSource {
     fun getNews(): Flow<List<News>>
-    fun getNewsById(id: String): Flow<News>
-    suspend fun upsertNews(news: List<News>): Result<List<NewsId>, DataError.Local>
+    fun getNewsByLink(link: String): Flow<News>
+    suspend fun upsertNews(news: List<News>): Result<List<NewsLink>, DataError.Local>
     suspend fun deleteAllNews()
 }

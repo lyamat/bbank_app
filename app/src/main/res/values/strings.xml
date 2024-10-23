@@ -27,6 +27,7 @@
     <string name="months_since">%1$d m</string>
     <string name="years_since">%1$d y</string>
     <string name="today">Today</string>
+    <string name="news_details">Details of news</string>
 
     <!-- Department -->
     <string name="department_number_example">Department No.666–666 OJSC \'ASB Belarusbank\'</string>
@@ -41,15 +42,21 @@
     <string name="currency_rates_bank_buys">Bank\nbuys</string>
     <string name="currency_rates_bank_sells">Bank\nsells</string>
     <string name="choose_available_currencies">Choose available currencies</string>
+    <string name="department_details">Department details</string>
+    <string name="currency_exchange_rates_at_dep">Currency exchange rates at the department</string>
+    <string name="department_currency_rate_example">3.26</string>
+    <string name="currency_scale_example">1 US Dollar</string>
+    <string name="time_of_update_example">20:45</string>
 
     <!-- Currency Conversion -->
-    <string name="currency_exchange_rates_at_dep">Currency exchange rates at the department</string>
     <string name="currency">Currency</string>
     <string name="buying">Buying</string>
     <string name="selling">Selling</string>
     <string name="add_currency">Add currency</string>
     <string name="empty_currency_rates">Empty currency rates.\nLoad them first.</string>
     <string name="fetch_initial_data">Fetch initial data</string>
+    <string name="currency_code_example">USD</string>
+    <string name="currency_rate_example">3.29</string>
 
     <!-- Notification Channels -->
     <string name="oao_belarusbank">%1$s OJSC "ASB Belarusbank"</string>
@@ -85,9 +92,5 @@
     <string name="ten_chinese_yuan">10 Chinese Yuan</string>
     <string name="one_hundred_czech_krona">100 Czech Koruna</string>
     <string name="ten_norwegian_kroner">10 Norwegian Krone</string>
-    <string name="currency_code_example">USD</string>
-    <string name="currency_scale_example">1 US Dollar</string>
-    <string name="currency_rate_example">3.29</string>
-    <string name="department_currency_rate_example">3.26</string>
 
 </resources>

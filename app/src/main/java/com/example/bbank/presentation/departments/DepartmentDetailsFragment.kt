@@ -5,26 +5,26 @@ import android.annotation.SuppressLint
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentDetailsBinding
 import com.example.bbank.presentation.activity.MainActivity
 import com.example.core.domain.department.Department
+import com.example.core.presentation.ui.base.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
-import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -36,31 +36,41 @@ import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
-internal class DepartmentDetailsFragment : Fragment() {
-    private lateinit var binding: FragmentDepartmentDetailsBinding
+internal class DepartmentDetailsFragment :
+    BaseFragment<FragmentDepartmentDetailsBinding>(FragmentDepartmentDetailsBinding::inflate) {
+
     private val args by navArgs<DepartmentDetailsFragmentArgs>()
-    private lateinit var mapView: MapView
-    private val department by lazy { args.departmentParcelable.toDepartment() }
+    private val departmentsViewModel by activityViewModels<DepartmentsViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentDepartmentDetailsBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun setupView() {
+        getDepartmentByIdFromArgs()
+        observeDepartmentsState()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupCurrencyRatesRecyclerView()
-        setupFragmentViews()
-        setupMapDisplay()
-        makeMapVerticalScrollable()
-        setMapResizeOnClickListener()
+    private fun getDepartmentByIdFromArgs() {
+        departmentsViewModel.getDepartmentById(args.departmentId)
     }
 
-    private fun setupCurrencyRatesRecyclerView() =
+    private fun observeDepartmentsState() =
+        viewLifecycleOwner.lifecycleScope.launch {
+            departmentsViewModel.state
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    handleDepartmentState(it)
+                }
+        }
+
+    private fun handleDepartmentState(state: DepartmentsState) {
+        state.chosenDepartment?.let {
+            setupCurrencyRatesRecyclerView(it)
+            setupFragmentViews(it)
+            setupMapDisplay(it)
+            makeMapVerticalScrollable()
+            setMapResizeOnClickListener()
+        }
+    }
+
+    private fun setupCurrencyRatesRecyclerView(department: Department) =
         binding.rvDepartmentCurrencyRate.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = DepartmentCurrencyRatesAdapter(
@@ -68,7 +78,7 @@ internal class DepartmentDetailsFragment : Fragment() {
             )
         }
 
-    private fun setupFragmentViews() =
+    private fun setupFragmentViews(department: Department) =
         binding.apply {
             val address = getDepartmentAddress(department)
             tvDepartmentAddress.text = address
@@ -77,10 +87,38 @@ internal class DepartmentDetailsFragment : Fragment() {
             (activity as MainActivity).supportActionBar?.title = department.filialsText
         }
 
-    private fun setupMapDisplay() =
-        CoroutineScope(Dispatchers.Main).launch {
-            setupMap()
+    private fun setupMapDisplay(department: Department) =
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+            setupMap(department)
         }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun makeMapVerticalScrollable() {
+        val mainScrollView = binding.scrollView
+        val transparentImageView = binding.transparentImage
+
+        transparentImageView.setOnTouchListener { _, event ->
+            val action = event.action
+            when (action) {
+                MotionEvent.ACTION_DOWN -> {
+                    mainScrollView.requestDisallowInterceptTouchEvent(true)
+                    false
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    mainScrollView.requestDisallowInterceptTouchEvent(false)
+                    true
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    mainScrollView.requestDisallowInterceptTouchEvent(true)
+                    false
+                }
+
+                else -> true
+            }
+        }
+    }
 
     private fun setMapResizeOnClickListener() =
         binding.apply {
@@ -119,11 +157,11 @@ internal class DepartmentDetailsFragment : Fragment() {
         department.homeNumber
     )
 
-    private suspend fun setupMap() {
-        MapKitFactory.initialize(requireContext())
-        mapView = binding.mapView
-        val geocoder = Geocoder(requireContext())
+    private suspend fun setupMap(department: Department) {
+        val mapView = binding.mapView
         try {
+            MapKitFactory.initialize(requireContext())
+            val geocoder = Geocoder(requireContext())
             val coordinates = geocoder.getAddressCoordinates(getDepartmentAddress(department))
             if (coordinates != null) {
                 mapView.mapWindow.map.move(
@@ -173,41 +211,15 @@ internal class DepartmentDetailsFragment : Fragment() {
     }
 
     override fun onStop() {
-        super.onStop()
         binding.mapView.onStop()
         MapKitFactory.getInstance().onStop()
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun makeMapVerticalScrollable() {
-        val mainScrollView = binding.scrollView
-        val transparentImageView = binding.transparentImage
-
-        transparentImageView.setOnTouchListener { _, event ->
-            val action = event.action
-            when (action) {
-                MotionEvent.ACTION_DOWN -> {
-                    mainScrollView.requestDisallowInterceptTouchEvent(true)
-                    false
-                }
-
-                MotionEvent.ACTION_UP -> {
-                    mainScrollView.requestDisallowInterceptTouchEvent(false)
-                    true
-                }
-
-                MotionEvent.ACTION_MOVE -> {
-                    mainScrollView.requestDisallowInterceptTouchEvent(true)
-                    false
-                }
-
-                else -> true
-            }
-        }
+        super.onStop()
     }
 
     private fun handleError(error: String) =
         Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()
+
+    override fun onClickButtonCancel() = Unit
 }

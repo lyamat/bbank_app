@@ -9,9 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentsBinding
-import com.example.core.domain.department.Department
 import com.example.core.presentation.ui.UiText
-import com.example.core.presentation.ui.common.BaseFragment
+import com.example.core.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -37,7 +36,7 @@ internal class DepartmentsFragment :
     private fun setViewsClickListeners() =
         binding.apply {
             chipCity.setOnClickListener {
-                showCitySelectionDialog()
+                findNavController().navigate(R.id.action_departmentsFragment_to_citySelectionFragment)
             }
             chipIsWorking.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
@@ -57,26 +56,18 @@ internal class DepartmentsFragment :
                 LinearLayoutManager(requireContext())
             adapter = DepartmentsAdapter(
                 departments = emptyList(),
-                onClick = { department -> openDepartmentDetailFragment(department) }
+                onClick = { departmentId -> openDepartmentDetailFragment(departmentId) }
             )
         }
 
-    private fun openDepartmentDetailFragment(department: Department) =
+    private fun openDepartmentDetailFragment(departmentId: String) =
         Bundle().apply {
-            putParcelable(
-                // TODO: remake to throw id
-                "departmentParcelable",
-                department.toDepartmentParcelable()
+            putString("departmentId", departmentId)
+        }.also {
+            findNavController().navigate(
+                R.id.action_departmentsFragment_to_departmentDetails, it
             )
         }
-            .also {
-                findNavController().navigate(
-                    R.id.action_departmentsFragment_to_departmentDetails, it
-                )
-            }
-
-    private fun showCitySelectionDialog() =
-        CitySelectionDialog.display(getParentFragmentManager(), requireContext())
 
     private fun observeDepartmentsState() =
         viewLifecycleOwner.lifecycleScope.launch {
@@ -107,7 +98,7 @@ internal class DepartmentsFragment :
                 getString(R.string.error_occurred),
                 UiText.DynamicString(getString(R.string.request_was_canceled))
             )
-            departmentsViewModel.setDepartmentsIsFetchCanceled(false)
+            departmentsViewModel.setIsFetchCanceled(false)
             return
         }
         if (state.error != null) {
@@ -115,7 +106,7 @@ internal class DepartmentsFragment :
                 getString(R.string.error_occurred),
                 UiText.DynamicString(state.error.asString(requireContext()))
             )
-            departmentsViewModel.setDepartmentsStateError(null)
+            departmentsViewModel.setStateError(null)
             return
         }
     }
