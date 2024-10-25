@@ -14,10 +14,4 @@ enum class Currency(val scale: Int) {
     CNY(10),
     CZK(100),
     NOK(10);
-
-//    companion object {
-//        fun getAllCurrencies(): List<Currency> {
-//            return entries
-//        }
-//    }
 }

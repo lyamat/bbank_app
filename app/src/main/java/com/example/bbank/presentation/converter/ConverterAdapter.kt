@@ -12,7 +12,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
 import com.example.bbank.databinding.ItemConverterCurrencyRvBinding
-import com.example.bbank.presentation.base_utils.DecimalDigitsInputFilter
+import com.example.bbank.presentation.base_utils.CurrencyValueInputFilter
 import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 
@@ -48,7 +48,7 @@ class ConverterAdapter(
             setIsRecyclable(false)
             etCurrencyValue.setText(currency.second)
             tvCurrencyCode.text = currency.first.uppercase(Locale.ROOT)
-            etCurrencyValue.filters = arrayOf<InputFilter>(DecimalDigitsInputFilter())
+            etCurrencyValue.filters = arrayOf<InputFilter>(CurrencyValueInputFilter())
             ivCurrencyImage.setImageResource(setResourceId(holder, currency))
             setupItem(holder, position)
             setCurrencyValueTextChangedListener(etCurrencyValue, position)
@@ -70,26 +70,26 @@ class ConverterAdapter(
     }
 
     private fun setCurrencyValueTextChangedListener(etCurrencyValue: EditText, position: Int) {
-        etCurrencyValue.doAfterTextChanged { it ->
-            if (it.toString().isEmpty()) {
+        etCurrencyValue.doAfterTextChanged { input ->
+            if (input.toString().isBlank()) {
                 onConverterEvent(ConverterEvent.ClearCurrencyValues)
-            } else if (it.toString() != ".") {
-                val newValue = when {
-                    it.toString() == "0" -> "0"
-                    it.toString() == "0." -> "0."
-                    it.toString().startsWith("0.") -> it.toString()
-                    it.toString().startsWith("0") -> it.toString().substring(1)
-                    else -> it.toString()
-                }
+            } else {
                 onConverterEvent(
-                    ConverterEvent.ConverterValueChanged(
+                    ConverterEvent.CurrencyValueChanged(
                         currencyValues[position].first,
-                        newValue
+                        getParsedCurrencyInputValue(input.toString())
                     )
                 )
-                savedPosition = position
             }
+            savedPosition = position
         }
+    }
+
+    private fun getParsedCurrencyInputValue(input: String): String {
+        if (input.length == 1 && input == ".") {
+            return "0."
+        }
+        return input
     }
 
     private fun setCurrencyValueOnFocusChangeListener(holder: ConverterViewHolder) {

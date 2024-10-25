@@ -11,7 +11,7 @@ interface NewsDao {
     @Upsert
     suspend fun upsertNews(news: List<NewsEntity>)
 
-    @Query("SELECT * FROM newsentity")
+    @Query("SELECT * FROM newsentity ORDER BY startDate DESC")
     fun getNews(): Flow<List<NewsEntity>>
 
     @Query("SELECT * FROM newsentity WHERE link = :link")

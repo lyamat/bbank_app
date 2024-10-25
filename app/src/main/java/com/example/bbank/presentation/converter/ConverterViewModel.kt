@@ -30,8 +30,8 @@ class ConverterViewModel @Inject constructor(
             if (conversionRates.isNotEmpty()) {
                 val availableConversionRates = conversionRates.getAvailableRates()
                 val availableCurrencies = availableConversionRates.getAvailableCurrencies()
-                setConverterStateAvailableCurrencies(availableCurrencies)
-                setConverterStateConversionRates(availableConversionRates)
+                setStateAvailableCurrencies(availableCurrencies)
+                setStateConversionRates(availableConversionRates)
                 showSavedCurrencyValues()
             }
         }.launchIn(viewModelScope)
@@ -40,13 +40,13 @@ class ConverterViewModel @Inject constructor(
     private suspend fun showSavedCurrencyValues() {
         val currencyValues =
             viewModelScope.async { converterRepository.getCurrencyValues() }.await()
-        setConverterStateCurrencyValues(currencyValues)
+        setStateCurrencyValues(currencyValues)
     }
 
     fun handleConverterEvent(event: ConverterEvent) {
         viewModelScope.launch {
             when (event) {
-                is ConverterEvent.ConverterValueChanged -> {
+                is ConverterEvent.CurrencyValueChanged -> {
                     // TODO: move to data layer
                     // TODO: feature:news,departments...
                     // TODO: base_utils to converter:core,presentation...
@@ -69,37 +69,36 @@ class ConverterViewModel @Inject constructor(
                             pair.first to newValue
                         }
                     }
-                    setConverterStateCurrencyValues(updatedValues)
+                    setStateCurrencyValues(updatedValues)
                     converterRepository.setCurrencyValues(updatedValues)
                 }
 
                 is ConverterEvent.ClearCurrencyValues -> {
                     val clearedCurrencyValues = _state.value.currencyValues.map { it.first to "0" }
-                    setConverterStateCurrencyValues(clearedCurrencyValues)
+                    setStateCurrencyValues(clearedCurrencyValues)
                     converterRepository.setCurrencyValues(clearedCurrencyValues)
                 }
 
-                is ConverterEvent.UpdateCurrencyValues -> {
-                    setConverterStateCurrencyValues(event.newsCurrencyValues)
+                is ConverterEvent.UpdateCurrenciesInConverter -> {
+                    setStateCurrencyValues(event.newsCurrencyValues)
                     converterRepository.setCurrencyValues(event.newsCurrencyValues)
                 }
             }
         }
     }
 
-
-    private fun setConverterStateCurrencyValues(currencyValues: List<Pair<CurrencyCode, CurrencyValue>>) =
+    private fun setStateCurrencyValues(currencyValues: List<Pair<CurrencyCode, CurrencyValue>>) =
         _state.update { it.copy(currencyValues = currencyValues) }
 
-    private fun setConverterStateConversionRates(conversionRates: List<ConversionRate>) =
+    private fun setStateConversionRates(conversionRates: List<ConversionRate>) =
         _state.update { it.copy(conversionRates = conversionRates) }
 
-    private fun setConverterStateAvailableCurrencies(availableCurrencies: List<CurrencyCode>) =
+    private fun setStateAvailableCurrencies(availableCurrencies: List<CurrencyCode>) =
         _state.update { it.copy(availableCurrencies = availableCurrencies) }
 
-    private fun setConverterStateConversionMode(conversionMode: ConversionMode) =
+    private fun setStateConversionMode(conversionMode: ConversionMode) =
         _state.update { it.copy(conversionMode = conversionMode) }
 
-    fun setConverterStateError(uiText: UiText?) =
+    fun setStateError(uiText: UiText?) =
         _state.update { it.copy(error = uiText) }
 }

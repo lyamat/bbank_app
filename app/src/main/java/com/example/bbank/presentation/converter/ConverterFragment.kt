@@ -71,7 +71,7 @@ internal class ConverterFragment :
                 getString(R.string.error_occurred),
                 UiText.DynamicString(it.asString(requireContext()))
             )
-            converterViewModel.setConverterStateError(null)
+            converterViewModel.setStateError(null)
         }
     }
 
@@ -104,7 +104,7 @@ internal class ConverterFragment :
                         ?: Pair(currencyCode, "")
                 }
                 converterViewModel.handleConverterEvent(
-                    ConverterEvent.UpdateCurrencyValues(
+                    ConverterEvent.UpdateCurrenciesInConverter(
                         updatedCurrencyValues
                     )
                 )

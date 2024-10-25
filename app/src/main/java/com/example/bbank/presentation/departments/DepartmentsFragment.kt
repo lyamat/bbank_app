@@ -40,7 +40,7 @@ internal class DepartmentsFragment :
             }
             chipIsWorking.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    (rvDepartments.adapter as DepartmentsAdapter).showOnlyOpenDepartments()
+                    (rvDepartments.adapter as DepartmentsAdapter).showOpenDepartments()
                 } else {
                     (rvDepartments.adapter as DepartmentsAdapter).showAllDepartments()
                 }
