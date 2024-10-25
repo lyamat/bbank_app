@@ -18,6 +18,8 @@ import com.example.bbank.databinding.FragmentDepartmentDetailsBinding
 import com.example.bbank.presentation.activity.MainActivity
 import com.example.core.domain.department.Department
 import com.example.core.presentation.ui.base.BaseFragment
+import com.example.core.presentation.ui.util.department.filterForAvailable
+import com.example.core.presentation.ui.util.department.getDepartmentCurrencies
 import com.google.android.material.snackbar.Snackbar
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -62,7 +64,7 @@ internal class DepartmentDetailsFragment :
 
     private fun handleDepartmentState(state: DepartmentsState) {
         state.chosenDepartment?.let {
-            setupCurrencyRatesRecyclerView(it)
+            setupDepartmentCurrencyRecyclerView(it)
             setupFragmentViews(it)
             setupMapDisplay(it)
             makeMapVerticalScrollable()
@@ -70,18 +72,20 @@ internal class DepartmentDetailsFragment :
         }
     }
 
-    private fun setupCurrencyRatesRecyclerView(department: Department) =
-        binding.rvDepartmentCurrencyRate.apply {
+    private fun setupDepartmentCurrencyRecyclerView(department: Department) =
+        binding.rvDepartmentCurrency.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = DepartmentCurrencyRatesAdapter(
-                department = department
+            adapter = DepartmentCurrencyAdapter(
+                departmentCurrencies = department.getDepartmentCurrencies(requireContext())
+                    .filterForAvailable()
             )
         }
 
     private fun setupFragmentViews(department: Department) =
         binding.apply {
             val address = getDepartmentAddress(department)
-            tvDepartmentAddress.text = address
+            tvDepartmentAddress.text =
+                address // TODO: it fast, use department.getFullAddress(), create few func (for fr'details and main'fr)
             tvDepartmentName.text = getString(R.string.oao_belarusbank, department.filialsText)
             tvUpdateTime.text = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
             (activity as MainActivity).supportActionBar?.title = department.filialsText
@@ -217,6 +221,8 @@ internal class DepartmentDetailsFragment :
     }
 
     private fun handleError(error: String) =
+    // TODO: was currencyRates now departmentCurrencyRates, refactor remaining (room at all)
+        // TODO: error appears when fast closing map (fragment) 
         Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()

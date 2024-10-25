@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Error Descriptions -->
     <string name="error_disk_full">Failed to save the item because your disk is full.</string>
     <string name="error_request_timeout">The request timed out.</string>
     <string name="error_too_many_requests">You have hit your rate limit.</string>
@@ -10,10 +11,25 @@
     <string name="error_unknown">Ops! An unknown error occurred</string>
     <string name="error_conflict">A conflict with the current state of a resource</string>
 
+    <!-- General -->
     <string name="unauthorized">Proper authentication credentials are missing or invalid credentials have been provided</string>
     <string name="not_found">Entity not found</string>
     <string name="close_app">Close the app</string>
     <string name="ok">OK</string>
     <string name="fetching_data">Fetching data…</string>
     <string name="cancel">Cancel</string>
+
+    <!-- Currency Descriptions -->
+    <string name="one_us_dollar">1 US Dollar</string>
+    <string name="one_euro">1 Euro</string>
+    <string name="one_hundred_russian_rubles">100 Russian Rubles</string>
+    <string name="one_pound_sterling">1 Pound Sterling</string>
+    <string name="one_canadian_dollar">1 Canadian Dollar</string>
+    <string name="ten_polish_zloty">10 Polish Zloty</string>
+    <string name="ten_swedish_kronor">10 Swedish Kronor</string>
+    <string name="one_swiss_franc">1 Swiss Franc</string>
+    <string name="one_hundred_japanese_yen">100 Japanese Yen</string>
+    <string name="ten_chinese_yuan">10 Chinese Yuan</string>
+    <string name="one_hundred_czech_krona">100 Czech Koruna</string>
+    <string name="ten_norwegian_kroner">10 Norwegian Krone</string>
 </resources>

@@ -1,9 +1,9 @@
 package com.example.core.database.mapper
 
 import com.example.core.database.entity.CurrencyRatesEntity
-import com.example.core.domain.converter.CurrencyRates
+import com.example.core.domain.converter.DepartmentCurrencyRates
 
-fun CurrencyRates.toCurrencyRatesEntity(): CurrencyRatesEntity {
+fun DepartmentCurrencyRates.toCurrencyRatesEntity(): CurrencyRatesEntity {
     return CurrencyRatesEntity(
         id = id,
         usdIn = usdIn,
@@ -35,8 +35,8 @@ fun CurrencyRates.toCurrencyRatesEntity(): CurrencyRatesEntity {
     )
 }
 
-fun CurrencyRatesEntity.toCurrencyRates(): CurrencyRates {
-    return CurrencyRates(
+fun CurrencyRatesEntity.toCurrencyRates(): DepartmentCurrencyRates {
+    return DepartmentCurrencyRates(
         id = id,
         usdIn = usdIn,
         usdOut = usdOut,

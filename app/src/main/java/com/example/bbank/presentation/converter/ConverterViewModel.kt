@@ -2,10 +2,10 @@ package com.example.bbank.presentation.converter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.data.converter.filterAvailableRates
-import com.example.core.data.converter.getAvailableCurrencies
 import com.example.core.domain.converter.ConversionRate
 import com.example.core.domain.converter.ConverterRepository
+import com.example.core.domain.util.getAvailableCurrencies
+import com.example.core.domain.util.getAvailableRates
 import com.example.core.presentation.ui.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -28,7 +28,7 @@ class ConverterViewModel @Inject constructor(
     init {
         converterRepository.getConversionRates().onEach { conversionRates ->
             if (conversionRates.isNotEmpty()) {
-                val availableConversionRates = conversionRates.filterAvailableRates()
+                val availableConversionRates = conversionRates.getAvailableRates()
                 val availableCurrencies = availableConversionRates.getAvailableCurrencies()
                 setConverterStateAvailableCurrencies(availableCurrencies)
                 setConverterStateConversionRates(availableConversionRates)

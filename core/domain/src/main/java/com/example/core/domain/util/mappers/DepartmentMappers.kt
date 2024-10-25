@@ -1,11 +1,10 @@
-package com.example.core.data.converter
+package com.example.core.domain.util.mappers
 
-import com.example.core.domain.converter.ConversionRate
-import com.example.core.domain.converter.CurrencyRates
+import com.example.core.domain.converter.DepartmentCurrencyRates
 import com.example.core.domain.department.Department
 
-fun Department.toCurrencyRates(): CurrencyRates {
-    return CurrencyRates(
+fun Department.toDepartmentCurrencyRates(): DepartmentCurrencyRates {
+    return DepartmentCurrencyRates(
         id = filialId,
         usdIn = usdIn.toDouble(),
         usdOut = usdOut.toDouble(),
@@ -32,13 +31,4 @@ fun Department.toCurrencyRates(): CurrencyRates {
         nokIn = nokIn.toDouble(),
         nokOut = nokOut.toDouble()
     )
-}
-
-fun List<ConversionRate>.filterAvailableRates(): List<ConversionRate> {
-    return this.filter { it.rateIn != 0.0 && it.rateOut != 0.0 }
-}
-
-fun List<ConversionRate>.getAvailableCurrencies(): List<String> {
-    return this.flatMap { listOf(it.fromCurrency.name, it.toCurrency.name) }
-        .distinct()
 }

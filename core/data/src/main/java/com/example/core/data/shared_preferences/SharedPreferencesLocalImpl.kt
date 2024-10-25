@@ -12,7 +12,7 @@ class SharedPreferencesLocalImpl @Inject constructor(
     override suspend fun getCurrentCity(): String =
         sharedPreferences.getString("currentCity", "") ?: ""
 
-    override suspend fun saveCurrentCity(cityName: String) {
+    override suspend fun setCurrentCity(cityName: String) {
         sharedPreferences.edit().putString("currentCity", cityName).apply()
     }
 

@@ -37,6 +37,7 @@
     <string name="currency_rates_bank_buys">Банк\nпокупает</string>
     <string name="currency_rates_bank_sells">Банк\nпродает</string>
     <string name="time_of_update_example">20:45</string>
+    <string name="choose_city">Выберите город</string>
 
     <!-- Currency Conversion -->
     <string name="currency_exchange_rates_at_dep">Курсы валют в отделении</string>
@@ -74,19 +75,6 @@
     <string name="czk_uppercase">CZK</string>
     <string name="nok_uppercase">NOK</string>
 
-    <!-- Currency Descriptions -->
-    <string name="one_us_dollar">1 доллар США</string>
-    <string name="one_euro">1 евро</string>
-    <string name="one_hundred_russian_rubles">100 российских рублей</string>
-    <string name="one_pound_sterling">1 фунт стерлингов</string>
-    <string name="one_canadian_dollar">1 канадский доллар</string>
-    <string name="ten_polish_zloty">10 польских злотых</string>
-    <string name="ten_swedish_kronor">10 шведских крон</string>
-    <string name="one_swiss_franc">1 швейцарский франк</string>
-    <string name="one_hundred_japanese_yen">100 японских иен</string>
-    <string name="ten_chinese_yuan">10 китайских юаней</string>
-    <string name="one_hundred_czech_krona">100 чешских крон</string>
-    <string name="ten_norwegian_kroner">10 норвежских крон</string>
     <string name="currency_code_example">USD</string>
     <string name="currency_scale_example">1 доллар США</string>
     <string name="currency_rate_example">3.29</string>

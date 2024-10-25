@@ -43,7 +43,7 @@
                     style="@style/Widget.MaterialComponents.Chip.Action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/city"
+                    android:text="@string/choose_city"
                     app:chipIcon="@drawable/ic_location" />
 
                 <com.google.android.material.chip.Chip
@@ -153,7 +153,7 @@
         android:layout_height="0dp"
         android:fadeScrollbars="true"
         android:scrollbarSize="5dp"
-        android:scrollbarThumbVertical="@color/lavender"
+        android:scrollbarThumbVertical="@color/colorPrimary"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/clInfo"

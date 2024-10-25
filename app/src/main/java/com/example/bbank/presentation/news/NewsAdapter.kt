@@ -52,7 +52,7 @@ internal class NewsAdapter(
     private fun loadImageIntoView(imageView: ImageView, imageUrl: String) =
         Glide.with(imageView.context)
             .load(imageUrl)
-            .into(imageView)
+            .into(imageView) // TODO:  placeholder, onError
 
     internal fun updateNews(newNews: List<News>) {
         news = newNews

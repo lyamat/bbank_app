@@ -2,7 +2,7 @@ package com.example.core.data.converter
 
 import com.example.core.domain.converter.ConversionRate
 import com.example.core.domain.converter.ConverterRepository
-import com.example.core.domain.converter.CurrencyRates
+import com.example.core.domain.converter.DepartmentCurrencyRates
 import com.example.core.domain.converter.LocalConverterDataSource
 import com.example.core.domain.shared_preferences.SharedPreferencesLocal
 import kotlinx.coroutines.flow.Flow
@@ -14,12 +14,12 @@ class ConverterRepositoryImpl @Inject constructor(
     private val localConverterDataSource: LocalConverterDataSource,
     private val sharedPreferencesLocal: SharedPreferencesLocal
 ) : ConverterRepository {
-    override fun getCurrencyRates(): Flow<List<CurrencyRates>> {
+    override fun getCurrencyRates(): Flow<List<DepartmentCurrencyRates>> {
         return localConverterDataSource.getCurrencyRates()
     }
 
-    override suspend fun upsertCurrencyRates(currencyRates: List<CurrencyRates>) {
-        localConverterDataSource.upsertCurrencyRates(currencyRates)
+    override suspend fun upsertCurrencyRates(departmentCurrencyRates: List<DepartmentCurrencyRates>) {
+        localConverterDataSource.upsertCurrencyRates(departmentCurrencyRates)
     }
 
     override fun getConversionRates(): Flow<List<ConversionRate>> {

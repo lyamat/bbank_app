@@ -8,10 +8,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
 import com.example.bbank.databinding.ItemDepartmentRvBinding
-import com.example.bbank.presentation.base_utils.PresentationUtils.getFullAddress
 import com.example.bbank.presentation.base_utils.TimeUtils
 import com.example.core.domain.department.Department
 import com.example.core.domain.department.DepartmentId
+import com.example.core.domain.util.extentions.getFullAddress
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

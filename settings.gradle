@@ -22,7 +22,6 @@ dependencyResolutionManagement {
 rootProject.name = "BBank"
 include ':app'
 include ':data'
-include ':domain'
 include ':core'
 include ':core:presentation'
 include ':core:presentation:ui'

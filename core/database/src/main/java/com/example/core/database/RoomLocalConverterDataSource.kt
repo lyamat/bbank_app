@@ -9,8 +9,8 @@ import com.example.core.database.mapper.toCurrencyRates
 import com.example.core.database.mapper.toCurrencyRatesEntity
 import com.example.core.domain.converter.ConversionRate
 import com.example.core.domain.converter.ConversionRatesId
-import com.example.core.domain.converter.CurrencyRates
 import com.example.core.domain.converter.CurrencyRatesId
+import com.example.core.domain.converter.DepartmentCurrencyRates
 import com.example.core.domain.converter.LocalConverterDataSource
 import com.example.core.domain.util.DataError
 import com.example.core.domain.util.Result
@@ -21,9 +21,9 @@ class RoomLocalConverterDataSource(
     private val currencyRatesDao: CurrencyRatesDao,
     private val conversionRateDao: ConversionRateDao
 ) : LocalConverterDataSource {
-    override suspend fun upsertCurrencyRates(currencyRates: List<CurrencyRates>): Result<List<CurrencyRatesId>, DataError.Local> {
+    override suspend fun upsertCurrencyRates(departmentCurrencyRates: List<DepartmentCurrencyRates>): Result<List<CurrencyRatesId>, DataError.Local> {
         return try {
-            val entities = currencyRates.map { it.toCurrencyRatesEntity() }
+            val entities = departmentCurrencyRates.map { it.toCurrencyRatesEntity() }
             currencyRatesDao.upsertCurrencyRates(entities)
             Result.Success(entities.map { it.id })
         } catch (e: SQLiteFullException) {
@@ -32,7 +32,7 @@ class RoomLocalConverterDataSource(
 
     }
 
-    override fun getCurrencyRates(): Flow<List<CurrencyRates>> {
+    override fun getCurrencyRates(): Flow<List<DepartmentCurrencyRates>> {
         return currencyRatesDao.getCurrencyRates()
             .map { currencyRatesEntities ->
                 currencyRatesEntities.map { it.toCurrencyRates() }

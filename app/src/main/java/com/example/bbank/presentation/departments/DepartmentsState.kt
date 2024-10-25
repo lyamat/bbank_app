@@ -9,5 +9,6 @@ internal data class DepartmentsState(
     val isLoading: Boolean = false,
     val error: UiText? = null,
     val isFetchCanceled: Boolean = false,
-    val chosenDepartment: Department? = null
+    val chosenDepartment: Department? = null,
+    val cities: List<String> = emptyList()
 )

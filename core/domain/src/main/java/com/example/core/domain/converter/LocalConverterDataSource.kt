@@ -8,8 +8,8 @@ typealias CurrencyRatesId = String
 typealias ConversionRatesId = Int
 
 interface LocalConverterDataSource {
-    suspend fun upsertCurrencyRates(currencyRates: List<CurrencyRates>): Result<List<CurrencyRatesId>, DataError.Local>
-    fun getCurrencyRates(): Flow<List<CurrencyRates>>
+    suspend fun upsertCurrencyRates(departmentCurrencyRates: List<DepartmentCurrencyRates>): Result<List<CurrencyRatesId>, DataError.Local>
+    fun getCurrencyRates(): Flow<List<DepartmentCurrencyRates>>
 
     suspend fun upsertConversionRates(conversionRates: List<ConversionRate>): Result<List<ConversionRatesId>, DataError.Local>
     fun getConversionRates(): Flow<List<ConversionRate>>

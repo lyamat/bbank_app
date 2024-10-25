@@ -4,7 +4,6 @@ plugins {
 }
 
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-parcelize'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
@@ -45,7 +44,6 @@ android {
 }
 
 dependencies {
-    implementation project(':domain')
     implementation project(':data')
 
     implementation project(':news:data')

@@ -1,10 +1,10 @@
-package com.example.core.data.converter
+package com.example.core.domain.util.extentions
 
 import com.example.core.domain.converter.ConversionRate
 import com.example.core.domain.converter.Currency
-import com.example.core.domain.converter.CurrencyRates
+import com.example.core.domain.converter.DepartmentCurrencyRates
 
-fun CurrencyRates.getRateIn(currency: Currency): Double {
+fun DepartmentCurrencyRates.getRateIn(currency: Currency): Double {
     return when (currency) {
         Currency.USD -> usdIn
         Currency.EUR -> eurIn
@@ -22,7 +22,7 @@ fun CurrencyRates.getRateIn(currency: Currency): Double {
     }
 }
 
-fun CurrencyRates.getRateOut(currency: Currency): Double {
+fun DepartmentCurrencyRates.getRateOut(currency: Currency): Double {
     return when (currency) {
         Currency.USD -> usdOut
         Currency.EUR -> eurOut
@@ -40,9 +40,9 @@ fun CurrencyRates.getRateOut(currency: Currency): Double {
     }
 }
 
-fun CurrencyRates.getConversionRates(): List<ConversionRate> {
+fun DepartmentCurrencyRates.getConversionRates(): List<ConversionRate> {
     val rates = mutableListOf<ConversionRate>()
-    val currencies = Currency.getAllCurrencies()
+    val currencies = Currency.entries
 
     for (fromCurrency in currencies) {
         for (toCurrency in currencies) {
@@ -56,7 +56,7 @@ fun CurrencyRates.getConversionRates(): List<ConversionRate> {
     return rates
 }
 
-private fun CurrencyRates.calculateRateFromTo(
+private fun DepartmentCurrencyRates.calculateRateFromTo(
     fromCurrency: Currency,
     toCurrency: Currency,
     isIn: Boolean

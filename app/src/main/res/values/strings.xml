@@ -47,6 +47,7 @@
     <string name="department_currency_rate_example">3.26</string>
     <string name="currency_scale_example">1 US Dollar</string>
     <string name="time_of_update_example">20:45</string>
+    <string name="choose_city">Choose city</string>
 
     <!-- Currency Conversion -->
     <string name="currency">Currency</string>
@@ -79,18 +80,5 @@
     <string name="czk_uppercase">CZK</string>
     <string name="nok_uppercase">NOK</string>
 
-    <!-- Currency Descriptions -->
-    <string name="one_us_dollar">1 US Dollar</string>
-    <string name="one_euro">1 Euro</string>
-    <string name="one_hundred_russian_rubles">100 Russian Rubles</string>
-    <string name="one_pound_sterling">1 Pound Sterling</string>
-    <string name="one_canadian_dollar">1 Canadian Dollar</string>
-    <string name="ten_polish_zloty">10 Polish Zloty</string>
-    <string name="ten_swedish_kronor">10 Swedish Kronor</string>
-    <string name="one_swiss_franc">1 Swiss Franc</string>
-    <string name="one_hundred_japanese_yen">100 Japanese Yen</string>
-    <string name="ten_chinese_yuan">10 Chinese Yuan</string>
-    <string name="one_hundred_czech_krona">100 Czech Koruna</string>
-    <string name="ten_norwegian_kroner">10 Norwegian Krone</string>
 
 </resources>

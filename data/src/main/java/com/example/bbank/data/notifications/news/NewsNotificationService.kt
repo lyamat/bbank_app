@@ -6,7 +6,7 @@
 //import androidx.core.os.bundleOf
 ////import androidx.navigation.NavDeepLinkBuilder
 ////import com.example.bbank.R
-//import com.example.bbank.domain.notifications.NotificationService
+//import com.example.core.domain.news.NotificationService
 //import dagger.hilt.android.qualifiers.ApplicationContext
 //import javax.inject.Inject
 //

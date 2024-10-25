@@ -3,7 +3,9 @@ package com.example.bbank.presentation.departments
 import androidx.lifecycle.ViewModel
 import com.example.core.domain.department.Department
 import com.example.core.domain.department.DepartmentRepository
+import com.example.core.domain.shared_preferences.SharedPreferencesLocal
 import com.example.core.domain.util.Result
+import com.example.core.domain.util.getUniqueCities
 import com.example.core.presentation.ui.UiText
 import com.example.core.presentation.ui.asUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class DepartmentsViewModel @Inject constructor(
-    private val departmentRepository: DepartmentRepository
+    private val departmentRepository: DepartmentRepository,
+    private val sharedPreferencesLocal: SharedPreferencesLocal
 ) : ViewModel() {
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
@@ -35,7 +38,27 @@ internal class DepartmentsViewModel @Inject constructor(
             if (departments.isEmpty()) {
                 fetchDepartments()
             } else {
-                _state.update { DepartmentsState(departments) }
+                val currentCity = sharedPreferencesLocal.getCurrentCity()
+                if (currentCity.isNotBlank()) {
+                    departmentRepository.getDepartmentsByCity(currentCity)
+                        .onEach { departmentsWithCity ->
+                            _state.update {
+                                DepartmentsState(
+                                    departmentsWithCity,
+                                    cities = departments.getUniqueCities(),
+                                    currentCity = currentCity
+                                )
+                            }
+                        }.launchIn(viewModelScope)
+                } else {
+                    _state.update {
+                        DepartmentsState(
+                            departments = departments,
+                            cities = departments.getUniqueCities(),
+                            currentCity = currentCity
+                        )
+                    }
+                }
             }
         }.launchIn(viewModelScope)
     }
@@ -80,10 +103,12 @@ internal class DepartmentsViewModel @Inject constructor(
     private fun setStateIsLoading(isLoading: Boolean) =
         _state.update { it.copy(isLoading = isLoading) }
 
-    fun saveCity(cityName: String) =
+    fun setCurrentCity(city: String) =
         viewModelScope.launch {
-//            saveCurrentCityUseCase(cityName)
-//            fetchLocalDepartmentsByCity()
+            sharedPreferencesLocal.setCurrentCity(city)
+            departmentRepository.getDepartmentsByCity(city).onEach { departments ->
+                _state.update { it.copy(departments = departments, currentCity = city) }
+            }.launchIn(viewModelScope)
         }
 
     fun cancelCurrentFetching() {

@@ -1,6 +1,6 @@
 package com.example.core.domain.converter
 
-data class CurrencyRates(
+data class DepartmentCurrencyRates(
     val id: String,
     val usdIn: Double, val usdOut: Double,
     val eurIn: Double, val eurOut: Double,

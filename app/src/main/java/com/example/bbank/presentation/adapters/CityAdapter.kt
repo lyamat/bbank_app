@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.databinding.ItemCityRvBinding
-import com.example.bbank.domain.models.City
+import com.example.core.presentation.ui.util.checked
 
 internal class CityAdapter(
-    private val cities: List<City>,
+    private val cities: List<String>,
     private val currentCity: String?,
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
@@ -30,9 +30,9 @@ internal class CityAdapter(
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
         val city = cities[position]
         with(holder) {
-            tvCity.text = city.cityName
-            rbChosenCity.isChecked = city.cityName == currentCity
-            cityCardView.setOnClickListener { onClick(city.cityName) }
+            tvCity.text = city
+            if (city == currentCity) rbChosenCity.checked()
+            cityCardView.setOnClickListener { onClick(city) }
         }
     }
 

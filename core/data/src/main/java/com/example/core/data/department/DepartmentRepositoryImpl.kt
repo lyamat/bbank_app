@@ -1,7 +1,5 @@
 package com.example.core.data.department
 
-import com.example.core.data.converter.getConversionRates
-import com.example.core.data.converter.toCurrencyRates
 import com.example.core.domain.converter.LocalConverterDataSource
 import com.example.core.domain.department.Department
 import com.example.core.domain.department.DepartmentRepository
@@ -11,6 +9,8 @@ import com.example.core.domain.util.DataError
 import com.example.core.domain.util.EmptyResult
 import com.example.core.domain.util.Result
 import com.example.core.domain.util.asEmptyDataResult
+import com.example.core.domain.util.extentions.getConversionRates
+import com.example.core.domain.util.mappers.toDepartmentCurrencyRates
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -51,7 +51,7 @@ class DepartmentRepositoryImpl @Inject constructor(
                 applicationScope.async {
                     localDepartmentDataSource.insertDepartments(result.data)
                     val currencyRates =
-                        result.data.map { it.toCurrencyRates() } // dont know where to do this...
+                        result.data.map { it.toDepartmentCurrencyRates() } // dont know where to do this...
                     localConverterDataSource.upsertCurrencyRates(currencyRates)
                     val currencyRatesOfAirport =
                         currencyRates.first { it.id == "1341" } // most representable of all
