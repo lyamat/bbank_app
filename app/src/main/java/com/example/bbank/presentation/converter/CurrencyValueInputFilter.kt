@@ -1,11 +1,10 @@
-package com.example.bbank.presentation.base_utils
+package com.example.bbank.presentation.converter
 
 import android.text.InputFilter
 import android.text.Spanned
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-// TODO: move to converter:presentation
 internal class CurrencyValueInputFilter : InputFilter {
     private val mPattern: Pattern = Pattern.compile("^[0-9]*+((\\.[0-9]{0,2})?)?$")
 

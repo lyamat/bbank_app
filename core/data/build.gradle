@@ -4,42 +4,41 @@ plugins {
 }
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+
+apply {
+    from("$rootDir/buildConfig/common-config.gradle")
+}
 
 android {
     namespace 'com.example.core.data'
-    compileSdk 34
 
-    defaultConfig {
-        minSdk 24
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+    buildFeatures {
+        buildConfig true
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://belarusbank.by/api/\"")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField("String", "BASE_URL", "\"https://belarusbank.by/api/\"")
         }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
-    }
-    kotlinOptions {
-        jvmTarget = '21'
     }
 }
 
 dependencies {
+    implementation project(':core:domain')
+
     implementation libs.gson
+    implementation libs.bundles.ktor
 
     // Hilt
     implementation libs.hilt.android
     kapt libs.hilt.android.compiler
     implementation libs.androidx.hilt.work
     kapt libs.androidx.hilt.compiler
-
-    implementation(libs.bundles.ktor)
-    implementation project(':core:domain')
 }

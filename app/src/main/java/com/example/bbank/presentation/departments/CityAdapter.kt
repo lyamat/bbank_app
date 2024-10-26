@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.adapters
+package com.example.bbank.presentation.departments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

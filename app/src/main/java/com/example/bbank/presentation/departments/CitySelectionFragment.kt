@@ -4,7 +4,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.databinding.FragmentCitySelectionBinding
-import com.example.bbank.presentation.adapters.CityAdapter
 import com.example.core.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 

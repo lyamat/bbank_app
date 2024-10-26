@@ -12,7 +12,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bbank.R
 import com.example.bbank.databinding.ItemConverterCurrencyRvBinding
-import com.example.bbank.presentation.base_utils.CurrencyValueInputFilter
 import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 

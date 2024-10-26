@@ -7,6 +7,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
+apply {
+    from("$rootDir/buildConfig/common-config.gradle")
+}
+
 android {
     namespace 'com.example.bbank'
     compileSdk 34
@@ -45,18 +49,14 @@ android {
 
 dependencies {
     implementation project(':data')
-
     implementation project(':news:data')
     implementation project(':news:network')
-
     implementation project(':department:network')
-
     implementation project(':core:domain')
     implementation project(':core:database')
     implementation project(":core:data")
     implementation project(':core:presentation:ui')
 
-    // Androidx
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.androidx.constraintlayout
@@ -65,24 +65,15 @@ dependencies {
     implementation libs.androidx.navigation.fragment.ktx
     implementation libs.androidx.navigation.ui.ktx
 
-    // Material
     implementation libs.material
-
-    // Gson
     implementation libs.gson
-
-//    // WorkManager
 //    implementation libs.androidx.work.runtime.ktx
+    implementation libs.glide
+    implementation libs.yandex.maps
 
     // Hilt
     implementation libs.hilt.android
     kapt libs.hilt.android.compiler
     implementation libs.androidx.hilt.work
     kapt libs.androidx.hilt.compiler
-
-    // Glide
-    implementation libs.glide
-
-    // Yandex Maps
-    implementation libs.yandex.maps
 }

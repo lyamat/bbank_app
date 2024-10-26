@@ -1,7 +1,7 @@
 package com.example.bbank.presentation.converter
 
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 internal class ConverterFragment :
     BaseFragment<FragmentConverterBinding>(FragmentConverterBinding::inflate) {
 
-    private val converterViewModel by viewModels<ConverterViewModel>()
+    private val converterViewModel by activityViewModels<ConverterViewModel>()
 
     override fun setupView() {
         setViewsClickListeners()
@@ -115,6 +115,11 @@ internal class ConverterFragment :
             val dialog = checkBoxBuilder.create()
             dialog.show()
         }
+    }
+
+    override fun onStop() {
+        converterViewModel.saveCurrencyValues()
+        super.onStop()
     }
 
     override fun onClickButtonCancel() = Unit

@@ -70,18 +70,15 @@ class ConverterViewModel @Inject constructor(
                         }
                     }
                     setStateCurrencyValues(updatedValues)
-                    converterRepository.setCurrencyValues(updatedValues)
                 }
 
                 is ConverterEvent.ClearCurrencyValues -> {
                     val clearedCurrencyValues = _state.value.currencyValues.map { it.first to "0" }
                     setStateCurrencyValues(clearedCurrencyValues)
-                    converterRepository.setCurrencyValues(clearedCurrencyValues)
                 }
 
                 is ConverterEvent.UpdateCurrenciesInConverter -> {
                     setStateCurrencyValues(event.newsCurrencyValues)
-                    converterRepository.setCurrencyValues(event.newsCurrencyValues)
                 }
             }
         }
@@ -101,4 +98,10 @@ class ConverterViewModel @Inject constructor(
 
     fun setStateError(uiText: UiText?) =
         _state.update { it.copy(error = uiText) }
+
+    fun saveCurrencyValues() {
+        viewModelScope.launch {
+            converterRepository.setCurrencyValues(state.value.currencyValues)
+        }
+    }
 }
