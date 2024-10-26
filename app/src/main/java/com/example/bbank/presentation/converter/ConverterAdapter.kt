@@ -52,7 +52,7 @@ class ConverterAdapter(
             setupItem(holder, position)
             setCurrencyValueTextChangedListener(etCurrencyValue, position)
             setCurrencyValueOnFocusChangeListener(holder)
-            setBtnClearOnClickListener(holder.btnClearCurrency, position)
+            setBtnClearClickListener(holder.btnClearCurrency, position)
         }
     }
 
@@ -116,7 +116,7 @@ class ConverterAdapter(
         }
     }
 
-    private fun setBtnClearOnClickListener(btnClear: ImageView, position: Int) {
+    private fun setBtnClearClickListener(btnClear: ImageView, position: Int) {
         btnClear.setOnClickListener {
             savedPosition = position
             onConverterEvent(ConverterEvent.ClearCurrencyValues)

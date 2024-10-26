@@ -17,6 +17,8 @@ import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentDetailsBinding
 import com.example.bbank.presentation.activity.MainActivity
 import com.example.core.domain.department.Department
+import com.example.core.domain.util.extentions.getAddress
+import com.example.core.domain.util.extentions.getName
 import com.example.core.presentation.ui.base.BaseFragment
 import com.example.core.presentation.ui.util.department.filterForAvailable
 import com.example.core.presentation.ui.util.department.getDepartmentCurrencies
@@ -65,10 +67,10 @@ internal class DepartmentDetailsFragment :
     private fun handleDepartmentState(state: DepartmentsState) {
         state.chosenDepartment?.let {
             setupDepartmentCurrencyRecyclerView(it)
-            setupFragmentViews(it)
+            setupViews(it)
             setupMapDisplay(it)
             makeMapVerticalScrollable()
-            setMapResizeOnClickListener()
+            setMapResizeClickListener()
         }
     }
 
@@ -81,19 +83,17 @@ internal class DepartmentDetailsFragment :
             )
         }
 
-    private fun setupFragmentViews(department: Department) =
+    private fun setupViews(department: Department) =
         binding.apply {
-            val address = getDepartmentAddress(department)
-            tvDepartmentAddress.text =
-                address // TODO: it fast, use department.getFullAddress(), create few func (for fr'details and main'fr)
-            tvDepartmentName.text = getString(R.string.oao_belarusbank, department.filialsText)
+            tvDepartmentAddress.text = department.getAddress()
+            tvDepartmentName.text = department.getName()
             tvUpdateTime.text = SimpleDateFormat("HH:mm", Locale.UK).format(Date())
             (activity as MainActivity).supportActionBar?.title = department.filialsText
         }
 
     private fun setupMapDisplay(department: Department) =
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-            setupMap(department)
+            setupMap(department.getAddress())
         }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -124,7 +124,7 @@ internal class DepartmentDetailsFragment :
         }
     }
 
-    private fun setMapResizeOnClickListener() =
+    private fun setMapResizeClickListener() =
         binding.apply {
             ivIncreaseMapView.setOnClickListener {
                 animateHeightChange(binding.mapLayout, dpToPx(500))
@@ -152,21 +152,12 @@ internal class DepartmentDetailsFragment :
             start()
         }
 
-    private fun getDepartmentAddress(department: Department) = getString(
-        R.string.department_address,
-        department.nameType,
-        department.name,
-        department.streetType,
-        department.street,
-        department.homeNumber
-    )
-
-    private suspend fun setupMap(department: Department) {
+    private suspend fun setupMap(departmentAddress: String) {
         val mapView = binding.mapView
         try {
             MapKitFactory.initialize(requireContext())
             val geocoder = Geocoder(requireContext())
-            val coordinates = geocoder.getAddressCoordinates(getDepartmentAddress(department))
+            val coordinates = geocoder.getAddressCoordinates(departmentAddress)
             if (coordinates != null) {
                 mapView.mapWindow.map.move(
                     CameraPosition(

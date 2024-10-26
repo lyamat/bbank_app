@@ -36,7 +36,7 @@
             app:layout_constraintGuide_percent="0.04" />
 
         <TextView
-            android:id="@+id/tvDepartmentAddress"
+            android:id="@+id/tv_department_address_and_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/address_example"
@@ -94,7 +94,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.divider.MaterialDivider
-        android:id="@+id/dividerDepartmentLocalizationInfo"
+        android:id="@+id/divider1"
         android:layout_width="match_parent"
         android:layout_height="0.8dp"
         app:layout_constraintBottom_toBottomOf="@id/departmentAccessibility" />

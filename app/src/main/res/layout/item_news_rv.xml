@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
+    android:paddingHorizontal="20dp"
     android:orientation="vertical">
 
     <ImageView
@@ -19,7 +20,7 @@
         android:id="@+id/tvNewsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/news_title"
         android:textColor="@color/black"
         android:textSize="20sp" />
@@ -27,15 +28,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
 
         <ImageView
             android:id="@+id/ivBelarusbankLogo"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
-            android:layout_marginVertical="10dp"
-            android:layout_marginStart="20dp"
             android:src="@drawable/belarusbank_logo" />
 
         <TextView
@@ -43,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginVertical="10dp"
             android:layout_marginStart="10dp"
             android:text="@string/news_link"
             android:textSize="16sp" />
@@ -60,7 +59,7 @@
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/materialDivider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1.5dp"
         app:dividerColor="@color/colorAccent">
 
     </com.google.android.material.divider.MaterialDivider>

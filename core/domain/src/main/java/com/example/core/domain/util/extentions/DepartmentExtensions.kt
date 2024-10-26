@@ -2,8 +2,16 @@ package com.example.core.domain.util.extentions
 
 import com.example.core.domain.department.Department
 
-fun Department.getFullAddress(): String {
+fun Department.getAddressAndName(): String {
     return "$nameType $name, $streetType $street, $homeNumber, $filialsText"
+}
+
+fun Department.getAddress(): String {
+    return "$nameType $name, $streetType $street, $homeNumber"
+}
+
+fun Department.getName(): String {
+    return filialsText
 }
 
 // todo: move to department:domain, also maybe create const enum for day of week

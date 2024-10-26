@@ -24,10 +24,8 @@
 
 
     <!-- Department -->
-    <string name="department_number_example">Отделение №666–666 ОАО \'АСБ Беларусбанк\'</string>
-    <string name="oao_belarusbank">%1$s ОАО "АСБ Беларусбанк"</string>
+    <string name="department_name">Отделение №666–666</string>
     <string name="address_example">г. Париж, ул.Сильвьенто, 14</string>
-    <string name="department_address">%1$s %2$s, %3$s %4$s %5$s</string>
     <string name="departments_in">Отделения в %1$s\n%2$s</string>
     <string name="open_now">Открыты сейчас</string>
     <string name="city">Город</string>
@@ -40,7 +38,7 @@
     <string name="choose_city">Выберите город</string>
 
     <!-- Currency Conversion -->
-    <string name="currency_exchange_rates_at_dep">Курсы валют в отделении</string>
+    <string name="exchange_rates_at_dep">Курсы валют в отделении</string>
     <string name="currency">Валюта</string>
     <string name="buying">Покупка</string>
     <string name="selling">Продажа</string>

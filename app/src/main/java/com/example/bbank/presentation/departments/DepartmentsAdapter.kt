@@ -10,7 +10,7 @@ import com.example.bbank.R
 import com.example.bbank.databinding.ItemDepartmentRvBinding
 import com.example.core.domain.department.Department
 import com.example.core.domain.department.DepartmentId
-import com.example.core.domain.util.extentions.getFullAddress
+import com.example.core.domain.util.extentions.getAddressAndName
 import com.example.core.domain.util.extentions.getTimeInMinutes
 import com.example.core.domain.util.extentions.isOpen
 import java.text.SimpleDateFormat
@@ -32,7 +32,7 @@ internal class DepartmentsAdapter(
 
     internal inner class DepartmentsViewHolder(binding: ItemDepartmentRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val tvDepartmentAddress: TextView = binding.tvDepartmentAddress
+        val tvDepartmentAddressAndName: TextView = binding.tvDepartmentAddressAndName
         val tvDepartmentCurrencyBuyRate: TextView = binding.tvDepartmentCurrencyBuyRate
         val tvDepartmentCurrencySaleRate: TextView = binding.tvDepartmentCurrencySaleRate
         val viewDepartmentAccessibility: View = binding.departmentAccessibility
@@ -48,7 +48,7 @@ internal class DepartmentsAdapter(
     override fun onBindViewHolder(holder: DepartmentsViewHolder, position: Int) {
         val department = departments[position]
         with(holder) {
-            tvDepartmentAddress.text = department.getFullAddress()
+            tvDepartmentAddressAndName.text = department.getAddressAndName()
             tvDepartmentCurrencyBuyRate.text = department.usdOut
             tvDepartmentCurrencySaleRate.text = department.usdIn
             viewDepartmentAccessibility.setBackgroundResource(getColorForDepartment(department))

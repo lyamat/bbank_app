@@ -1,107 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginVertical="10dp"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCurrencyImage"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:src="@drawable/ic_usd"
+            app:shapeAppearanceOverlay="@style/roundedImageView">
+
+        </com.google.android.material.imageview.ShapeableImageView>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            app:layout_constraintBaseline_toTopOf="parent">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivCurrencyImage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_usd"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/roundedImageView">
-
-            </com.google.android.material.imageview.ShapeableImageView>
+            android:layout_marginStart="10dp"
+            android:layout_weight="0.8"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvCurrencyCode"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
                 android:text="@string/currency_code_example"
-                android:textAlignment="textStart"
                 android:textSize="17sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@id/guideline50Vertical"
-                app:layout_constraintStart_toEndOf="@id/ivCurrencyImage"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvCurrencyExchangeDescription"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/currency_scale_example"
-                android:textAlignment="textStart"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/guideline50Vertical"
-                app:layout_constraintStart_toEndOf="@id/ivCurrencyImage"
-                app:layout_constraintTop_toBottomOf="@id/tvCurrencyCode">
+                android:textSize="13sp">
 
             </TextView>
+        </LinearLayout>
+    </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvCurrencyBuyRate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_weight="0.25"
 
-            <TextView
-                android:id="@+id/tvCurrencyBuyRate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/currency_rate_example"
-                android:textAlignment="center"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/guideline75Vertical"
-                app:layout_constraintStart_toStartOf="@id/guideline50Vertical"
-                app:layout_constraintTop_toTopOf="parent">
+        android:text="@string/currency_rate_example"
+        android:textAlignment="center"
+        android:textSize="17sp">
 
-            </TextView>
+    </TextView>
 
-            <TextView
-                android:id="@+id/tvCurrencySaleRate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/currency_rate_example"
-                android:textAlignment="center"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guideline75Vertical"
-                app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/tvCurrencySaleRate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
 
-            </TextView>
+        android:layout_marginStart="10dp"
+        android:layout_weight="0.25"
 
+        android:text="@string/currency_rate_example"
+        android:textAlignment="center"
+        android:textSize="17sp">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline50Vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.50" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline75Vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.75" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.cardview.widget.CardView>
+    </TextView>
+</LinearLayout>

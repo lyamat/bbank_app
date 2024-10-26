@@ -30,9 +30,8 @@
     <string name="news_details">Details of news</string>
 
     <!-- Department -->
-    <string name="department_number_example">Department No.666–666 OJSC \'ASB Belarusbank\'</string>
+    <string name="department_name">Department No.666–666</string>
     <string name="address_example">Paris, Silvient Street, 14</string>
-    <string name="department_address">%1$s %2$s, %3$s %4$s %5$s</string>
     <string name="departments_in">Departments in %1$s\n%2$s</string>
     <string name="open_now">Open now</string>
     <string name="city">City</string>
@@ -43,7 +42,7 @@
     <string name="currency_rates_bank_sells">Bank\nsells</string>
     <string name="choose_available_currencies">Choose available currencies</string>
     <string name="department_details">Department details</string>
-    <string name="currency_exchange_rates_at_dep">Currency exchange rates at the department</string>
+    <string name="exchange_rates_at_dep">Exchange rates at the department</string>
     <string name="department_currency_rate_example">3.26</string>
     <string name="currency_scale_example">1 US Dollar</string>
     <string name="time_of_update_example">20:45</string>
@@ -60,7 +59,6 @@
     <string name="currency_rate_example">3.29</string>
 
     <!-- Notification Channels -->
-    <string name="oao_belarusbank">%1$s OJSC "ASB Belarusbank"</string>
     <string name="for_showing_last_news">For showing last news</string>
 
     <!-- HTML -->
