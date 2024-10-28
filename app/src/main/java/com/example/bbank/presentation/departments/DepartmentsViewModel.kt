@@ -69,7 +69,6 @@ internal class DepartmentsViewModel @Inject constructor(
                 setStateIsLoading(true)
                 when (val result = departmentRepository.fetchDepartments()) {
                     is Result.Error -> {
-                        // TODO: dialog to retry
                         setStateError(result.error.asUiText())
                     }
 

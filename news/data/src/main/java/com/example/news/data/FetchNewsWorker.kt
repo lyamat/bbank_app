@@ -26,9 +26,9 @@ class FetchNewsWorker @AssistedInject constructor(
             }
 
             is com.example.core.domain.util.Result.Success -> {
+                newsRepository.showNewsNotification()
                 Result.success()
             }
         }
     }
-
 }

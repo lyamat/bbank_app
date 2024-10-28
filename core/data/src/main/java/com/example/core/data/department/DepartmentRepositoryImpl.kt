@@ -11,9 +11,9 @@ import com.example.core.domain.util.Result
 import com.example.core.domain.util.asEmptyDataResult
 import com.example.core.domain.util.extentions.getConversionRates
 import com.example.core.domain.util.mappers.toDepartmentCurrencyRates
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,8 +21,7 @@ import javax.inject.Singleton
 class DepartmentRepositoryImpl @Inject constructor(
     private val localDepartmentDataSource: LocalDepartmentDataSource,
     private val remoteDepartmentDataSource: RemoteDepartmentDataSource,
-    private val localConverterDataSource: LocalConverterDataSource,
-    private val applicationScope: CoroutineScope
+    private val localConverterDataSource: LocalConverterDataSource
 ) : DepartmentRepository {
     override fun getDepartments(): Flow<List<Department>> {
         return localDepartmentDataSource.getDepartments()
@@ -48,7 +47,7 @@ class DepartmentRepositoryImpl @Inject constructor(
         return when (val result = remoteDepartmentDataSource.getDepartments()) {
             is Result.Error -> result.asEmptyDataResult()
             is Result.Success -> {
-                applicationScope.async {
+                withContext(Dispatchers.IO) {
                     localDepartmentDataSource.insertDepartments(result.data)
                     val currencyRates =
                         result.data.map { it.toDepartmentCurrencyRates() } // dont know where to do this...
@@ -58,7 +57,7 @@ class DepartmentRepositoryImpl @Inject constructor(
                     val conversionRates = currencyRatesOfAirport.getConversionRates()
                     localConverterDataSource.upsertConversionRates(conversionRates)
                         .asEmptyDataResult()
-                }.await()
+                }
             }
         }
     }

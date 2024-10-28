@@ -16,15 +16,10 @@ mapsMobile = "4.5.1-lite"
 agp = "8.3.2"
 kotlin = "2.0.20"
 coroutines = "1.8.1"
-navigationSafeArgs = "2.8.3"
 jetbrainsKotlinJvm = "1.9.24"
 bson = "4.11.1"
-
 ktor = "2.3.8"
 ktorClientLogging = "2.3.8"
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,9 +54,6 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientLogging" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
 [bundles]
 ktor = [
@@ -77,7 +69,6 @@ ktor = [
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
-navigationSafeArgs = { id = "androidx.navigation.safeargs", version.ref = "navigationSafeArgs" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

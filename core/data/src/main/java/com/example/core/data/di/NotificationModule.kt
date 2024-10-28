@@ -1,4 +1,4 @@
-package com.example.bbank.di.modules
+package com.example.core.data.di
 
 import android.app.NotificationManager
 import android.content.Context
@@ -11,11 +11,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal class NotificationModule {
-    // TODO: ttodo 
+object NotificationModule {
+
     @Provides
     @Singleton
-    internal fun provideNotificationManager(
+    fun provideNotificationManager(
         @ApplicationContext context: Context
     ): NotificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

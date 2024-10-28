@@ -1,16 +1,17 @@
 package com.example.bbank.presentation.departments
 
-import android.os.Bundle
+import android.net.Uri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentsBinding
-import com.example.core.presentation.ui.UiText
 import com.example.core.presentation.ui.base.BaseFragment
+import com.example.core.presentation.ui.dialog.base.BaseDataDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -36,7 +37,7 @@ internal class DepartmentsFragment :
     private fun setViewsClickListeners() =
         binding.apply {
             chipCity.setOnClickListener {
-                findNavController().navigate(R.id.action_departmentsFragment_to_citySelectionFragment)
+                openCitySelectionFragment()
             }
             chipIsWorking.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
@@ -60,14 +61,20 @@ internal class DepartmentsFragment :
             )
         }
 
-    private fun openDepartmentDetailFragment(departmentId: String) =
-        Bundle().apply {
-            putString("departmentId", departmentId)
-        }.also {
-            findNavController().navigate(
-                R.id.action_departmentsFragment_to_departmentDetails, it
-            )
-        }
+    private fun openCitySelectionFragment() {
+        findNavController().navigate(R.id.citySelectionFragment)
+    }
+
+    private fun openDepartmentDetailFragment(departmentId: String) {
+        val deepLinkUri =
+            Uri.parse("app://com.example.app/departmentDetail?departmentId=$departmentId")
+
+        val deepLinkRequest = NavDeepLinkRequest.Builder
+            .fromUri(deepLinkUri)
+            .build()
+
+        findNavController().navigate(deepLinkRequest)
+    }
 
     private fun observeDepartmentsState() =
         viewLifecycleOwner.lifecycleScope.launch {
@@ -94,20 +101,40 @@ internal class DepartmentsFragment :
         } else hideDialogProgressBar()
 
         if (state.isFetchCanceled) {
-            showDialogGeneralError(
-                getString(R.string.error_occurred),
-                UiText.DynamicString(getString(R.string.request_was_canceled))
+            showRetryDialog(
+                title = getString(R.string.what_happened),
+                getString(R.string.request_was_canceled)
             )
             departmentsViewModel.setIsFetchCanceled(false)
             return
         }
-        if (state.error != null) {
+        state.error?.let {
             showDialogGeneralError(
                 getString(R.string.error_occurred),
-                UiText.DynamicString(state.error.asString(requireContext()))
+                it.asString(requireContext())
             )
             departmentsViewModel.setStateError(null)
             return
         }
+    }
+
+    private fun showRetryDialog(title: String, error: String) {
+        val content = BaseDataDialog(
+            title = title,
+            content = error,
+            primaryButtonText = getString(R.string.ok),
+            primaryButtonShow = true,
+            secondaryButtonText = "",
+            secondaryButtonShow = false,
+            buttonWithIconShow = true,
+            buttonWithIconText = getString(com.example.core.presentation.ui.R.string.retry),
+            icon = com.example.core.presentation.ui.R.drawable.ic_info,
+        )
+
+        showDialogWithActionButton(
+            dataToDialog = content,
+            actionClickPrimary = { },
+            actionClickButtonWithIcon = { departmentsViewModel.fetchDepartments() }
+        )
     }
 }

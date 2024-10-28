@@ -58,9 +58,6 @@
     <string name="currency_code_example">USD</string>
     <string name="currency_rate_example">3.29</string>
 
-    <!-- Notification Channels -->
-    <string name="for_showing_last_news">For showing last news</string>
-
     <!-- HTML -->
     <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>
 
@@ -77,6 +74,4 @@
     <string name="cny_uppercase">CNY</string>
     <string name="czk_uppercase">CZK</string>
     <string name="nok_uppercase">NOK</string>
-
-
 </resources>

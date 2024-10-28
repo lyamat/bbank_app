@@ -31,7 +31,7 @@ class SyncNewsWorkerScheduler @Inject constructor(
     private suspend fun scheduleFetchNewsWorker(interval: Duration) {
         val isSyncScheduled = withContext(Dispatchers.IO) {
             workManager
-                .getWorkInfosByTag("sync_work")
+                .getWorkInfosByTag("news_sync_work")
                 .get()
                 .isNotEmpty()
         }
@@ -56,7 +56,7 @@ class SyncNewsWorkerScheduler @Inject constructor(
                 duration = 24,
                 timeUnit = TimeUnit.HOURS
             )
-            .addTag("sync_work")
+            .addTag("news_sync_work")
             .build()
 
         workManager.enqueue(workRequest).await()
@@ -67,5 +67,4 @@ class SyncNewsWorkerScheduler @Inject constructor(
             .cancelAllWork()
             .await()
     }
-
 }

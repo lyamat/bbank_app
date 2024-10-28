@@ -68,7 +68,7 @@
             app:layout_constraintTop_toBottomOf="@id/mapLayout">
 
             <TextView
-                android:id="@+id/tv_department_address_and_name"
+                android:id="@+id/tv_department_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/address_example"

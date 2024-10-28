@@ -5,7 +5,6 @@ plugins {
 
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 apply {
     from("$rootDir/buildConfig/common-config.gradle")
@@ -48,14 +47,13 @@ android {
 }
 
 dependencies {
-    implementation project(':data')
-    implementation project(':news:data')
-    implementation project(':news:network')
-    implementation project(':department:network')
     implementation project(':core:domain')
     implementation project(':core:database')
     implementation project(":core:data")
     implementation project(':core:presentation:ui')
+    implementation project(':news:data')
+    implementation project(':news:network')
+    implementation project(':department:network')
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
@@ -67,7 +65,6 @@ dependencies {
 
     implementation libs.material
     implementation libs.gson
-//    implementation libs.androidx.work.runtime.ktx
     implementation libs.glide
     implementation libs.yandex.maps
 

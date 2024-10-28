@@ -1,11 +1,10 @@
 package com.example.bbank.presentation.news
 
 import android.webkit.WebViewClient
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentNewsDetailBinding
 import com.example.bbank.presentation.activity.MainActivity
@@ -18,16 +17,22 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 internal class NewsDetailFragment :
     BaseFragment<FragmentNewsDetailBinding>(FragmentNewsDetailBinding::inflate) {
-    private val args by navArgs<NewsDetailFragmentArgs>()
-    private val newsViewModel by activityViewModels<NewsViewModel>()
+
+    private val newsDetailViewModel by viewModels<NewsDetailViewModel>()
 
     override fun setupView() {
-        getNewsByIdFromArgs()
-        observeNewsState()
+        getNewsLinkFromArgs()
+        observeNewsDetailState()
     }
 
-    private fun getNewsByIdFromArgs() {
-        newsViewModel.getNewsByLink(args.newsLink)
+    private fun getNewsLinkFromArgs() {
+        arguments?.getString("newsLink")?.let {
+            getNewsByLink(it)
+        }
+    }
+
+    private fun getNewsByLink(newsLink: String) {
+        newsDetailViewModel.getNewsByLink(newsLink)
     }
 
     private fun setupWebViewWithChosenNews(chosenNews: News) =
@@ -48,9 +53,9 @@ internal class NewsDetailFragment :
             getString(R.string.news_of, chosenNews.startDate)
     }
 
-    private fun observeNewsState() =
+    private fun observeNewsDetailState() =
         viewLifecycleOwner.lifecycleScope.launch {
-            newsViewModel.state
+            newsDetailViewModel.state
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .collectLatest { state ->
                     handleNewsState(state)

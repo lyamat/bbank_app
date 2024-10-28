@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="news_of">Новость от %1$s</string>
+    <string name="news">Новости</string>
+    <string name="for_last_news">Для последних новостей</string>
+</resources>

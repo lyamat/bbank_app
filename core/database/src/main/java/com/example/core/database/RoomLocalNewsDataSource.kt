@@ -27,6 +27,10 @@ class RoomLocalNewsDataSource(
         return newsDao.getNewsByLink(link).map { it.toNews() }
     }
 
+    override fun getLatestNews(): News {
+        return newsDao.getLatestNews().toNews()
+    }
+
     override suspend fun upsertNews(news: List<News>): Result<List<NewsLink>, DataError.Local> {
         return try {
             val entities = news.map { it.toNewsEntity() }

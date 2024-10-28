@@ -51,22 +51,12 @@
                 tools:text="Messages description" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_action_primary_common_dialog"
+                android:id="@+id/btn_action_dismiss"
                 style="@style/Widget.Material3.FloatingActionButton.Secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
-                android:text="Try Again" />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_action_secondary_common_dialog"
-                style="@style/Widget.Material3.FloatingActionButton.Secondary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_16"
-                android:text="Close"
-                android:visibility="gone" />
+                android:text="@string/ok" />
 
         </LinearLayout>
 

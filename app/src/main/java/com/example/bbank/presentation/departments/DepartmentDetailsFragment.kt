@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentDepartmentDetailsBinding
@@ -35,6 +34,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlin.coroutines.Continuation
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToInt
@@ -43,16 +43,21 @@ import kotlin.math.roundToInt
 internal class DepartmentDetailsFragment :
     BaseFragment<FragmentDepartmentDetailsBinding>(FragmentDepartmentDetailsBinding::inflate) {
 
-    private val args by navArgs<DepartmentDetailsFragmentArgs>()
     private val departmentsViewModel by activityViewModels<DepartmentsViewModel>()
 
     override fun setupView() {
-        getDepartmentByIdFromArgs()
+        getDepartmentIdFromArgs()
         observeDepartmentsState()
     }
 
-    private fun getDepartmentByIdFromArgs() {
-        departmentsViewModel.getDepartmentById(args.departmentId)
+    private fun getDepartmentIdFromArgs() {
+        arguments?.getString("departmentId")?.let {
+            getDepartmentByLink(it)
+        }
+    }
+
+    private fun getDepartmentByLink(departmentId: String) {
+        departmentsViewModel.getDepartmentById(departmentId)
     }
 
     private fun observeDepartmentsState() =
@@ -169,34 +174,31 @@ internal class DepartmentDetailsFragment :
                 )
             } else mapView.visibility = View.GONE
         } catch (e: Exception) {
-            handleError(e.message.toString())
+            if (e !is CancellationException)
+                handleError(e.message.toString())
         }
     }
 
     private suspend fun Geocoder.getAddressCoordinates(
         address: String
     ): Pair<Double, Double>? = withContext(Dispatchers.IO) {
-        try {
-            val location = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                suspendCoroutine { cont: Continuation<Address?> ->
-                    getFromLocationName(address, 1) {
-                        cont.resume(it.firstOrNull())
-                    }
-                }
-            } else {
-                suspendCoroutine { cont: Continuation<Address?> ->
-                    @Suppress("DEPRECATION")
-                    val coordinates = getFromLocationName(address, 1)?.firstOrNull()
-                    cont.resume(coordinates)
+        val location = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            suspendCoroutine { cont: Continuation<Address?> ->
+                getFromLocationName(address, 1) {
+                    cont.resume(it.firstOrNull())
                 }
             }
-            location?.let {
-                Pair(it.latitude, it.longitude)
+        } else {
+            suspendCoroutine { cont: Continuation<Address?> ->
+                @Suppress("DEPRECATION")
+                val coordinates = getFromLocationName(address, 1)?.firstOrNull()
+                cont.resume(coordinates)
             }
-        } catch (e: Exception) {
-            handleError(e.message.toString())
-            null
         }
+        location?.let {
+            Pair(it.latitude, it.longitude)
+        }
+
     }
 
     override fun onStart() {
@@ -212,8 +214,7 @@ internal class DepartmentDetailsFragment :
     }
 
     private fun handleError(error: String) =
-    // TODO: was currencyRates now departmentCurrencyRates, refactor remaining (room at all)
-        // TODO: error appears when fast closing map (fragment) 
+        // TODO: was currencyRates now departmentCurrencyRates, refactor remaining (room at all)
         Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT)
             .setAnchorView(R.id.bottomNavigation)
             .show()

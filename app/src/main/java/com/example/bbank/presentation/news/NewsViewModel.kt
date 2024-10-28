@@ -1,8 +1,6 @@
 package com.example.bbank.presentation.news
 
 import androidx.lifecycle.ViewModel
-import com.example.core.domain.news.News
-import com.example.core.domain.news.NewsLink
 import com.example.core.domain.news.NewsRepository
 import com.example.core.domain.news.SyncNewsScheduler
 import com.example.core.domain.util.Result
@@ -70,15 +68,6 @@ internal class NewsViewModel @Inject constructor(
             }
         }
     }
-
-    fun getNewsByLink(newsLink: NewsLink) {
-        newsRepository.getNewsByLink(newsLink).onEach {
-            setChosenNews(it)
-        }.launchIn(viewModelScope)
-    }
-
-    private fun setChosenNews(newsResult: News) =
-        _state.update { it.copy(chosenNews = newsResult) }
 
     fun setIsFetchCanceled(isFetchCanceled: Boolean) =
         _state.update { it.copy(isFetchCanceled = isFetchCanceled) }

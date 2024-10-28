@@ -8,7 +8,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bbank.R
 import com.example.bbank.databinding.FragmentConverterBinding
-import com.example.core.presentation.ui.UiText
 import com.example.core.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -69,7 +68,7 @@ internal class ConverterFragment :
         state.error?.let {
             showDialogGeneralError(
                 getString(R.string.error_occurred),
-                UiText.DynamicString(it.asString(requireContext()))
+                it.asString(requireContext())
             )
             converterViewModel.setStateError(null)
         }

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.example.core.presentation.ui.R
-import com.example.core.presentation.ui.UiText
 import com.example.core.presentation.ui.dialog.base.BaseDataDialog
 import com.example.core.presentation.ui.dialog.base.BaseDataDialogGeneral
 import com.example.core.presentation.ui.dialog.common.DialogGeneralError
@@ -40,15 +39,17 @@ abstract class BaseFragment<T : ViewBinding>(private val bindingInflater: (layou
         setupView()
     }
 
-    fun showDialogWithActionButton(
+    protected fun showDialogWithActionButton(
         dataToDialog: BaseDataDialog,
         actionClickPrimary: () -> Unit,
         actionClickSecondary: (() -> Unit)? = null,
+        actionClickButtonWithIcon: (() -> Unit)? = null,
         tag: String? = "",
     ) {
         val dialog = DialogWithAction(
             onClickButtonPrimary = { actionClickPrimary() },
-            onClickButtonSecondary = { actionClickSecondary?.invoke() }
+            onClickButtonSecondary = { actionClickSecondary?.invoke() },
+            onClickButtonWithIcon = { actionClickButtonWithIcon?.invoke() }
         ).apply { data = dataToDialog }
         if (tag?.isNotEmpty() == true) dialog.show(childFragmentManager, tag)
         else childFragmentManager.showDialog(dialog)
@@ -66,30 +67,22 @@ abstract class BaseFragment<T : ViewBinding>(private val bindingInflater: (layou
 
     private fun showGeneralError(
         data: BaseDataDialogGeneral,
-        actionClick: () -> Unit,
-        actionClickSecondary: () -> Unit,
+        dismissClick: () -> Unit
     ) {
-        dialogGeneralError = DialogGeneralError(
-            data,
-            actionClick,
-            actionClickSecondary,
-            onDismissDialogGeneralError()
-        )
+        dialogGeneralError = DialogGeneralError(data, dismissClick)
         dialogGeneralError?.show(childFragmentManager, tag)
     }
 
-    protected fun showDialogGeneralError(title: String, error: UiText) {
+    protected fun showDialogGeneralError(title: String, error: String) {
         showGeneralError(
             BaseDataDialogGeneral(
                 title = title,
-                message = error.asString(requireContext()),
+                message = error,
                 icon = R.drawable.ic_info,
-                textPrimaryButton = getString(R.string.ok),
-                visibleBackToSplash = false,
-                dismissOnAction = true
+                textPrimaryButton = getString(R.string.ok)
             ),
-            actionClick = { dismissDialogGeneralError() }
-        ) {}
+            dismissClick = { dismissDialogGeneralError() }
+        )
     }
 
     private fun onDismissDialogGeneralError(): () -> Unit = {

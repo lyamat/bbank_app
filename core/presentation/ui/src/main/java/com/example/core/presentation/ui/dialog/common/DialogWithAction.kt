@@ -56,7 +56,7 @@ class DialogWithAction(
         tvContentCommonDialogSingleButton.text = data.content
         btnActionPrimaryCommonDialog.text = data.primaryButtonText
         btnActionSecondaryCommonDialog.text = data.secondaryButtonText
-        if (data.buttonWithIconText.isNotEmpty()) {
+        if (data.buttonWithIconText.isNotBlank()) {
             btnActionPrimaryWithIconCommonDialog.text = data.buttonWithIconText
         }
 
@@ -66,13 +66,9 @@ class DialogWithAction(
         else ivExclamationBlack.hide()
 
         if (data.buttonWithIconShow) {
-            btnActionSecondaryCommonDialog.hide()
-            btnActionPrimaryCommonDialog.hide()
             btnActionPrimaryWithIconCommonDialog.show()
-        } else {
-            btnActionPrimaryWithIconCommonDialog.hide()
-            validateButtonPrimaryAndSecondary()
         }
+        validateButtonPrimaryAndSecondary()
     }
 
     private fun validateButtonPrimaryAndSecondary() = with(binding) {

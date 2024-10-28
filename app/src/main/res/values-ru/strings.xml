@@ -37,6 +37,7 @@
     <string name="time_of_update_example">20:45</string>
     <string name="choose_city">Выберите город</string>
 
+
     <!-- Currency Conversion -->
     <string name="exchange_rates_at_dep">Курсы валют в отделении</string>
     <string name="currency">Валюта</string>
@@ -52,9 +53,6 @@
     <string name="cancel">Отмена</string>
     <string name="settings">Настройки</string>
     <string name="notifications">Уведомления</string>
-
-    <!-- Notification Channels -->
-    <string name="for_showing_last_news">Для показа последних новостей</string>
 
     <!-- HTML -->
     <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>

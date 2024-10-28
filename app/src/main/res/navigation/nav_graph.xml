@@ -4,37 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
     app:startDestination="@id/newsFragment">
+
     <fragment
         android:id="@+id/newsFragment"
         android:name="com.example.bbank.presentation.news.NewsFragment"
         android:label="@string/news"
-        tools:layout="@layout/fragment_news">
-        <action
-            android:id="@+id/action_newsFragment_to_newsDetailFragment"
-            app:destination="@id/newsDetailFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_news" />
+
     <fragment
         android:id="@+id/departmentsFragment"
         android:name="com.example.bbank.presentation.departments.DepartmentsFragment"
         android:label="@string/departments"
-        tools:layout="@layout/fragment_departments">
-        <action
-            android:id="@+id/action_departmentsFragment_to_departmentDetails"
-            app:destination="@id/departmentDetailsFragment" />
-        <action
-            android:id="@+id/action_departmentsFragment_to_citySelectionFragment"
-            app:destination="@id/citySelectionFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_departments" />
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.bbank.presentation.settings.SettingsFragment"
-        android:label="@string/settings"
-        tools:layout="se"></fragment>
+        android:label="@string/settings" />
+
     <fragment
         android:id="@+id/converterFragment"
         android:name="com.example.bbank.presentation.converter.ConverterFragment"
         android:label="@string/converter"
         tools:layout="@layout/fragment_converter" />
+
     <fragment
         android:id="@+id/departmentDetailsFragment"
         android:name="com.example.bbank.presentation.departments.DepartmentDetailsFragment"
@@ -43,7 +36,9 @@
         <argument
             android:name="departmentId"
             app:argType="string" />
+        <deepLink app:uri="app://com.example.app/departmentDetail?departmentId={departmentId}" />
     </fragment>
+
     <fragment
         android:id="@+id/newsDetailFragment"
         android:name="com.example.bbank.presentation.news.NewsDetailFragment"
@@ -52,10 +47,12 @@
         <argument
             android:name="newsLink"
             app:argType="string" />
+        <deepLink app:uri="app://com.example.app/newsDetail?newsLink={newsLink}" />
     </fragment>
+
     <fragment
         android:id="@+id/citySelectionFragment"
         android:name="com.example.bbank.presentation.departments.CitySelectionFragment"
         android:label="@string/city_selection_dialog"
-        tools:layout="@layout/fragment_city_selection"></fragment>
+        tools:layout="@layout/fragment_city_selection" />
 </navigation>
