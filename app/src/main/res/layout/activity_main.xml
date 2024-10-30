@@ -12,9 +12,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/Toolbar">
-
-        </androidx.appcompat.widget.Toolbar>
+            style="@style/Toolbar" />
 
         <fragment
             android:id="@+id/hostFragment"
@@ -22,18 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:navGraph="@navigation/nav_graph">
-
-        </fragment>
+            app:navGraph="@navigation/nav_graph" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
             style="@style/BottomNavigationTheme"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            app:menu="@menu/bottom_navigation_menu">
-
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
+            app:menu="@menu/bottom_navigation_menu" />
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -42,7 +36,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header_navigation_drawer"
-        app:menu="@menu/navigation_drawer_menu">
-
-    </com.google.android.material.navigation.NavigationView>
+        app:menu="@menu/navigation_drawer_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

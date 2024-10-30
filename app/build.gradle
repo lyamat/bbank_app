@@ -53,6 +53,7 @@ dependencies {
     implementation project(':core:presentation:ui')
     implementation project(':news:data')
     implementation project(':news:network')
+    implementation project(':news:presentation')
     implementation project(':department:network')
 
     implementation libs.androidx.core.ktx

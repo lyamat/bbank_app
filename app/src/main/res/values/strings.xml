@@ -17,18 +17,6 @@
     <string name="request_was_canceled">Request was canceled</string>
     <string name="what_happened">What happened:</string>
 
-    <!-- News -->
-    <string name="news_title">News title</string>
-    <string name="news_link">Belarusbank.by ·\ </string>
-    <string name="time_since_publication_example">4w</string>
-    <string name="news_of">News of %1$s</string>
-    <string name="days_since">%1$d d</string>
-    <string name="weeks_since">%1$d w</string>
-    <string name="months_since">%1$d m</string>
-    <string name="years_since">%1$d y</string>
-    <string name="today">Today</string>
-    <string name="news_details">Details of news</string>
-
     <!-- Department -->
     <string name="department_name">Department No.666–666</string>
     <string name="address_example">Paris, Silvient Street, 14</string>

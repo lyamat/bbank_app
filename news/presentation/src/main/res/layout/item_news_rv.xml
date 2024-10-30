@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/news_title"
+        android:text="@string/news_title_example"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:text="@string/news_link"
+            android:text="@string/news_link_example"
             android:textSize="16sp" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/time_since_publication_example"
+            android:text="@string/news_time_since_publication_example"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -60,8 +60,5 @@
         android:id="@+id/materialDivider"
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
-        app:dividerColor="@color/colorAccent">
-
-    </com.google.android.material.divider.MaterialDivider>
-
+        app:dividerColor="@color/colorAccent" />
 </LinearLayout>

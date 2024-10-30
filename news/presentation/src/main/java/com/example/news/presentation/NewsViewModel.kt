@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.news
+package com.example.news.presentation
 
 import androidx.lifecycle.ViewModel
 import com.example.core.domain.news.NewsRepository

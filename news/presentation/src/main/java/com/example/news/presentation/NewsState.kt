@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.news
+package com.example.news.presentation
 
 import com.example.core.domain.news.News
 import com.example.core.presentation.ui.UiText

@@ -1,15 +1,13 @@
-package com.example.bbank.presentation.news
+package com.example.news.presentation
 
 import android.webkit.WebViewClient
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.example.bbank.R
-import com.example.bbank.databinding.FragmentNewsDetailBinding
-import com.example.bbank.presentation.activity.MainActivity
 import com.example.core.domain.news.News
 import com.example.core.presentation.ui.base.BaseFragment
+import com.example.news.presentation.databinding.FragmentNewsDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -49,8 +47,9 @@ internal class NewsDetailFragment :
         }
 
     private fun setToolbarTitle(chosenNews: News) {
-        (activity as? MainActivity)?.supportActionBar?.title =
-            getString(R.string.news_of, chosenNews.startDate)
+//        requireActivity().actionBar?.title = getString(R.string.news_of, chosenNews.startDate)
+//        (activity as? MainActivity)?.supportActionBar?.title =
+//            getString(R.string.news_of, chosenNews.startDate)
     }
 
     private fun observeNewsDetailState() =

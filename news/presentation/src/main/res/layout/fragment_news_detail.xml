@@ -9,7 +9,5 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:clickable="false"
-        android:focusable="false">
-
-    </WebView>
+        android:focusable="false" />
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.news
+package com.example.news.presentation
 
 import android.net.Uri
 import androidx.fragment.app.activityViewModels
@@ -8,10 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.bbank.R
-import com.example.bbank.databinding.FragmentNewsBinding
 import com.example.core.domain.news.NewsLink
 import com.example.core.presentation.ui.base.BaseFragment
+import com.example.news.presentation.databinding.FragmentNewsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -74,8 +73,8 @@ internal class NewsFragment : BaseFragment<FragmentNewsBinding>(FragmentNewsBind
 
         if (state.isFetchCanceled) {
             showDialogGeneralError(
-                title = getString(R.string.what_happened),
-                getString(R.string.request_was_canceled)
+                title = getString(R.string.news_fetching_error),
+                getString(R.string.news_request_was_canceled)
             )
             newsViewModel.setIsFetchCanceled(false)
         }

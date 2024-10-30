@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.news
+package com.example.news.presentation
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,10 +8,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.bbank.R
-import com.example.bbank.databinding.ItemNewsRvBinding
 import com.example.core.domain.news.News
 import com.example.core.domain.news.NewsLink
+import com.example.news.presentation.databinding.ItemNewsRvBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

@@ -2,14 +2,10 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_graph"
-    app:startDestination="@id/newsFragment">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/news_navigation_graph">
 
-    <fragment
-        android:id="@+id/newsFragment"
-        android:name="com.example.bbank.presentation.news.NewsFragment"
-        android:label="@string/news"
-        tools:layout="@layout/fragment_news" />
+    <include app:graph="@navigation/news_navigation" />
 
     <fragment
         android:id="@+id/departmentsFragment"
@@ -37,17 +33,6 @@
             android:name="departmentId"
             app:argType="string" />
         <deepLink app:uri="app://com.example.app/departmentDetail?departmentId={departmentId}" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/newsDetailFragment"
-        android:name="com.example.bbank.presentation.news.NewsDetailFragment"
-        android:label="@string/news_details"
-        tools:layout="@layout/fragment_news_detail">
-        <argument
-            android:name="newsLink"
-            app:argType="string" />
-        <deepLink app:uri="app://com.example.app/newsDetail?newsLink={newsLink}" />
     </fragment>
 
     <fragment
