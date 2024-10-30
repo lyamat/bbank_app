@@ -6,12 +6,7 @@
     app:startDestination="@id/news_navigation_graph">
 
     <include app:graph="@navigation/news_navigation" />
-
-    <fragment
-        android:id="@+id/departmentsFragment"
-        android:name="com.example.bbank.presentation.departments.DepartmentsFragment"
-        android:label="@string/departments"
-        tools:layout="@layout/fragment_departments" />
+    <include app:graph="@navigation/departments_navigation" />
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -23,21 +18,4 @@
         android:name="com.example.bbank.presentation.converter.ConverterFragment"
         android:label="@string/converter"
         tools:layout="@layout/fragment_converter" />
-
-    <fragment
-        android:id="@+id/departmentDetailsFragment"
-        android:name="com.example.bbank.presentation.departments.DepartmentDetailsFragment"
-        android:label="@string/department_details"
-        tools:layout="@layout/fragment_department_details">
-        <argument
-            android:name="departmentId"
-            app:argType="string" />
-        <deepLink app:uri="app://com.example.app/departmentDetail?departmentId={departmentId}" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/citySelectionFragment"
-        android:name="com.example.bbank.presentation.departments.CitySelectionFragment"
-        android:label="@string/city_selection_dialog"
-        tools:layout="@layout/fragment_city_selection" />
 </navigation>

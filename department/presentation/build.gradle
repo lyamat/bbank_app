@@ -11,7 +11,7 @@ apply {
 }
 
 android {
-    namespace 'com.example.news.presentation'
+    namespace 'com.example.department.presentation'
 
     buildFeatures {
         viewBinding true
@@ -22,14 +22,17 @@ dependencies {
     implementation project(':core:domain')
     implementation project(':core:presentation:ui')
 
-    implementation libs.androidx.navigation.fragment.ktx
-    implementation libs.androidx.navigation.ui.ktx
     implementation libs.androidx.core.ktx
-    implementation libs.glide
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.navigation.fragment.ktx
+
+    implementation libs.material
+    implementation libs.yandex.maps
 
     // Hilt
     implementation libs.hilt.android
     kapt libs.hilt.android.compiler
     implementation libs.androidx.hilt.work
     kapt libs.androidx.hilt.compiler
+
 }

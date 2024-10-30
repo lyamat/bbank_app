@@ -62,9 +62,6 @@ class DialogWithAction(
 
         data.icon?.let { ivIconDialogWithAction.setImageResource(it) }
 
-        if (data.isIconShow) ivExclamationBlack.show()
-        else ivExclamationBlack.hide()
-
         if (data.buttonWithIconShow) {
             btnActionPrimaryWithIconCommonDialog.show()
         }

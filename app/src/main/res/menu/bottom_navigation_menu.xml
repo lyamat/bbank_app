@@ -6,7 +6,7 @@
         android:title="@string/news" />
 
     <item
-        android:id="@+id/departmentsFragment"
+        android:id="@id/departments_navigation_graph"
         android:icon="@drawable/ic_department"
         android:title="@string/departments" />
 
@@ -14,5 +14,4 @@
         android:id="@+id/converterFragment"
         android:icon="@drawable/ic_converter"
         android:title="@string/converter" />
-
 </menu>

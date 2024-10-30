@@ -33,25 +33,6 @@ internal class NewsDetailFragment :
         newsDetailViewModel.getNewsByLink(newsLink)
     }
 
-    private fun setupWebViewWithChosenNews(chosenNews: News) =
-        binding.newsDetailsWebView.apply {
-            settings.javaScriptEnabled = false
-            webViewClient = WebViewClient()
-            loadDataWithBaseURL(
-                null,
-                getString(R.string.html_image_style) + chosenNews.htmlRu,
-                getString(R.string.text_html),
-                getString(R.string.utf_8),
-                null
-            )
-        }
-
-    private fun setToolbarTitle(chosenNews: News) {
-//        requireActivity().actionBar?.title = getString(R.string.news_of, chosenNews.startDate)
-//        (activity as? MainActivity)?.supportActionBar?.title =
-//            getString(R.string.news_of, chosenNews.startDate)
-    }
-
     private fun observeNewsDetailState() =
         viewLifecycleOwner.lifecycleScope.launch {
             newsDetailViewModel.state
@@ -64,9 +45,21 @@ internal class NewsDetailFragment :
     private fun handleNewsState(state: NewsState) {
         state.chosenNews?.let {
             setupWebViewWithChosenNews(it)
-            setToolbarTitle(it)
         }
     }
+
+    private fun setupWebViewWithChosenNews(chosenNews: News) =
+        binding.newsDetailsWebView.apply {
+            settings.javaScriptEnabled = false
+            webViewClient = WebViewClient()
+            loadDataWithBaseURL(
+                null,
+                getString(R.string.html_image_style) + chosenNews.htmlRu,
+                getString(R.string.text_html),
+                getString(R.string.utf_8),
+                null
+            )
+        }
 
     override fun onClickButtonCancel() = Unit
 }

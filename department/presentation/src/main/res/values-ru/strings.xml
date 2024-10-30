@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="departments">Отделения</string>
+    <string name="ok">OK</string>
+    <string name="error_occurred">Произошла ошибка</string>
+    <string name="map_error_occurred">Произошла ошибка карты</string>
+    <string name="request_was_canceled">Запрос был отменен</string>
+    <string name="departments_fetching_error">Ошибка при запросе отделений</string>
+    <string name="department_name_example">Отделение №666–666</string>
+    <string name="department_address_example">г. Париж, ул.Сильвьенто, 14</string>
+    <string name="departments_in">Отделения в %1$s\n%2$s</string>
+    <string name="department_open_now">Открыты сейчас</string>
+    <string name="city_selection_dialog">Выберите город</string>
+    <string name="department_bank_buys">Банк\nпокупает</string>
+    <string name="department_bank_sells">Банк\nпродает</string>
+    <string name="time_of_update_example">20:45</string>
+    <string name="department_choose_city">Выберите город</string>
+    <string name="exchange_rates_at_dep">Курсы валют в отделении</string>
+    <string name="currency">Валюта</string>
+    <string name="department_buying">Покупка</string>
+    <string name="department_selling">Продажа</string>
+    <string name="department_currency_code_example">USD</string>
+    <string name="department_currency_scale_example">1 доллар США</string>
+    <string name="department_currency_rate_example">3.29</string>
+    <string name="department_details">Детали отделения</string>
+    <string name="city_example">Париж</string>
+</resources>

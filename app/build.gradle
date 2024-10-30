@@ -12,34 +12,17 @@ apply {
 
 android {
     namespace 'com.example.bbank'
-    compileSdk 34
-
-    defaultConfig {
-        applicationId "com.example.bbank"
-        minSdk 24
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField "String", "MAPKIT_API_KEY", "\"${mapkitApiKey}\""
-    }
 
     buildTypes {
         debug {
             debuggable true
             minifyEnabled false
             applicationIdSuffix '.debug'
+
+            buildConfigField "String", "MAPKIT_API_KEY", "\"${mapkitApiKey}\""
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
-    }
-    kotlinOptions {
-        jvmTarget = '21'
-    }
+
     buildFeatures {
         viewBinding true
         buildConfig true
@@ -55,6 +38,7 @@ dependencies {
     implementation project(':news:network')
     implementation project(':news:presentation')
     implementation project(':department:network')
+    implementation project(':department:presentation')
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
@@ -65,8 +49,6 @@ dependencies {
     implementation libs.androidx.navigation.ui.ktx
 
     implementation libs.material
-    implementation libs.gson
-    implementation libs.glide
     implementation libs.yandex.maps
 
     // Hilt

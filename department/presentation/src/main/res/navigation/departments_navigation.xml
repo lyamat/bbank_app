@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/departments_navigation_graph"
+    app:startDestination="@id/departmentsFragment">
+
+    <fragment
+        android:id="@+id/departmentsFragment"
+        android:name="com.example.department.presentation.DepartmentsFragment"
+        android:label="@string/departments"
+        tools:layout="@layout/fragment_departments" />
+
+    <fragment
+        android:id="@+id/departmentDetailsFragment"
+        android:name="com.example.department.presentation.DepartmentDetailsFragment"
+        android:label="@string/department_details"
+        tools:layout="@layout/fragment_department_details">
+        <argument
+            android:name="departmentId"
+            app:argType="string" />
+        <deepLink app:uri="app://com.example.app/departmentDetail?departmentId={departmentId}" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/citySelectionFragment"
+        android:name="com.example.department.presentation.CitySelectionFragment"
+        android:label="@string/city_selection_dialog"
+        tools:layout="@layout/fragment_city_selection" />
+</navigation>
