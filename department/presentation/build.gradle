@@ -22,10 +22,9 @@ dependencies {
     implementation project(':core:domain')
     implementation project(':core:presentation:ui')
 
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.appcompat
     implementation libs.androidx.navigation.fragment.ktx
-
+    implementation libs.androidx.fragment.ktx
+    implementation libs.androidx.lifecycle.viewmodel.ktx
     implementation libs.material
     implementation libs.yandex.maps
 
@@ -34,5 +33,4 @@ dependencies {
     kapt libs.hilt.android.compiler
     implementation libs.androidx.hilt.work
     kapt libs.androidx.hilt.compiler
-
 }

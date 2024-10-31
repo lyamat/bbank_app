@@ -9,7 +9,7 @@ fun DataError.asUiText(): UiText {
         )
 
         DataError.Local.NOT_FOUND -> UiText.StringResource(
-            R.string.not_found
+            R.string.error_entity_not_found
         )
 
         DataError.Network.REQUEST_TIMEOUT -> UiText.StringResource(
@@ -37,7 +37,7 @@ fun DataError.asUiText(): UiText {
         )
 
         DataError.Network.UNAUTHORIZED -> UiText.StringResource(
-            R.string.unauthorized
+            R.string.error_unauthorized
         )
 
         DataError.Network.CONFLICT -> UiText.StringResource(

@@ -1,68 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- General -->
     <string name="app_name">BBank</string>
-    <string name="converter">Конвертер</string>
-    <string name="news">Новости</string>
-    <string name="departments">Отделения</string>
     <string name="news_notifications">Уведомления о новостях</string>
     <string name="news_notifications_summary">Получать уведомление о новостях каждые 24ч</string>
-    <string name="error_occurred">Произошла ошибка</string>
-    <string name="request_was_canceled">Запрос был отменен</string>
-    <string name="what_happened">Что произошло:</string>
-
-    <!-- Department -->
-    <string name="department_name">Отделение №666–666</string>
-    <string name="address_example">г. Париж, ул.Сильвьенто, 14</string>
-    <string name="departments_in">Отделения в %1$s\n%2$s</string>
-    <string name="open_now">Открыты сейчас</string>
-    <string name="city">Город</string>
-    <string name="city_selection_dialog">Выберите город</string>
-    <string name="main_converter_bank_buys">Банк покупает</string>
-    <string name="main_converter_bank_sells">Банк продает</string>
-    <string name="currency_rates_bank_buys">Банк\nпокупает</string>
-    <string name="currency_rates_bank_sells">Банк\nпродает</string>
-    <string name="time_of_update_example">20:45</string>
-    <string name="choose_city">Выберите город</string>
-
-
-    <!-- Currency Conversion -->
-    <string name="exchange_rates_at_dep">Курсы валют в отделении</string>
-    <string name="currency">Валюта</string>
-    <string name="buying">Покупка</string>
-    <string name="selling">Продажа</string>
-    <string name="add_currency">Добавить валюту</string>
-    <string name="empty_currency_rates">Пустые курсы валют.\nСначала загрузите их.</string>
-    <string name="fetch_initial_data">Загрузить первичные данные</string>
-    <string name="choose_available_currencies">Выберите доступные валюты</string>
-    <string name="text_html">text/html</string>
-    <string name="utf_8">UTF-8</string>
-    <string name="ok">ОК</string>
-    <string name="cancel">Отмена</string>
     <string name="settings">Настройки</string>
-    <string name="notifications">Уведомления</string>
-
-    <!-- HTML -->
-    <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>
-
-    <!-- Currency Codes -->
-    <string name="usd_uppercase">USD</string>
-    <string name="eur_uppercase">EUR</string>
-    <string name="rub_uppercase">RUB</string>
-    <string name="gbp_uppercase">GBP</string>
-    <string name="cad_uppercase">CAD</string>
-    <string name="pln_uppercase">PLN</string>
-    <string name="sek_uppercase">SEK</string>
-    <string name="chf_uppercase">CHF</string>
-    <string name="jpy_uppercase">JPY</string>
-    <string name="cny_uppercase">CNY</string>
-    <string name="czk_uppercase">CZK</string>
-    <string name="nok_uppercase">NOK</string>
-
-    <string name="currency_code_example">USD</string>
-    <string name="currency_scale_example">1 доллар США</string>
-    <string name="currency_rate_example">3.29</string>
-    <string name="department_currency_rate_example">3.26</string>
-    <string name="department_details">Детали отделения</string>
-
 </resources>

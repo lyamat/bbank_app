@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="converter">Конвертер</string>
+    <string name="ok">ОК</string>
+    <string name="cancel">Отмена</string>
+    <string name="error_occurred">Произошла ошибка</string>
+    <string name="converter_bank_buys">Банк покупает</string>
+    <string name="converter_bank_sells">Банк продает</string>
+    <string name="converter_add_currency">Добавить валюту</string>
+    <string name="choose_available_currencies">Выберите доступные валюты</string>
+    <string name="converter_currency_code_example">USD</string>
+</resources>

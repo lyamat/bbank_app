@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:padding="10dp"
-            android:text="USD"
+            android:text="@string/converter_currency_code_example"
             android:textColor="@color/forest_green"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -69,6 +69,4 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </com.google.android.material.card.MaterialCardView>

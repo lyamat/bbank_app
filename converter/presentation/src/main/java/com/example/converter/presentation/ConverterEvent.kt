@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.converter
+package com.example.converter.presentation
 
 sealed class ConverterEvent {
     data class CurrencyValueChanged(val currencyCode: String, val newValue: String) :

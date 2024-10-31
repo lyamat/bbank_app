@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="converter">Converter</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_occurred">Error occurred</string>
+    <string name="converter_bank_buys">Bank buys</string>
+    <string name="converter_bank_sells">Bank sells</string>
+    <string name="converter_add_currency">Add currency</string>
+    <string name="choose_available_currencies">Choose available currencies</string>
+    <string name="converter_currency_code_example">USD</string>
+</resources>

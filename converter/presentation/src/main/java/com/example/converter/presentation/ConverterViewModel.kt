@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.converter
+package com.example.converter.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -25,15 +25,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/main_converter_bank_buys" />
+                android:text="@string/converter_bank_buys" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipBankSale"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/main_converter_bank_sells" />
-
+                android:text="@string/converter_bank_sells" />
         </com.google.android.material.chip.ChipGroup>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -51,8 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginVertical="10dp"
-            android:text="@string/add_currency"
+            android:text="@string/converter_add_currency"
             android:textSize="15sp" />
-
     </LinearLayout>
 </ScrollView>

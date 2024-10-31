@@ -1,20 +1,19 @@
-package com.example.bbank.presentation.converter
+package com.example.converter.presentation
 
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.bbank.R
-import com.example.bbank.databinding.FragmentConverterBinding
+import com.example.converter.presentation.databinding.FragmentConverterBinding
 import com.example.core.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-internal class ConverterFragment :
+class ConverterFragment :
     BaseFragment<FragmentConverterBinding>(FragmentConverterBinding::inflate) {
 
     private val converterViewModel by activityViewModels<ConverterViewModel>()
@@ -51,13 +50,11 @@ internal class ConverterFragment :
 
     private fun observeStates() =
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    converterViewModel.state.collectLatest {
-                        handleConverterState(it)
-                    }
+            converterViewModel.state
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    handleConverterState(it)
                 }
-            }
         }
 
     private fun handleConverterState(state: ConverterState) {

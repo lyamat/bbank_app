@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.converter
+package com.example.converter.presentation
 
 import com.example.core.domain.converter.ConversionRate
 import com.example.core.presentation.ui.UiText

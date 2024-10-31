@@ -147,14 +147,6 @@
         tools:itemCount="5"
         tools:listitem="@layout/item_department_rv" />
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progressIndicatorDepartments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightGuideLine96Vertical"
         android:layout_width="match_parent"

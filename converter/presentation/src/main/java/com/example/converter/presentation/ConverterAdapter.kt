@@ -1,4 +1,4 @@
-package com.example.bbank.presentation.converter
+package com.example.converter.presentation
 
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -10,8 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bbank.R
-import com.example.bbank.databinding.ItemConverterCurrencyRvBinding
+import com.example.converter.presentation.databinding.ItemConverterCurrencyRvBinding
 import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 

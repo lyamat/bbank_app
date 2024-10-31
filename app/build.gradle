@@ -39,6 +39,7 @@ dependencies {
     implementation project(':news:presentation')
     implementation project(':department:network')
     implementation project(':department:presentation')
+    implementation project(':converter:presentation')
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat

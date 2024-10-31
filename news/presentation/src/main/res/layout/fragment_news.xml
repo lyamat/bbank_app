@@ -17,11 +17,4 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="2"
         tools:listitem="@layout/item_news_rv" />
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progressIndicatorNews"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone" />
 </LinearLayout>

@@ -11,7 +11,7 @@
         android:title="@string/departments" />
 
     <item
-        android:id="@+id/converterFragment"
+        android:id="@id/converter_navigation_graph"
         android:icon="@drawable/ic_converter"
         android:title="@string/converter" />
 </menu>
