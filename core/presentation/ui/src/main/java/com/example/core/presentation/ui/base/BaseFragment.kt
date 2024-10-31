@@ -39,6 +39,26 @@ abstract class BaseFragment<T : ViewBinding>(private val bindingInflater: (layou
         setupView()
     }
 
+    protected fun showRetryDialog(title: String, error: String, actionRetry: () -> Unit) {
+        val content = BaseDataDialog(
+            title = title,
+            content = error,
+            primaryButtonText = getString(R.string.ok),
+            primaryButtonShow = true,
+            secondaryButtonText = "",
+            secondaryButtonShow = false,
+            buttonWithIconShow = true,
+            buttonWithIconText = getString(R.string.retry),
+            icon = R.drawable.ic_info,
+        )
+
+        showDialogWithActionButton(
+            dataToDialog = content,
+            actionClickPrimary = { },
+            actionClickButtonWithIcon = { actionRetry() }
+        )
+    }
+
     protected fun showDialogWithActionButton(
         dataToDialog: BaseDataDialog,
         actionClickPrimary: () -> Unit,

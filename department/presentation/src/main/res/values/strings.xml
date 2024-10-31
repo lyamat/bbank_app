@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="departments">Departments</string>
+    <string name="ok">ОК</string>
+    <string name="error_occurred">Error occurred</string>
+    <string name="map_error_occurred">Map error occurred</string>
+    <string name="request_was_canceled">Request was canceled</string>
+    <string name="departments_fetching_error">Error when requesting departments</string>
+    <string name="department_name_example">Department No.666–666</string>
+    <string name="department_address_example">Paris, Silvient Street, 14</string>
+    <string name="departments_in">Departments in %1$s\n%2$s</string>
+    <string name="department_open_now">Open now</string>
+    <string name="city_selection_dialog">Select a city</string>
+    <string name="department_bank_buys">Bank\nbuys</string>
+    <string name="department_bank_sells">Bank\nsells</string>
+    <string name="department_details">Department details</string>
+    <string name="exchange_rates_at_dep">Exchange rates at the department</string>
+    <string name="department_currency_rate_example">3.26</string>
+    <string name="department_currency_scale_example">1 US Dollar</string>
+    <string name="time_of_update_example">20:45</string>
+    <string name="department_choose_city">Choose city</string>
+    <string name="currency">Currency</string>
+    <string name="department_buying">Buying</string>
+    <string name="department_selling">Selling</string>
+    <string name="city_example">Paris</string>
+    <string name="department_currency_code_example">USD</string>
+</resources>

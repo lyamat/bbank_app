@@ -3,6 +3,7 @@ package com.example.core.domain.util
 import com.example.core.domain.converter.ConversionRate
 import com.example.core.domain.department.Department
 
+// TODO: move to :department:domain
 fun List<Department>.getUniqueCities(): List<String> {
     return this
         .map { it.name }
@@ -10,6 +11,7 @@ fun List<Department>.getUniqueCities(): List<String> {
         .distinct()
 }
 
+// TODO: move to :converter:domain
 fun List<ConversionRate>.getAvailableRates(): List<ConversionRate> {
     return this.filter { it.rateIn != 0.0 && it.rateOut != 0.0 }
 }

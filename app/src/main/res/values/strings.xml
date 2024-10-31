@@ -1,77 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- General -->
     <string name="app_name">BBank</string>
-    <string name="converter">Converter</string>
-    <string name="news">News</string>
-    <string name="departments">Departments</string>
-    <string name="text_html">text/html</string>
-    <string name="utf_8">UTF-8</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
     <string name="settings">Settings</string>
-    <string name="notifications">Notifications</string>
     <string name="news_notifications">News notifications</string>
     <string name="news_notifications_summary">Get last news notification every 24h</string>
-    <string name="error_occurred">Error occurred</string>
-    <string name="request_was_canceled">Request was canceled</string>
-    <string name="what_happened">What happened:</string>
-
-    <!-- News -->
-    <string name="news_title">News title</string>
-    <string name="news_link">Belarusbank.by ·\ </string>
-    <string name="time_since_publication_example">4w</string>
-    <string name="news_of">News of %1$s</string>
-    <string name="days_since">%1$d d</string>
-    <string name="weeks_since">%1$d w</string>
-    <string name="months_since">%1$d m</string>
-    <string name="years_since">%1$d y</string>
-    <string name="today">Today</string>
-    <string name="news_details">Details of news</string>
-
-    <!-- Department -->
-    <string name="department_name">Department No.666–666</string>
-    <string name="address_example">Paris, Silvient Street, 14</string>
-    <string name="departments_in">Departments in %1$s\n%2$s</string>
-    <string name="open_now">Open now</string>
-    <string name="city">City</string>
-    <string name="city_selection_dialog">Select a city</string>
-    <string name="main_converter_bank_buys">Bank buys</string>
-    <string name="main_converter_bank_sells">Bank sells</string>
-    <string name="currency_rates_bank_buys">Bank\nbuys</string>
-    <string name="currency_rates_bank_sells">Bank\nsells</string>
-    <string name="choose_available_currencies">Choose available currencies</string>
-    <string name="department_details">Department details</string>
-    <string name="exchange_rates_at_dep">Exchange rates at the department</string>
-    <string name="department_currency_rate_example">3.26</string>
-    <string name="currency_scale_example">1 US Dollar</string>
-    <string name="time_of_update_example">20:45</string>
-    <string name="choose_city">Choose city</string>
-
-    <!-- Currency Conversion -->
-    <string name="currency">Currency</string>
-    <string name="buying">Buying</string>
-    <string name="selling">Selling</string>
-    <string name="add_currency">Add currency</string>
-    <string name="empty_currency_rates">Empty currency rates.\nLoad them first.</string>
-    <string name="fetch_initial_data">Fetch initial data</string>
-    <string name="currency_code_example">USD</string>
-    <string name="currency_rate_example">3.29</string>
-
-    <!-- HTML -->
-    <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>
-
-    <!-- Currency Codes -->
-    <string name="usd_uppercase">USD</string>
-    <string name="eur_uppercase">EUR</string>
-    <string name="rub_uppercase">RUB</string>
-    <string name="gbp_uppercase">GBP</string>
-    <string name="cad_uppercase">CAD</string>
-    <string name="pln_uppercase">PLN</string>
-    <string name="sek_uppercase">SEK</string>
-    <string name="chf_uppercase">CHF</string>
-    <string name="jpy_uppercase">JPY</string>
-    <string name="cny_uppercase">CNY</string>
-    <string name="czk_uppercase">CZK</string>
-    <string name="nok_uppercase">NOK</string>
 </resources>

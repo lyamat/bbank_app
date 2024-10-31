@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_html">text/html</string>
+    <string name="utf_8">UTF-8</string>
+    <string name="news">Новости</string>
+    <string name="news_details">Детали новости</string>
+    <string name="news_title_example">Заголовок новости</string>
+    <string name="news_link_example">Belarusbank.by ·\ </string>
+    <string name="news_time_since_publication_example">4нед</string>
+    <string name="news_of">Новость от %1$s</string>
+    <string name="days_since">%1$dд</string>
+    <string name="weeks_since">%1$dнед</string>
+    <string name="months_since">%1$dмес</string>
+    <string name="years_since">%1$dг</string>
+    <string name="today">Сегодня</string>
+    <string name="news_fetching_error">Ошибка при запросе новостей</string>
+    <string name="news_request_was_canceled">Запрос новостей был отменен</string>
+    <string name="error_occurred">Произошла ошибка</string>
+    <string name="html_image_style"><![CDATA[<style>img{display: inline;height: auto;max-width: 100%;}</style>]]></string>
+</resources>

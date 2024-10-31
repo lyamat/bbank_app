@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/newsFragment"
+        android:id="@id/news_navigation_graph"
         android:icon="@drawable/ic_news"
         android:title="@string/news" />
 
     <item
-        android:id="@+id/departmentsFragment"
+        android:id="@id/departments_navigation_graph"
         android:icon="@drawable/ic_department"
         android:title="@string/departments" />
 
     <item
-        android:id="@+id/converterFragment"
+        android:id="@id/converter_navigation_graph"
         android:icon="@drawable/ic_converter"
         android:title="@string/converter" />
-
 </menu>

@@ -1,0 +1,37 @@
+plugins {
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.jetbrainsKotlinAndroid)
+}
+
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+
+apply {
+    from("$rootDir/buildConfig/common-config.gradle")
+}
+
+android {
+    namespace 'com.example.news.presentation'
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation project(':core:domain')
+    implementation project(':core:presentation:ui')
+
+    implementation libs.androidx.navigation.fragment.ktx
+    implementation libs.androidx.recyclerview
+    implementation libs.androidx.fragment.ktx
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.material
+    implementation libs.glide
+
+    // Hilt
+    implementation libs.hilt.android
+    kapt libs.hilt.android.compiler
+    implementation libs.androidx.hilt.work
+    kapt libs.androidx.hilt.compiler
+}

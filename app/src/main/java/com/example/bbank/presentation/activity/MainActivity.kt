@@ -25,7 +25,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val navController by lazy { findNavController(R.id.hostFragment) }
     private val appBarConfiguration by lazy {
         AppBarConfiguration(
-            setOf(R.id.newsFragment),
+            setOf(com.example.news.presentation.R.id.news_navigation_graph),
             binding.drawerLayout
         )
     }

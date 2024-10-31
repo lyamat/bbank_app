@@ -10,11 +10,10 @@
     <string name="error_serialization">Ой! Не удалось обработать данные.</string>
     <string name="error_unknown">Ой! Произошла неизвестная ошибка.</string>
     <string name="error_conflict">Конфликт с текущим состоянием ресурса.</string>
+    <string name="error_unauthorized">Отсутствуют необходимые учетные данные или предоставлены неверные учетные данные.</string>
+    <string name="error_entity_not_found">Объект не найден.</string>
 
     <!-- General -->
-    <string name="unauthorized">Отсутствуют необходимые учетные данные или предоставлены неверные учетные данные.</string>
-    <string name="not_found">Объект не найден.</string>
-    <string name="close_app">Закрыть приложение.</string>
     <string name="ok">ОК</string>
     <string name="fetching_data">Загрузка данных…</string>
     <string name="cancel">Отмена</string>

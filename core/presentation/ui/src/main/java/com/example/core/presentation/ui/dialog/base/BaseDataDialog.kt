@@ -9,10 +9,7 @@ class BaseDataDialog(
     val secondaryButtonText: String,
     val primaryButtonShow: Boolean,
     val primaryButtonText: String,
-    @DrawableRes val primaryButtonIcon: Int? = null,
-    @DrawableRes val secondaryButtonIcon: Int? = null,
     @DrawableRes val icon: Int? = null,
     val buttonWithIconShow: Boolean = false,
-    val buttonWithIconText: String = "",
-    val isIconShow: Boolean = false
+    val buttonWithIconText: String = ""
 )
