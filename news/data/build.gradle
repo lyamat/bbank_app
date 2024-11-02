@@ -1,10 +1,9 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
 }
-
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
 
 apply {
     from("$rootDir/buildConfig/common-config.gradle")
@@ -21,8 +20,8 @@ dependencies {
     implementation(libs.androidx.work)
 
     // Hilt
-    implementation libs.hilt.android
-    kapt libs.hilt.android.compiler
+    implementation libs.dagger.hilt.android
+    ksp libs.dagger.hilt.android.compiler
     implementation libs.androidx.hilt.work
-    kapt libs.androidx.hilt.compiler
+    ksp libs.androidx.hilt.compiler
 }
