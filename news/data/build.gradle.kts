@@ -10,18 +10,18 @@ apply {
 }
 
 android {
-    namespace 'com.example.news.data'
+    namespace = "com.example.news.data"
 }
 
 dependencies {
-    implementation project(':core:domain')
-    implementation project(':core:data')
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
 
     implementation(libs.androidx.work)
 
     // Hilt
-    implementation libs.dagger.hilt.android
-    ksp libs.dagger.hilt.android.compiler
-    implementation libs.androidx.hilt.work
-    ksp libs.androidx.hilt.compiler
+    implementation(libs.dagger.hilt.android)
+    ksp(libs.dagger.hilt.android.compiler)
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
 }

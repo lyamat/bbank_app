@@ -7,13 +7,3 @@ plugins {
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.ksp) apply false
 }
-
-ext {
-    mapkitApiKey = getMapkitApiKey()
-}
-
-private String getMapkitApiKey() {
-    def properties = new Properties()
-    project.file("local.properties").withInputStream { properties.load(it) }
-    return properties.getProperty("MAPKIT_API_KEY", "")
-}
