@@ -2,8 +2,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreferenceCompat
         android:defaultValue="false"
+        android:key="newsSync"
+        android:summary="@string/news_sync_summary"
+        android:title="@string/news_synchronization" />
+    <Preference
         android:key="newsNotifications"
         android:summary="@string/news_notifications_summary"
         android:title="@string/news_notifications" />
-
 </PreferenceScreen>

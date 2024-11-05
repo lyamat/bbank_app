@@ -14,7 +14,7 @@ class NewsNotificationChannelFactory @Inject constructor(
     notificationManager: NotificationManager
 ) : NotificationChannelFactory(context, notificationManager) {
 
-    override suspend fun createNewsNotificationChannel() = withContext(Dispatchers.IO) {
+    suspend fun createNewsNotificationChannel() = withContext(Dispatchers.IO) {
         createNotificationChannel(
             NEWS_CHANNEL_ID,
             context.getString(R.string.news),

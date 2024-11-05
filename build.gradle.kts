@@ -4,16 +4,8 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.ksp) apply false
-}
-
-ext {
-    mapkitApiKey = getMapkitApiKey()
-}
-
-private String getMapkitApiKey() {
-    def properties = new Properties()
-    project.file("local.properties").withInputStream { properties.load(it) }
-    return properties.getProperty("MAPKIT_API_KEY", "")
+    alias(libs.plugins.room) apply false
 }

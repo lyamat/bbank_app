@@ -2,7 +2,6 @@ package com.example.news.presentation
 
 import androidx.lifecycle.ViewModel
 import com.example.core.domain.news.NewsRepository
-import com.example.core.domain.news.SyncNewsScheduler
 import com.example.core.domain.util.Result
 import com.example.core.presentation.ui.UiText
 import com.example.core.presentation.ui.asUiText
@@ -19,12 +18,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
-import kotlin.time.Duration.Companion.hours
 
 @HiltViewModel
 internal class NewsViewModel @Inject constructor(
-    private val newsRepository: NewsRepository,
-    private val syncNewsScheduler: SyncNewsScheduler
+    private val newsRepository: NewsRepository
 ) : ViewModel() {
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
@@ -42,9 +39,7 @@ internal class NewsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
 
         viewModelScope.launch {
-            syncNewsScheduler.scheduleSync(
-                SyncNewsScheduler.SyncType.FetchNews(24.hours)
-            )
+            newsRepository.createNotificationChannel()
         }
     }
 

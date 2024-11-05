@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -20,19 +21,19 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "BBank"
-include ':app'
-include ':core'
-include ':core:presentation'
-include ':core:presentation:ui'
-include ':core:domain'
-include ':core:data'
-include ':core:database'
-include ':news'
-include ':news:data'
-include ':news:network'
-include ':news:presentation'
-include ':department'
-include ':department:network'
-include ':department:presentation'
-include ':converter'
-include ':converter:presentation'
+include(":app")
+include(":core")
+include(":core:presentation")
+include(":core:presentation:ui")
+include(":core:domain")
+include(":core:data")
+include(":core:database")
+include(":news")
+include(":news:data")
+include(":news:network")
+include(":news:presentation")
+include(":department")
+include(":department:network")
+include(":department:presentation")
+include(":converter")
+include(":converter:presentation")

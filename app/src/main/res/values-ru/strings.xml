@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BBank</string>
-    <string name="news_notifications">Уведомления о новостях</string>
-    <string name="news_notifications_summary">Получать уведомление о новостях каждые 24ч</string>
     <string name="settings">Настройки</string>
+    <string name="news_notifications">Уведомления о новостях</string>
+    <string name="news_notifications_summary">Настроить уведомление о новостях</string>
+    <string name="news_sync_summary">Проверять новости каждые 24ч</string>
+    <string name="news_synchronization">Синхронизация новостей</string>
 </resources>

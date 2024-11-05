@@ -3,5 +3,7 @@
     <string name="app_name">BBank</string>
     <string name="settings">Settings</string>
     <string name="news_notifications">News notifications</string>
-    <string name="news_notifications_summary">Get last news notification every 24h</string>
+    <string name="news_notifications_summary">Configure news notification</string>
+    <string name="news_sync_summary">Check news every 24h</string>
+    <string name="news_synchronization">News synchronization</string>
 </resources>

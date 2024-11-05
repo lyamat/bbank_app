@@ -3,8 +3,10 @@ package com.example.news.data
 import android.content.Context
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.await
 import com.example.core.domain.news.SyncNewsScheduler
@@ -29,42 +31,40 @@ class SyncNewsWorkerScheduler @Inject constructor(
     }
 
     private suspend fun scheduleFetchNewsWorker(interval: Duration) {
-        val isSyncScheduled = withContext(Dispatchers.IO) {
-            workManager
-                .getWorkInfosByTag("news_sync_work")
-                .get()
-                .isNotEmpty()
-        }
-        if (isSyncScheduled) {
-            return
+        val workInfos = withContext(Dispatchers.IO) {
+            workManager.getWorkInfosForUniqueWork("news_sync_work").get()
         }
 
-        val workRequest = PeriodicWorkRequestBuilder<FetchNewsWorker>(
-            repeatInterval = interval.toJavaDuration()
-        )
-            .setConstraints(
-                Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build()
+        if (workInfos.isEmpty() || workInfos.first().state == WorkInfo.State.CANCELLED) {
+            val workRequest = PeriodicWorkRequestBuilder<FetchNewsWorker>(
+                repeatInterval = interval.toJavaDuration()
             )
-            .setBackoffCriteria(
-                backoffPolicy = BackoffPolicy.EXPONENTIAL,
-                backoffDelay = 2000L,
-                timeUnit = TimeUnit.MILLISECONDS
-            )
-            .setInitialDelay(
-                duration = 24,
-                timeUnit = TimeUnit.HOURS
-            )
-            .addTag("news_sync_work")
-            .build()
+                .setConstraints(
+                    Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+                )
+                .setBackoffCriteria(
+                    backoffPolicy = BackoffPolicy.EXPONENTIAL,
+                    backoffDelay = 2000L,
+                    timeUnit = TimeUnit.MILLISECONDS
+                )
+                .setInitialDelay(
+                    duration = 24,
+                    timeUnit = TimeUnit.HOURS
+                )
+                .build()
 
-        workManager.enqueue(workRequest).await()
+            workManager.enqueueUniquePeriodicWork(
+                "news_sync_work",
+                ExistingPeriodicWorkPolicy.UPDATE, workRequest
+            ).await()
+        }
     }
 
-    override suspend fun cancelAllSyncs() {
+    override suspend fun cancelSync() {
         workManager
-            .cancelAllWork()
+            .cancelUniqueWork("news_sync_work")
             .await()
     }
 }

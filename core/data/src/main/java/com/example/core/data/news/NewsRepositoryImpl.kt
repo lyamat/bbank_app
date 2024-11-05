@@ -48,12 +48,12 @@ class NewsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun showNewsNotification() {
+    override suspend fun showNotificationWithLatestNews() {
         val latestNews = localNewsDataSource.getLatestNews()
-        newsNotificationService.showNewsNotification(latestNews)
+        newsNotificationService.showNotification(latestNews)
     }
 
-    override suspend fun cancelNewsNotifications() {
-        newsNotificationService.cancelNewsNotifications()
+    override suspend fun createNotificationChannel() {
+        newsNotificationService.createNotificationChannel()
     }
 }

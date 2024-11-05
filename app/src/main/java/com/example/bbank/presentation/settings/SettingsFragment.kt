@@ -1,54 +1,60 @@
 package com.example.bbank.presentation.settings
 
-//import com.example.bbank.data.worker.NewsNotificationWorker
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import androidx.lifecycle.lifecycleScope
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import androidx.work.WorkManager
 import com.example.bbank.R
+import com.example.core.domain.news.SyncNewsScheduler
+import com.example.news.data.notifications.NewsNotificationChannelFactory.Companion.NEWS_CHANNEL_ID
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.hours
 
 @AndroidEntryPoint
 internal class SettingsFragment : PreferenceFragmentCompat() {
+    @Inject
+    lateinit var syncNewsScheduler: SyncNewsScheduler
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
         monitorPreferences()
     }
 
-    private fun monitorPreferences() =
-        findPreference<SwitchPreferenceCompat>("newsNotifications")
-            ?.setOnPreferenceChangeListener { _, newValue ->
+    private fun monitorPreferences() {
+        val newsSyncPref = findPreference<SwitchPreferenceCompat>("newsSync")
+        val newsNotificationsPref = findPreference<Preference>("newsNotifications")
+
+        newsNotificationsPref?.setOnPreferenceClickListener {
+            openNotificationChannelSettings(NEWS_CHANNEL_ID)
+            true
+        }
+
+        newsSyncPref?.setOnPreferenceChangeListener { _, newValue ->
+            viewLifecycleOwner.lifecycleScope.launch {
                 if (newValue as Boolean) {
-//                    startNewsNotificationWorker()
+                    syncNewsScheduler.scheduleSync(
+                        SyncNewsScheduler.SyncType.FetchNews(24.hours)
+                    )
+                    newsSyncPref.isChecked = true
                 } else {
-                    cancelUniqueWorkByName(uniqueWorkName = NEWS_UNIQUE_WORK_NAME)
+                    syncNewsScheduler.cancelSync()
+                    newsSyncPref.isChecked = false
                 }
-                true
             }
+            true
+        }
+    }
 
-//    private fun startNewsNotificationWorker() {
-//        val newsGettingPeriodicWork =
-//            PeriodicWorkRequestBuilder<NewsNotificationWorker>(15, TimeUnit.MINUTES)
-//                .setConstraints(
-//                    Constraints.Builder()
-//                        .setRequiredNetworkType(NetworkType.CONNECTED)
-//                        .setRequiresBatteryNotLow(true)
-//                        .build()
-//                )
-//                .setInitialDelay(5, TimeUnit.SECONDS)
-//                .build()
-//
-//        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
-//            NEWS_UNIQUE_WORK_NAME,
-//            ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
-//            newsGettingPeriodicWork
-//        )
-//    }
-
-    private fun cancelUniqueWorkByName(uniqueWorkName: String) =
-        WorkManager.getInstance(requireContext()).cancelUniqueWork(uniqueWorkName)
-
-    private companion object {
-        const val NEWS_UNIQUE_WORK_NAME = "NewsNotificationWorker"
+    private fun openNotificationChannelSettings(channelId: String) {
+        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+            putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+            putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
+        }
+        startActivity(intent)
     }
 }
