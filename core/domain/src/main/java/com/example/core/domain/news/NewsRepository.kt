@@ -11,6 +11,6 @@ interface NewsRepository {
     suspend fun deleteAllNews()
 
     suspend fun fetchNews(): EmptyResult<DataError>
-    suspend fun showNewsNotification()
-    suspend fun cancelNewsNotifications()
+    suspend fun showNotificationWithLatestNews()
+    suspend fun createNotificationChannel()
 }

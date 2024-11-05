@@ -1,6 +1,7 @@
 package com.example.news.network
 
 import com.example.core.domain.news.News
+import org.bson.types.ObjectId
 
 fun NewsDto.toNews(): News {
     return News(
@@ -8,6 +9,6 @@ fun NewsDto.toNews(): News {
         htmlRu = htmlRu ?: "",
         img = img ?: "",
         startDate = startDate ?: "",
-        link = link ?: "",
+        link = link ?: ObjectId().toHexString(),
     )
 }

@@ -48,7 +48,6 @@ class ConverterViewModel @Inject constructor(
             when (event) {
                 is ConverterEvent.CurrencyValueChanged -> {
                     // TODO: move to data layer
-                    // TODO: feature:news,departments...
                     val updatedValues = _state.value.currencyValues.map { pair ->
                         if (pair.first == event.currencyCode) {
                             event.currencyCode to event.newValue

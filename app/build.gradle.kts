@@ -1,38 +1,22 @@
-import java.util.Properties
-
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt.android)
-}
-
-apply {
-    from("$rootDir/buildConfig/common-config.gradle")
+    alias(libs.plugins.bbank.android.application.xml)
+    alias(libs.plugins.bbank.android.hilt.worker)
 }
 
 android {
     namespace = "com.example.bbank"
 
-    buildTypes {
-        getByName("debug") {
-            isDebuggable = true
-            isMinifyEnabled = false
-            applicationIdSuffix = ".debug"
-
-            val keystoreFile = project.rootProject.file("local.properties")
-            val properties = Properties()
-            properties.load(keystoreFile.inputStream())
-
-            val mapkitApiKey = properties.getProperty("MAPKIT_API_KEY") ?: ""
-
-            buildConfigField("String", "MAPKIT_API_KEY", "\"$mapkitApiKey\"")
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
         }
     }
 
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
@@ -58,10 +42,4 @@ dependencies {
 
     implementation(libs.material)
     implementation(libs.yandex.maps.mobile)
-
-    // Hilt
-    implementation(libs.dagger.hilt.android)
-    ksp(libs.dagger.hilt.android.compiler)
-    implementation(libs.androidx.hilt.work)
-    ksp(libs.androidx.hilt.compiler)
 }

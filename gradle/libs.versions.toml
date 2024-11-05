@@ -1,69 +1,105 @@
 [versions]
+activity = "1.9.3"
 agp = "8.3.2"
-kotlin = "2.0.20"
-kotlinJvm = "1.9.24"
-ksp = "2.0.20-1.0.25"
-coreKtx = "1.13.1"
 appcompat = "1.7.0"
-constraintlayout = "2.1.4"
+androidTools = "31.7.2"
+bson = "4.11.1"
+constraintlayout = "2.2.0"
+coreKtx = "1.13.1"
+coroutines = "1.8.1"
 fragmentKtx = "1.8.5"
-lifecycleViewmodelKtx = "2.8.7"
-material = "1.12.0"
-activity = "1.9.2"
-preferenceKtx = "1.2.1"
-navigationFragmentKtx = "2.8.2"
+glide = "4.13.0"
 gson = "2.11.0"
-roomRuntime = "2.6.1"
-work = "2.8.1"
 hilt = "2.51.1"
 hiltWork = "1.2.0"
-glide = "4.13.0"
-yandexMaps = "4.5.1-lite"
-coroutines = "1.8.1"
-bson = "4.11.1"
+kotlin = "2.0.20"
+kotlinJvm = "1.9.24"
 ktor = "2.3.8"
 ktorClientLogging = "2.3.8"
+ksp = "2.0.20-1.0.25"
+lifecycleViewmodelKtx = "2.8.7"
+preferenceKtx = "1.2.1"
+material = "1.12.0"
+navigationFragmentKtx = "2.8.3"
 recyclerview = "1.3.2"
+room = "2.6.1"
+work = "2.8.1"
+yandexMaps = "4.5.1-lite"
+
+# Project versions
+projectApplicationId = "com.example.bbank"
+projectVersionName = "1.0"
+projectMinSdkVersion = "26"
+projectTargetSdkVersion = "34"
+projectCompileSdkVersion = "34"
+projectVersionCode = "1"
 
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
-androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferenceKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
-
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-yandex-maps-mobile = { module = "com.yandex.android:maps.mobile", version.ref = "yandexMaps" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-org-mongodb-bson = { module = "org.mongodb:bson", version.ref = "bson" }
-
-# Room
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
-
+androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferenceKtx" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 
-# Hilt
-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltWork" }
 
-# Ktor
+dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+org-mongodb-bson = { module = "org.mongodb:bson", version.ref = "bson" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientLogging" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+
+yandex-maps-mobile = { module = "com.yandex.android:maps.mobile", version.ref = "yandexMaps" }
+
+# Gradle
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinJvm" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
+
+bbank-android-application = { id = "bbank.android.application", version = "unspecified" }
+bbank-android-application-xml = { id = "bbank.android.application.xml", version = "unspecified" }
+bbank-android-library = { id = "bbank.android.library", version = "unspecified" }
+bbank-android-library-ui = { id = "bbank.android.library.ui", version = "unspecified" }
+bbank-android-feature-ui = { id = "bbank.android.feature.ui", version = "unspecified" }
+bbank-android-room = { id = "bbank.android.room", version = "unspecified" }
+bbank-android-hilt = { id = "bbank.android.hilt", version = "unspecified" }
+bbank-android-hilt-worker = { id = "bbank.android.hilt.worker", version = "unspecified" }
+bbank-jvm-library = { id = "bbank.jvm.library", version = "unspecified" }
+bbank-jvm-ktor = { id = "bbank.jvm.ktor", version = "unspecified" }
 
 [bundles]
 ktor = [
@@ -74,12 +110,9 @@ ktor = [
     "ktor-client-logging",
     "ktor-serialization-kotlinx-json"
 ]
-
-[plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
-android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinJvm" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ui = [
+    "androidx-navigation-fragment-ktx",
+    "androidx-fragment-ktx",
+    "androidx-lifecycle-viewmodel-ktx",
+    "material"
+]

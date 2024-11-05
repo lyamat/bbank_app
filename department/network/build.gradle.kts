@@ -1,13 +1,7 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt.android)
-}
-
-apply {
-    from("$rootDir/buildConfig/common-config.gradle")
+    alias(libs.plugins.bbank.android.library)
+    alias(libs.plugins.bbank.jvm.ktor)
+    alias(libs.plugins.bbank.android.hilt)
 }
 
 android {
@@ -19,11 +13,4 @@ dependencies {
     implementation(project(":core:data"))
 
     implementation(libs.org.mongodb.bson)
-    implementation(libs.bundles.ktor)
-
-    // Hilt
-    implementation(libs.dagger.hilt.android)
-    ksp(libs.dagger.hilt.android.compiler)
-    implementation(libs.androidx.hilt.work)
-    ksp(libs.androidx.hilt.compiler)
 }

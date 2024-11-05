@@ -5,7 +5,7 @@ import org.bson.types.ObjectId
 
 fun DepartmentDto.toDepartment() =
     Department(
-        id = ObjectId().toHexString(),
+        id = filialId ?: ObjectId().toHexString(),
         usdIn = usdIn ?: "",
         usdOut = usdOut ?: "",
         eurIn = eurIn ?: "",

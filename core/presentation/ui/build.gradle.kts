@@ -1,18 +1,9 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-}
-
-apply {
-    from("$rootDir/buildConfig/common-config.gradle")
+    alias(libs.plugins.bbank.android.library.ui)
 }
 
 android {
     namespace = "com.example.core.presentation.ui"
-
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {

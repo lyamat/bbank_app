@@ -48,7 +48,8 @@ class DepartmentRepositoryImpl @Inject constructor(
             is Result.Error -> result.asEmptyDataResult()
             is Result.Success -> {
                 withContext(Dispatchers.IO) {
-                    localDepartmentDataSource.insertDepartments(result.data)
+                    deleteAllDepartments()
+                    insertDepartments(result.data)
                     val currencyRates =
                         result.data.map { it.toDepartmentCurrencyRates() } // dont know where to do this...
                     localConverterDataSource.upsertCurrencyRates(currencyRates)

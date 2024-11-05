@@ -49,11 +49,11 @@ internal class DepartmentDetailsFragment :
 
     private fun getDepartmentIdFromArgs() {
         arguments?.getString("departmentId")?.let {
-            getDepartmentByLink(it)
+            getDepartmentById(it)
         }
     }
 
-    private fun getDepartmentByLink(departmentId: String) {
+    private fun getDepartmentById(departmentId: String) {
         departmentsViewModel.getDepartmentById(departmentId)
     }
 
