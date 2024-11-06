@@ -1,48 +1,58 @@
-# Android App with Belarusbank API
+# Bbank | Belarusbank Android Client App
+
+An Android app for Belarusbank clients, offering access to departments, news, and live currency conversion.
+This app interacts with the Belarusbank API. [API Documentation](https://belarusbank.by/be/33139/forDevelopers/api)
+
+## Stack
+
+- **Language**: Kotlin
+- **Architecture**: Single-Activity, MVVM Pattern
+- **Concurrency**: Kotlin Coroutines
+- **Networking**: OkHttp, Ktor
+- **Local Storage**: SharedPreferences, Room Database
+- **UI**: Navigation Component, Fragments, (XML)
+- **DI**: Hilt
+- **Map**: Yandex MapKit
 
 ## Features
 
-- Modern Android development using [Kotlin](https://kotlinlang.org/) and Android Jetpack libraries.
-- [Clean Architecture](https://developer.android.com/topic/architecture) with a multi-layered
-  approach.
-- Dependency Injection with [Hilt](https://dagger.dev/hilt/).
-- Reactive programming with [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
-  and [Flow](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/).
-- [MVVM](https://developer.android.com/topic/libraries/architecture/viewmodel) architecture.
+- **Departments**  
+  > Browse the list of Belarusbank departments across Belarus.\
+  > Filter departments by city, operating status (open/closed).\
+  > View department locations on a map and check available currency rates for each department.
 
-<img src="https://github.com/lyamat/bbank_app/assets/65541361/ae062ad0-097f-4eab-ba13-a3fc297d4b16" alt="bbank_images" style="width:100%;height:100%;">
+- **News**  
+  > View a feed of the latest Belarusbank news.\
+  > See the time since each article was published.\
+  > News detail view using WebView for easy reading.
 
-## Belarusbank Server API
+- **Currency Converter**  
+  > Real-time currency conversion with live rate updates.\
+  > Add or remove currencies for customized conversion options.\
+  > Option to view or hide specific currencies.
 
-API: [Belarusbank Server](https://belarusbank.by/be/33139/forDevelopers/api)
+---
 
-## Architecture Layers
+<img src="https://github.com/user-attachments/assets/af55e336-1b59-40c1-b9b7-857e8a3ec772" alt="bbank_images" style="width:100%;height:100%;">
+<img src="https://github.com/user-attachments/assets/0186423b-01ea-4555-823b-0ace4eaa02ec" alt="bbank_images" style="width:100%;height:100%;">
+<img src="https://github.com/user-attachments/assets/e97cf357-1600-4550-b7ab-57aae6499401" alt="bbank_images" style="width:50%;height:100%;">
 
-- `data`: Handles data management, including network and database operations.
-- `domain`: Contains business logic and use cases.
-- `presentation`: Manages UI and view-related logic.
-- `di`: Manages dependency injection configurations.
+---
+## Modularization
 
-## Patterns and Principles
-
-- Singleton
-- Factory
-- Facade
-- Dependency Injection
-- Adapter
-- Observer (Flow)
-- Repository
-- Use Cases
-- DTO (Data Transfer Object)
-
-## Libraries and Tools
-
-- Coroutines
-- OkHttp
-- Retrofit
-- Glide
-- SharedPreferences
-- Room
-- Navigation
-- Hilt
-- Yandex Maps
+**:converter**\
+&emsp;:presentation\
+**:core**\
+&emsp;:domain\
+&emsp;:data\
+&emsp;:database\
+&emsp;:presentation\
+**:department**\
+&emsp;:network\
+&emsp;:presentation\
+**:news**\
+&emsp;:data\
+&emsp;:network\
+&emsp;:presentation\
+**:build-logic**\
+&emsp;:convention
